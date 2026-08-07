@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { 
-  Sparkles, Layers, Grid, Type, Palette, MousePointer, Code2, Wand2, Search, Play, Check, Copy, Sliders, Zap, RefreshCw, Command, ChevronRight
+  Sparkles, Layers, Grid, Type, Palette, MousePointer, Code2, Wand2, Search, Play, Check, Copy, Sliders, Zap, RefreshCw, Command, ChevronRight, Hammer
 } from 'lucide-react';
 import { categories, frontendTerms, popularFonts, buttonTypes, textEffects, backgroundThemes, animationGallery } from './data/frontendKnowledge';
 import BackgroundCanvas from './components/BackgroundCanvas';
 import SaaSInteractiveShowcase from './components/SaaSInteractiveShowcase';
+import CustomButtonBuilder from './components/CustomButtonBuilder';
 
 export default function App() {
-  const [activeNav, setActiveNav] = useState('saasShowcase'); // 'saasShowcase', 'animations', 'buttons', 'textEffects', 'fonts', 'terms'
+  const [activeNav, setActiveNav] = useState('buttonBuilder'); // Default to Custom Button Builder Studio!
   const [selectedTerm, setSelectedTerm] = useState(frontendTerms[0]);
   const [activeTheme, setActiveTheme] = useState('aurora');
   const [searchQuery, setSearchQuery] = useState('');
@@ -45,13 +46,13 @@ export default function App() {
           </div>
           <div>
             <h1 className="text-base font-black font-heading gradient-text">
-              Vibe UI Split-Pane Studio
+              Vibe UI Button Creator Studio
             </h1>
-            <p className="text-[10px] text-slate-400">लेफ्ट साइड में चुनें &rarr; राइट साइड में तुरंत लाइव देखें!</p>
+            <p className="text-[10px] text-slate-400">लेफ्ट साइड में मिक्स करें &rarr; राइट साइड में लाइव बटन और कोड पाएं!</p>
           </div>
         </div>
 
-        {/* Global Controls: Theme Selector & Sliders Toggle */}
+        {/* Global Controls: Theme Selector */}
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-1.5 bg-slate-900/90 p-1.5 rounded-xl border border-slate-800 text-xs">
             <span className="text-slate-400 font-bold px-1">थीम:</span>
@@ -78,11 +79,12 @@ export default function App() {
           
           {/* Main Navigation Menu */}
           <div className="p-4 border-b border-slate-800 space-y-1">
-            <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest px-2">मेनू से चुनें (Menu)</span>
+            <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest px-2">टूल से चुनें (Studio Menu)</span>
             {[
+              { id: 'buttonBuilder', label: '🎨 Custom Button Builder Studio', icon: Hammer },
+              { id: 'buttons', label: '🔘 10+ बटन गैलरी (विस्तृत इफ़ेक्ट्स)', icon: MousePointer },
               { id: 'saasShowcase', label: '🚀 असली SaaS कॉम्पोनेंट्स', icon: Sparkles },
               { id: 'animations', label: '🎬 100% लाइव एनीमेशन गैलरी', icon: Zap },
-              { id: 'buttons', label: '🔘 मॉडर्न बटन गैलरी', icon: MousePointer },
               { id: 'textEffects', label: '✨ टेक्स्ट व नियॉन इफ़ेक्ट्स', icon: Wand2 },
               { id: 'fonts', label: '🔤 कैनवा स्टाइल फोंट्स', icon: Type },
               { id: 'terms', label: '🧠 30+ UI थ्योरी गाइड', icon: Layers },
@@ -186,12 +188,96 @@ export default function App() {
         {/* RIGHT PANEL: REAL-TIME PREVIEW STAGE (65% Width) */}
         <main className="flex-1 p-6 md:p-8 h-[calc(100vh-57px)] overflow-y-auto">
           
-          {/* TAB 1: REAL SAAS SHOWCASE */}
+          {/* TAB 1: CUSTOM BUTTON BUILDER STUDIO */}
+          {activeNav === 'buttonBuilder' && (
+            <CustomButtonBuilder />
+          )}
+
+          {/* TAB 2: BUTTONS GALLERY WITH EXPLICIT EFFECTS BREAKDOWN */}
+          {activeNav === 'buttons' && (
+            <div className="space-y-6">
+              <div>
+                <h2 className="text-2xl font-bold text-white font-heading">🔘 आधुनिक 10+ बटन्स की विस्तृत गैलरी</h2>
+                <p className="text-xs text-slate-400 mt-1">हर बटन के नीचे उसमें इस्तेमाल हुए सभी इफ़ेक्ट्स और तकनीकों का नाम स्पष्ट दिया गया है!</p>
+              </div>
+
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                {buttonTypes.map((btn) => (
+                  <div key={btn.id} className="glass-panel p-6 flex flex-col justify-between border-slate-800">
+                    <div>
+                      <h3 className="text-base font-bold text-white mb-1 font-heading">{btn.name}</h3>
+                      <p className="text-xs text-slate-400 mb-3">{btn.desc}</p>
+                      
+                      {/* Explicit Effects Tag List */}
+                      <div className="flex flex-wrap gap-1.5 mb-4">
+                        {btn.effects?.map((eff, i) => (
+                          <span key={i} className="text-[10px] font-bold px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 border border-purple-500/30">
+                            ✨ {eff}
+                          </span>
+                        ))}
+                      </div>
+
+                      {/* Button Live Stage */}
+                      <div className="p-8 rounded-xl bg-slate-950 border border-slate-800 flex items-center justify-center min-h-[110px] mb-4">
+                        {btn.demoType === 'shiny' && <button className="shiny-btn">Shiny Hover ✨</button>}
+                        {btn.demoType === 'animatedBorder' && (
+                          <div className="animated-border-box">
+                            <button className="px-5 py-2.5 bg-slate-900 text-white rounded-xl font-bold text-xs">Laser Border Button</button>
+                          </div>
+                        )}
+                        {btn.demoType === 'neumorphic' && (
+                          <button className="px-6 py-3 rounded-xl font-bold text-xs text-cyan-400 bg-[#1a1d24] shadow-[4px_4px_10px_#111318,-4px_-4px_10px_#232730]">Neumorphic 3D</button>
+                        )}
+                        {btn.demoType === 'magnetic' && (
+                          <button className="px-6 py-3 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 font-bold text-xs text-white shadow-lg hover:scale-110 transition">Magnetic Spring 🧲</button>
+                        )}
+                        {btn.demoType === 'cyberpunk' && (
+                          <button className="px-6 py-2.5 bg-cyan-400 text-black font-black text-xs uppercase tracking-widest border-2 border-yellow-300 shadow-[4px_4px_0px_#ff2a85]">Cyber Cyberpunk</button>
+                        )}
+                        {btn.demoType === 'glass' && (
+                          <button className="glass-panel px-6 py-3 border-cyan-400/40 text-cyan-300 font-bold text-xs">Glass Frosted</button>
+                        )}
+                        {btn.demoType === 'toggleTab' && (
+                          <div className="flex items-center bg-slate-900 p-1 rounded-xl border border-slate-800">
+                            <button className="px-4 py-1.5 rounded-lg bg-cyan-500 text-black font-bold text-xs">Option A</button>
+                            <button className="px-4 py-1.5 text-slate-400 text-xs font-medium">Option B</button>
+                          </div>
+                        )}
+                        {btn.demoType === 'laserPill' && (
+                          <div className="animated-border-box rounded-full p-[2px]">
+                            <button className="px-6 py-2 bg-slate-950 text-cyan-300 font-bold text-xs rounded-full">Glowing Pill</button>
+                          </div>
+                        )}
+                        {btn.demoType === 'rippleClick' && (
+                          <button className="px-6 py-3 rounded-xl bg-purple-600 text-white font-bold text-xs shadow-lg active:scale-95 transition">Liquid Ripple Click 💧</button>
+                        )}
+                        {btn.demoType === 'glowingPulse' && (
+                          <div className="relative">
+                            <div className="absolute -inset-1 rounded-full bg-pink-500/50 blur-md animate-ping"></div>
+                            <button className="px-6 py-3 rounded-full bg-gradient-to-r from-pink-500 to-purple-600 text-white font-bold text-xs relative">Heartbeat Pulse</button>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+
+                    <button
+                      onClick={() => handleCopyPrompt(btn.prompt, btn.id)}
+                      className="w-full py-2 rounded-xl bg-purple-500/10 text-purple-300 border border-purple-500/30 text-xs font-bold flex items-center justify-center gap-1.5 hover:bg-purple-500/20"
+                    >
+                      {copiedId === btn.id ? <Check className="w-3.5 h-3.5 text-green-400" /> : <Copy className="w-3.5 h-3.5" />} Vibe Prompt कॉपी करें
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* TAB 3: REAL SAAS SHOWCASE */}
           {activeNav === 'saasShowcase' && (
             <SaaSInteractiveShowcase />
           )}
 
-          {/* TAB 2: LIVE ANIMATIONS GALLERY */}
+          {/* TAB 4: LIVE ANIMATIONS GALLERY */}
           {activeNav === 'animations' && (
             <div className="space-y-6">
               <div className="flex items-center justify-between">
@@ -223,7 +309,6 @@ export default function App() {
                       <h3 className="text-base font-bold text-white mb-1 font-heading">{anim.name}</h3>
                       <p className="text-xs text-slate-400 mb-4">{anim.desc}</p>
                       
-                      {/* Interactive Stage */}
                       <div className="p-8 rounded-2xl bg-slate-950 border border-slate-800 flex items-center justify-center min-h-[130px]">
                         {anim.type === 'springBounce' && (
                           <div className="px-6 py-3 rounded-2xl bg-gradient-to-r from-cyan-500 to-purple-600 text-white font-bold text-xs shadow-xl animate-bounce">
@@ -260,50 +345,7 @@ export default function App() {
             </div>
           )}
 
-          {/* TAB 3: BUTTONS GALLERY */}
-          {activeNav === 'buttons' && (
-            <div className="space-y-6">
-              <h2 className="text-2xl font-bold text-white font-heading">🔘 मॉडर्न बटन्स की लाइव गैलरी</h2>
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                {buttonTypes.map((btn) => (
-                  <div key={btn.id} className="glass-panel p-6 flex flex-col justify-between border-slate-800">
-                    <div>
-                      <h3 className="text-sm font-bold text-white mb-1">{btn.name}</h3>
-                      <p className="text-xs text-slate-400 mb-4">{btn.desc}</p>
-                      <div className="p-6 rounded-xl bg-slate-950 border border-slate-800 flex items-center justify-center min-h-[100px] mb-4">
-                        {btn.demoType === 'shiny' && <button className="shiny-btn">Shiny Hover ✨</button>}
-                        {btn.demoType === 'animatedBorder' && (
-                          <div className="animated-border-box">
-                            <button className="px-4 py-2 bg-slate-900 text-white rounded-xl font-bold text-xs">Laser Border</button>
-                          </div>
-                        )}
-                        {btn.demoType === 'neumorphic' && (
-                          <button className="px-5 py-2.5 rounded-xl font-bold text-xs text-cyan-400 bg-[#1a1d24] shadow-[4px_4px_10px_#111318,-4px_-4px_10px_#232730]">Neumorphic</button>
-                        )}
-                        {btn.demoType === 'magnetic' && (
-                          <button className="px-5 py-2.5 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 font-bold text-xs text-white shadow-lg hover:scale-110 transition">Magnetic 🧲</button>
-                        )}
-                        {btn.demoType === 'cyberpunk' && (
-                          <button className="px-5 py-2 bg-cyan-400 text-black font-black text-xs uppercase tracking-widest border-2 border-yellow-300 shadow-[3px_3px_0px_#ff2a85]">Cyberpunk</button>
-                        )}
-                        {btn.demoType === 'glass' && (
-                          <button className="glass-panel px-5 py-2.5 border-cyan-400/40 text-cyan-300 font-bold text-xs">Frosted Glass</button>
-                        )}
-                      </div>
-                    </div>
-                    <button
-                      onClick={() => handleCopyPrompt(btn.prompt, btn.id)}
-                      className="w-full py-2 rounded-xl bg-purple-500/10 text-purple-300 border border-purple-500/30 text-xs font-bold flex items-center justify-center gap-1.5"
-                    >
-                      {copiedId === btn.id ? <Check className="w-3.5 h-3.5 text-green-400" /> : <Copy className="w-3.5 h-3.5" />} Vibe Prompt
-                    </button>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* TAB 4: TEXT EFFECTS */}
+          {/* TAB 5: TEXT EFFECTS */}
           {activeNav === 'textEffects' && (
             <div className="space-y-6">
               <h2 className="text-2xl font-bold text-white font-heading">✨ लाइव टेक्स्ट व नियॉन इफ़ेक्ट्स</h2>
@@ -344,7 +386,7 @@ export default function App() {
             </div>
           )}
 
-          {/* TAB 5: CANVA STYLE FONTS */}
+          {/* TAB 6: CANVA STYLE FONTS */}
           {activeNav === 'fonts' && (
             <div className="space-y-6">
               <h2 className="text-2xl font-bold text-white font-heading">🔤 आधुनिक फोंट्स (Canva Style)</h2>
@@ -373,7 +415,7 @@ export default function App() {
             </div>
           )}
 
-          {/* TAB 6: UI TERMS EXPLANATION */}
+          {/* TAB 7: UI TERMS EXPLANATION */}
           {activeNav === 'terms' && selectedTerm && (
             <div className="glass-panel p-6 border-cyan-500/30 space-y-6">
               <div>

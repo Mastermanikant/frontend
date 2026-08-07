@@ -64,45 +64,83 @@ export const popularFonts = [
 export const buttonTypes = [
   {
     id: "shiny",
-    name: "1. Shiny Light-Sweep Button (शाइनी बटन)",
+    name: "1. Shiny Light-Sweep Button",
+    effects: ["CSS Linear Gradient", "Shimmer Keyframe", "Hover Scale"],
     desc: "होवर करते ही बटन पर ऊपर से एक लाइट की चमक बहती है।",
     demoType: "shiny",
     prompt: "Create a primary action button with a continuous light shimmer sweep on hover using CSS linear-gradient animation."
   },
   {
     id: "animatedBorder",
-    name: "2. Conic Laser Border Button (एनिमेटेड लेज़र बॉर्डर)",
+    name: "2. Conic Laser Border Button",
+    effects: ["Conic Gradient Rotation", "Drop Shadow Glow", "Laser Border"],
     desc: "बटन के सीमाओं के चारों ओर घूमती हुई स्यान-पर्पल लाइट।",
     demoType: "animatedBorder",
     prompt: "Design a dark neon button with a rotating rainbow conic-gradient border using CSS keyframe animations."
   },
   {
     id: "neumorphic",
-    name: "3. Neumorphic 3D Soft Button (3D उभरा बटन)",
+    name: "3. Neumorphic 3D Soft Button",
     desc: "बैकग्राउंड से 3D रूप में बाहर निकला हुआ भौतिक बटन।",
+    effects: ["Dual Ambient Inset Shadow", "Soft Corner Radius", "Press Scale"],
     demoType: "neumorphic",
     prompt: "Build a Neumorphic 3D soft button with inset and ambient drop shadows on press interaction."
   },
   {
     id: "magnetic",
-    name: "4. Magnetic Attraction Button (मैग्नेटिक चुंबक बटन)",
+    name: "4. Magnetic Attraction Button",
     desc: "माउस कर्सर पास आते ही कर्सर की ओर खिंचने वाला बटन।",
+    effects: ["Framer Motion Spring Physics", "Cursor Magnet Lerp"],
     demoType: "magnetic",
     prompt: "Add a magnetic mouse attraction effect to the action button using transform lerp physics."
   },
   {
     id: "cyberpunk",
-    name: "5. Cyberpunk Neon Button (साइबरपंक बटन)",
+    name: "5. Cyberpunk Hard Neon Button",
     desc: "हार्ड येलो/पिंक नैनो बॉर्डर्स और ग्लिच इफ़ेक्ट वाला बटन।",
+    effects: ["Glitch Transform Offset", "High Contrast Borders", "Box Shadow 4px Offset"],
     demoType: "cyberpunk",
     prompt: "Create a Cyberpunk styled button with high contrast neon borders, glitch transform, and hard shadow offset."
   },
   {
     id: "glass",
-    name: "6. Glassmorphism Translucent Button (ग्लास बटन)",
+    name: "6. Glassmorphism Translucent Button",
     desc: "पारदर्शी फ्रॉस्टेड कांच जैसा ब्लर बटन।",
+    effects: ["Backdrop Blur 16px", "Translucent Border", "Soft Cyan Glow"],
     demoType: "glass",
     prompt: "Design a glassy backdrop-blur button with translucent white border and soft cyan hover state."
+  },
+  {
+    id: "toggleTab",
+    name: "7. Tablet Toggle Segment Button",
+    desc: "टैबलेट / सेग्मेंटेड स्विच बटन जिसमें दो विकल्पों में स्लाइडिंग इंडिकेटर होता है।",
+    effects: ["Sliding Segment Indicator", "Active Tab Highlight", "Spring Transition"],
+    demoType: "toggleTab",
+    prompt: "Build a Segmented Tablet Toggle button with active background spring indicator and icon labels."
+  },
+  {
+    id: "laserPill",
+    name: "8. Glowing Pill Badge Button",
+    desc: "कैप्सूल/पिल शेप वाला बटन जिसके चारों तरफ धड़कती हुई लेज़र लाइट रहती है।",
+    effects: ["Full Pill Border-Radius", "Heartbeat Pulse Glow", "Gradient Text"],
+    demoType: "laserPill",
+    prompt: "Create a rounded capsule pill button with continuous heartbeat glowing cyan ring."
+  },
+  {
+    id: "rippleClick",
+    name: "9. Material Liquid Ripple Button",
+    desc: "क्लिक करते ही पानी की लहर की तरह फैलने वाला रिपल बटन।",
+    effects: ["Click Origin Tracking", "SVG Liquid Ripple", "Scale Expansion"],
+    demoType: "rippleClick",
+    prompt: "Implement a Material Design liquid ripple animation expanding from mouse click coordinates."
+  },
+  {
+    id: "glowingPulse",
+    name: "10. Continuous Heartbeat Glow Button",
+    desc: "नियॉन लाइट की तरह लगातार चमकता-बुझता हुआ अटेंशन बटन।",
+    effects: ["Ping Keyframe Scale", "Drop-Shadow Intensity", "Radial Gradient Glow"],
+    demoType: "glowingPulse",
+    prompt: "Design a high-priority action button with continuous pulsing heartbeat glow halo."
   }
 ];
 
