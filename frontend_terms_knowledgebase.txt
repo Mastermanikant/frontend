@@ -1,0 +1,93 @@
+==================================================
+USER FRONTEND KNOWLEDGE BASE & AI VIBE-CODING TERMS
+==================================================
+
+1. Design Philosophy
+Human-Centered Design (HCD), User-Centered Design (UCD), Jobs To Be Done (JTBD), Atomic Design, Modular Design, System Thinking, Progressive Enhancement, Graceful Degradation
+
+2. Design System Architecture
+Design Tokens, Component Library, Pattern Library, Style Guide, UI Kit, Token-based Theming, Variant System, Component API, Slot-based Components
+
+3. Layout Systems
+8-Point Grid, 12-Column Grid, CSS Subgrid, Container Queries, Aspect Ratio, Intrinsic Layout, Responsive Breakpoints, Safe Area Insets, Content Width, Reading Width
+
+4. Spacing
+White Space, Negative Space, Padding Scale, Margin Scale, Gap System, Vertical Rhythm, Baseline Grid
+
+5. Typography
+Optical Size, Variable Fonts, Font Loading Strategy, Font Hinting, Clamp Typography, Fluid Typography, Modular Scale, Readability Metrics
+
+6. Color Science
+OKLCH, HSL, LAB Color, Semantic Colors, Surface Colors, Elevation Colors, Contrast Ratios, Color Harmony, Adaptive Themes
+
+7. Shadows & Elevation
+Elevation System, Ambient Shadow, Key Shadow, Layer Depth, Surface Hierarchy
+
+8. Shapes
+Border Radius Scale, Pill Buttons, Squircle, Organic Shapes, Blob Shapes, Rounded Corners, Corner Smoothing
+
+9. Iconography
+Icon Grid, Stroke Width, Filled Icons, Outline Icons, Icon Consistency, SVG Optimization
+
+10. Illustrations
+3D Illustration, Isometric Illustration, Flat Illustration, Hand Drawn, Claymorphism, Lottie Animation
+
+11. Motion Design
+Motion Tokens, Motion Hierarchy, Spring Physics, Ease Curves, Duration Scale, Stagger Animation, Shared Element Transition, Morph Animation, Scroll Timeline, View Transition API
+
+12. Interaction States
+Default, Hover, Active, Pressed, Focus, Focus Visible, Disabled, Loading, Success, Warning, Error, Empty
+
+13. Forms
+Inline Validation, Floating Labels, Smart Defaults, Input Masking, Password Strength, Autofill, Keyboard Shortcuts
+
+14. Data Visualization
+Charts, Sparklines, Heatmaps, Progress Indicators, KPI Cards, Status Badges, Data Tables, Virtualized Lists
+
+15. Navigation
+Mega Menu, Breadcrumb, Sidebar, Dock, Command Palette, Search-first Navigation, Context Menu, Tabs, Wizard Flow
+
+16. Empty States
+Empty Screen, No Search Results, Offline State, First-Time User, Error Recovery, Skeleton Loading
+
+17. Feedback
+Toast, Snackbar, Banner, Modal, Dialog, Sheet, Popover, Tooltip
+
+18. Performance
+Core Web Vitals, LCP, CLS, INP, Lazy Loading, Image Optimization, Code Splitting, Tree Shaking, Prefetch, Preload, Viewport Rendering
+
+19. Accessibility
+WCAG 2.2, Keyboard Navigation, Screen Reader, ARIA, Reduced Motion, High Contrast Mode, Color Blind Safe, Focus Trap
+
+20. Mobile UX
+Thumb Zone, Bottom Navigation, Safe Areas, Gesture Navigation, Pull to Refresh, Swipe Actions, Touch Targets (44×44+)
+
+21. Microinteractions
+Hover Effects, Button Feedback, Ripple Effect, Magnetic Cursor, Confetti, Progress Feedback, Copy Animation, Success Animation
+
+22. Advanced CSS
+CSS Nesting, Container Queries, View Transitions, CSS Layers, CSS Houdini, Anchor Positioning, Scroll Snap, Scroll Driven Animations, Clip Path, Mask Image, Backdrop Filter
+
+23. Modern Frontend
+React Server Components, Partial Hydration, Islands Architecture, Server Actions, Streaming UI, Suspense, Edge Rendering
+
+24. AI-Powered UX
+AI Chat Interface, Streaming Responses, Prompt History, Suggested Prompts, AI Autocomplete, Agent Workflow, Reasoning Indicators, Smart Actions
+
+25. Premium SaaS Patterns
+Bento Dashboard, Floating Command Bar, Workspace Layout, Split Panel, Resizable Panels, Multi-Select Toolbar, Bulk Actions, Activity Feed, Timeline, Version History
+
+26. Visual Polish
+Mesh Gradient, Aurora Background, Grain Texture, Frosted Glass, Liquid Glass, Animated Borders, Spotlight Effect, Glow Effects, Noise Overlay, Gradient Text
+
+27. Trust & Conversion
+Social Proof, Testimonials, Trust Badges, Security Indicators, Pricing Psychology, Feature Comparison, FAQs, Progress Indicators
+
+28. Enterprise UX
+Audit Logs, Permission Matrix, Role-Based UI, Bulk Operations, Advanced Filters, Saved Views, Keyboard Shortcuts, Multi-Tenant Support
+
+29. Design QA
+Pixel Perfect, Responsive QA, Cross Browser Testing, Accessibility Audit, Visual Regression Testing, Component Testing
+
+30. Inspiration Sources
+Apple, Stripe, Linear, Vercel, Notion, OpenAI ChatGPT, Perplexity, Framer, Figma, Raycast, Arc Browser, Airbnb, Slack, GitHub, Dropbox, Canva, Superhuman, Cursor, Warp, Anthropic Claude

@@ -1,0 +1,172 @@
+/* High-End Design System & Dynamic Themes CSS */
+:root {
+  --font-main: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-heading: 'Outfit', sans-serif;
+  --font-code: 'Fira Code', monospace;
+  
+  --bg-dark: #08090d;
+  --panel-bg: rgba(18, 20, 29, 0.7);
+  --panel-border: rgba(255, 255, 255, 0.1);
+  --accent-cyan: #00f2fe;
+  --accent-purple: #9d4edd;
+  --accent-pink: #ff2a85;
+  --text-main: #f1f5f9;
+  --text-muted: #94a3b8;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-main);
+  background-color: var(--bg-dark);
+  color: var(--text-main);
+  overflow-x: hidden;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Background Theme Presets */
+.bg-theme-aurora {
+  background: radial-gradient(circle at 20% 20%, rgba(0, 242, 254, 0.25), transparent 40%),
+              radial-gradient(circle at 80% 80%, rgba(255, 42, 133, 0.25), transparent 40%),
+              radial-gradient(circle at 50% 50%, rgba(157, 78, 221, 0.2), transparent 50%),
+              #07090e;
+}
+
+.bg-theme-mesh {
+  background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 35%, #311042 70%, #090d16 100%);
+}
+
+.bg-theme-cyberpunk {
+  background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+  border-bottom: 2px solid #00f2fe;
+}
+
+.bg-theme-bento {
+  background-color: #0b0f19;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.12) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.bg-theme-glass {
+  background: linear-gradient(135deg, #181928 0%, #0c0d16 100%);
+}
+
+.bg-theme-neumorphism {
+  background: #1a1d24;
+}
+
+/* Shrink Effect Canvas Container */
+.main-wrapper {
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), border-radius 0.6s ease, filter 0.6s ease;
+  min-height: 100vh;
+  width: 100%;
+}
+
+.main-wrapper.is-shrunk {
+  transform: scale(0.92) translateY(12px);
+  border-radius: 28px;
+  filter: brightness(0.7) blur(2px);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8), 0 0 40px rgba(0, 242, 254, 0.3);
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* Glassmorphism Card Style */
+.glass-panel {
+  background: rgba(18, 20, 29, 0.65);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.glass-panel:hover {
+  border-color: rgba(0, 242, 254, 0.4);
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 20px rgba(0, 242, 254, 0.15);
+}
+
+/* Neumorphism Style demo */
+.neumorph-box {
+  background: #1a1d24;
+  border-radius: 20px;
+  box-shadow: 8px 8px 16px #13151a, -8px -8px 16px #21252e;
+}
+
+/* Gradient Text */
+.gradient-text {
+  background: linear-gradient(135deg, #00f2fe 0%, #4facfe 30%, #9d4edd 70%, #ff2a85 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Shiny Button Effect */
+.shiny-btn {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #00f2fe, #9d4edd);
+  color: #fff;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.shiny-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  transition: 0.5s;
+}
+
+.shiny-btn:hover::before {
+  left: 100%;
+}
+
+.shiny-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 242, 254, 0.4);
+}
+
+/* Animated Border Gradient */
+.animated-border-box {
+  position: relative;
+  border-radius: 16px;
+  padding: 2px;
+  background: linear-gradient(90deg, #00f2fe, #9d4edd, #ff2a85, #00f2fe);
+  background-size: 300% 300%;
+  animation: borderRotate 4s linear infinite;
+}
+
+@keyframes borderRotate {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #090a0f;
+}
+::-webkit-scrollbar-thumb {
+  background: #1f2430;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #00f2fe;
+}

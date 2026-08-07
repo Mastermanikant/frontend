@@ -1,0 +1,62 @@
+{
+  "project": "Vibe Coding UI Knowledge Master Encyclopedia",
+  "version": "2.0.0",
+  "animationCategories": [
+    {
+      "type": "Border Animations",
+      "name": "Conic Gradient Glowing Border",
+      "hindiName": "एनिमेटेड लेज़र बॉर्डर",
+      "description": "कार्ड्स या टेक्स्ट बॉक्स की सीमाओं पर घूमती हुई चमकती रेखा।",
+      "controls": {
+        "speed": "animation-duration (1s to 10s)",
+        "glowBlur": "filter: drop-shadow(0 0 10px rgba(0,242,254,0.6))",
+        "thickness": "padding / border width"
+      },
+      "vibePrompt": "Create a CSS conic gradient rotating border around glowing dark card with adjustable speed and neon glow."
+    },
+    {
+      "type": "Mouse Interaction",
+      "name": "Spotlight Cursor Follow",
+      "hindiName": "माउस टॉर्च/लाइट फॉलो प्रभाव",
+      "description": "माउस के चलने पर उसके नीचे लाइव रेडियल लाइट का जलना।",
+      "controls": {
+        "spotlightRadius": "150px to 500px",
+        "color": "rgba(0, 242, 254, 0.2)",
+        "smoothness": "CSS pointer-events & lerp transition"
+      },
+      "vibePrompt": "Build a React spotlight background grid where dark cards reveal ambient glowing highlight right under the user mouse cursor."
+    },
+    {
+      "type": "Cursor Interaction",
+      "name": "Magnetic Attraction",
+      "hindiName": "मैग्नेटिक बटन",
+      "description": "माउस कर्सर पास आते ही बटन का चुंबक की तरह माउस की ओर खिंचना।",
+      "controls": {
+        "magneticStrength": "0.2 to 0.6 pull factor",
+        "easing": "spring physics"
+      },
+      "vibePrompt": "Add a magnetic cursor button effect using Framer Motion or JS transform lerp."
+    },
+    {
+      "type": "Layout Architecture",
+      "name": "Headerless UI & Floating Dock",
+      "hindiName": "हेडरलेस यूआई",
+      "description": "पारंपरिक नेवबार की जगह कमांड पैलेट (Cmd+K) और फ्लोटिंग डॉक का उपयोग।",
+      "controls": {
+        "backdropBlur": "12px",
+        "position": "fixed bottom-6 center"
+      },
+      "vibePrompt": "Build a modern Headerless SaaS UI layout with a floating glassy command dock at bottom."
+    },
+    {
+      "type": "Design System",
+      "name": "Token-Based CSS Variables",
+      "hindiName": "सेंट्रलाइज्ड डिज़ाइन टोकन्स",
+      "description": "एक जगह रंग या फोंट बदलने पर पूरी वेबसाइट का बदल जाना।",
+      "controls": {
+        "variables": ":root { --brand-color: #00f2fe; --card-bg: #090a0f; }"
+      },
+      "vibePrompt": "Set up design tokens in CSS variables for dark, light, glass, and cyberpunk themes."
+    }
+  ]
+}
