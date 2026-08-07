@@ -183,3 +183,45 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: #00f2fe;
 }
+
+/* Scrollbar none utility */
+.scrollbar-none::-webkit-scrollbar { display: none; }
+.scrollbar-none { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* Font utilities */
+.font-heading { font-family: 'Outfit', sans-serif; }
+.font-code    { font-family: 'Fira Code', monospace; }
+.font-sans    { font-family: 'Plus Jakarta Sans', sans-serif; }
+
+/* Animated gradient background (for aurora btn) */
+@keyframes gradientShift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+.animate-gradient {
+  animation: gradientShift 4s ease infinite;
+}
+
+/* Range slider track global */
+input[type="range"] {
+  -webkit-appearance: none;
+  height: 6px;
+  background: #1e293b;
+  border-radius: 9999px;
+  outline: none;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #00f2fe;
+  cursor: pointer;
+  box-shadow: 0 0 8px rgba(0, 242, 254, 0.5);
+  transition: box-shadow 0.2s ease;
+}
+input[type="range"]::-webkit-slider-thumb:hover {
+  box-shadow: 0 0 14px rgba(0, 242, 254, 0.8);
+}
+
