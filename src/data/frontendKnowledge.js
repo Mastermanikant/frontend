@@ -106,6 +106,41 @@ export const buttonTypes = [
   }
 ];
 
+export const animationGallery = [
+  {
+    id: "springBounce",
+    name: "1. Spring Physics Bounce (स्प्रिंग उछाल एनीमेशन)",
+    category: "Motion Physics",
+    desc: "एलिमेंट स्प्रिंग की तरह बाउंस होकर सेटल होता है।",
+    type: "springBounce",
+    prompt: "Apply spring physics bounce animation with cubic-bezier(0.34, 1.56, 0.64, 1) timing function."
+  },
+  {
+    id: "staggerFade",
+    name: "2. Staggered Cascade Entry (एक-एक करके कार्ड्स आना)",
+    category: "Entrance",
+    desc: "कार्ड्स या लिस्ट 100ms के अंतराल पर नीचे से ऊपर आते हैं।",
+    type: "staggerFade",
+    prompt: "Implement staggered cascade entrance animation with 0.1s animation-delay for each grid item."
+  },
+  {
+    id: "magneticPulse",
+    name: "3. Pulsing Heartbeat Glow (धड़कती नियॉन लाइट)",
+    category: "Continuous Loop",
+    desc: "नियॉन लाइट दिल की धड़कन की तरह जलती-बुझती है।",
+    type: "magneticPulse",
+    prompt: "Add a pulsating heartbeat neon glow animation using keyframe opacity and scale transforms."
+  },
+  {
+    id: "laserBorderRotate",
+    name: "4. Rotating Conic Laser Light (घूमती हुई लेज़र लाइट)",
+    category: "Border & Glow",
+    desc: "बॉक्स की सीमाओं पर स्यान और पर्पल रंग की लेज़र लाइट लगातार गोल घूमती है।",
+    type: "laserBorderRotate",
+    prompt: "Create a continuous rotating laser border effect using CSS conic-gradient and linear infinite animation."
+  }
+];
+
 export const textEffects = [
   {
     id: "neonTypewriter",

@@ -103,11 +103,19 @@ body {
   box-shadow: 8px 8px 16px #13151a, -8px -8px 16px #21252e;
 }
 
-/* Gradient Text */
+/* Gradient Text Sweep Animation */
 .gradient-text {
-  background: linear-gradient(135deg, #00f2fe 0%, #4facfe 30%, #9d4edd 70%, #ff2a85 100%);
+  background: linear-gradient(90deg, #00f2fe, #9d4edd, #ff2a85, #00f2fe);
+  background-size: 300% 100%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  animation: gradientFlow 5s linear infinite;
+}
+
+@keyframes gradientFlow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 /* Shiny Button Effect */
@@ -131,12 +139,13 @@ body {
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-  transition: 0.5s;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+  animation: shimmerSweep 3s infinite;
 }
 
-.shiny-btn:hover::before {
-  left: 100%;
+@keyframes shimmerSweep {
+  0% { left: -100%; }
+  50%, 100% { left: 100%; }
 }
 
 .shiny-btn:hover {
