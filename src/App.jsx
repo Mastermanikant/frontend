@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { 
-  Sparkles, Layers, Grid, Type, Palette, MousePointer, Code2, Wand2, Search, Play, Check, Copy, Sliders, Zap, RefreshCw
+  Sparkles, Layers, Grid, Type, Palette, MousePointer, Code2, Wand2, Search, Play, Check, Copy, Sliders, Zap, RefreshCw, Command
 } from 'lucide-react';
 import { categories, frontendTerms, popularFonts, buttonTypes, textEffects, backgroundThemes, animationGallery } from './data/frontendKnowledge';
 import BackgroundCanvas from './components/BackgroundCanvas';
 import ShrinkModal from './components/ShrinkModal';
+import SaaSInteractiveShowcase from './components/SaaSInteractiveShowcase';
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState('animations'); // Default to animations tab!
+  const [activeTab, setActiveTab] = useState('saasShowcase'); // Default to high-end SaaS Showcase!
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [activeTheme, setActiveTheme] = useState('aurora');
@@ -67,10 +68,10 @@ export default function App() {
             </div>
             <div>
               <h1 className="text-2xl sm:text-3xl font-black font-heading gradient-text tracking-tight">
-                Vibe UI Live Visual Playground
+                Vibe UI Interactive Playground
               </h1>
               <p className="text-xs text-slate-400 font-medium">
-                लाइव एनीमेशन गैलरी, बैकग्राउंड कंट्रोलर्स, फोंट्स व बटन कलेक्शन्स!
+                Stripe / Linear / Apple स्टैण्डर्ड का असली SaaS कॉम्पोनेंट अनुभव!
               </p>
             </div>
           </div>
@@ -99,14 +100,13 @@ export default function App() {
           <div className="flex items-center gap-2">
             <Sliders className="w-5 h-5 text-cyan-400" />
             <span className="text-xs font-bold text-white uppercase tracking-wider">
-              लाइव बैकग्राउंड स्लाइडर कंट्रोल (कम-ज्यादा करके देखें):
+              बैकग्राउंड कंट्रोलर्स (गति, पार्टिकल्स व चमक कम-ज्यादा करें):
             </span>
           </div>
 
           <div className="flex flex-wrap items-center gap-6 text-xs font-bold">
-            {/* Speed Slider */}
             <div className="flex items-center gap-2">
-              <span className="text-slate-400">गति (Speed):</span>
+              <span className="text-slate-400">गति:</span>
               <input
                 type="range"
                 min="0.2"
@@ -114,35 +114,33 @@ export default function App() {
                 step="0.1"
                 value={bgSpeed}
                 onChange={(e) => setBgSpeed(parseFloat(e.target.value))}
-                className="w-24 accent-cyan-400 cursor-pointer"
+                className="w-20 accent-cyan-400 cursor-pointer"
               />
               <span className="text-cyan-400 w-8">{bgSpeed}x</span>
             </div>
 
-            {/* Density Slider */}
             <div className="flex items-center gap-2">
-              <span className="text-slate-400">घनत्व (Particles Density):</span>
+              <span className="text-slate-400">घनत्व:</span>
               <input
                 type="range"
                 min="10"
                 max="100"
                 value={bgDensity}
                 onChange={(e) => setBgDensity(parseInt(e.target.value))}
-                className="w-24 accent-purple-400 cursor-pointer"
+                className="w-20 accent-purple-400 cursor-pointer"
               />
               <span className="text-purple-400 w-8">{bgDensity}%</span>
             </div>
 
-            {/* Glow Intensity Slider */}
             <div className="flex items-center gap-2">
-              <span className="text-slate-400">चमक (Glow Intensity):</span>
+              <span className="text-slate-400">चमक:</span>
               <input
                 type="range"
                 min="10"
                 max="100"
                 value={bgGlow}
                 onChange={(e) => setBgGlow(parseInt(e.target.value))}
-                className="w-24 accent-pink-400 cursor-pointer"
+                className="w-20 accent-pink-400 cursor-pointer"
               />
               <span className="text-pink-400 w-8">{bgGlow}%</span>
             </div>
@@ -152,10 +150,11 @@ export default function App() {
         {/* Main Section Navigation Tabs */}
         <div className="flex items-center justify-center gap-2 mb-8 bg-slate-900/90 p-2 rounded-2xl border border-slate-800 overflow-x-auto no-scrollbar">
           {[
-            { id: 'animations', label: '🎬 लाइव एनीमेशन गैलरी (All Motions)', icon: Zap },
+            { id: 'saasShowcase', label: '🚀 असली SaaS कॉम्पोनेंट्स (Live Framer Physics)', icon: Sparkles },
+            { id: 'animations', label: '🎬 एनीमेशन गैलरी (All Motions)', icon: Zap },
             { id: 'buttons', label: '🔘 लाइव बटन कलेक्शन्स', icon: MousePointer },
-            { id: 'textEffects', label: '✨ लाइव टेक्स्ट व नियॉन इफ़ेक्ट्स', icon: Wand2 },
-            { id: 'fonts', label: '🔤 पॉपुलर फोंट्स (Live Canva Style)', icon: Type },
+            { id: 'textEffects', label: '✨ टेक्स्ट व नियॉन इफ़ेक्ट्स', icon: Wand2 },
+            { id: 'fonts', label: '🔤 फोंट्स (Live Canva Style)', icon: Type },
             { id: 'terms', label: '🧠 30+ UI थ्योरी गाइड', icon: Layers },
           ].map((tab) => {
             const Icon = tab.icon;
@@ -163,7 +162,7 @@ export default function App() {
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`px-5 py-3 rounded-xl text-xs sm:text-sm font-bold transition flex items-center gap-2 whitespace-nowrap ${
+                className={`px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition flex items-center gap-2 whitespace-nowrap ${
                   activeTab === tab.id
                     ? 'bg-gradient-to-r from-cyan-500 via-blue-600 to-purple-600 text-white shadow-lg shadow-cyan-500/25 scale-105'
                     : 'text-slate-400 hover:text-white hover:bg-slate-800'
@@ -175,7 +174,12 @@ export default function App() {
           })}
         </div>
 
-        {/* TAB 1: LIVE ANIMATIONS GALLERY */}
+        {/* TAB 1: REAL SAAS SHOWCASE (FRAMER MOTION & PHYSICS) */}
+        {activeTab === 'saasShowcase' && (
+          <SaaSInteractiveShowcase />
+        )}
+
+        {/* TAB 2: LIVE ANIMATIONS GALLERY */}
         {activeTab === 'animations' && (
           <div className="space-y-6 mb-16">
             <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-6">
@@ -254,7 +258,7 @@ export default function App() {
           </div>
         )}
 
-        {/* TAB 2: LIVE BUTTON COLLECTIONS */}
+        {/* TAB 3: LIVE BUTTON COLLECTIONS */}
         {activeTab === 'buttons' && (
           <div className="space-y-6 mb-16">
             <div className="text-center max-w-2xl mx-auto mb-8">
@@ -320,7 +324,7 @@ export default function App() {
           </div>
         )}
 
-        {/* TAB 3: LIVE TEXT ANIMATIONS & NEON EFFECTS */}
+        {/* TAB 4: LIVE TEXT ANIMATIONS & NEON EFFECTS */}
         {activeTab === 'textEffects' && (
           <div className="space-y-6 mb-16">
             <div className="text-center max-w-2xl mx-auto mb-8">
@@ -380,7 +384,7 @@ export default function App() {
           </div>
         )}
 
-        {/* TAB 4: POPULAR FONTS (CANVA STYLE LIVE PREVIEW) */}
+        {/* TAB 5: POPULAR FONTS (CANVA STYLE LIVE PREVIEW) */}
         {activeTab === 'fonts' && (
           <div className="space-y-6 mb-16">
             <div className="text-center max-w-2xl mx-auto mb-8">
@@ -427,7 +431,7 @@ export default function App() {
           </div>
         )}
 
-        {/* TAB 5: FRONTEND TERMS & CONCEPTS */}
+        {/* TAB 6: FRONTEND TERMS & CONCEPTS */}
         {activeTab === 'terms' && (
           <>
             {/* Search Box */}
