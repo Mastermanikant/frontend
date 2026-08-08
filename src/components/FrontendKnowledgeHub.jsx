@@ -45,7 +45,9 @@ export default function FrontendKnowledgeHub() {
   const categories = Object.keys(tree);
 
   const toggleCategory = (cat) => {
-    setExpandedCategories(prev => ({ ...prev, [cat]: !prev[cat] }));
+    setActiveCategory(cat);
+    setActiveTerm(null); // Show the category overview grid!
+    setExpandedCategories(prev => ({ ...prev, [cat]: true }));
   };
 
   const toggleCanvasPanel = (panel) => {
@@ -60,12 +62,8 @@ export default function FrontendKnowledgeHub() {
     setExpandedCategories(prev => ({ ...prev, [termItem.category]: true }));
   };
 
-  // Get current active term or pick first from active category if none selected
-  const displayTerm = activeTerm || (
-    tree[activeCategory] && Object.keys(tree[activeCategory])[0] 
-      ? tree[activeCategory][Object.keys(tree[activeCategory])[0]][0] 
-      : null
-  );
+  // Only show a specific term if it was explicitly clicked. Otherwise show the category overview.
+  const displayTerm = activeTerm;
 
   const breadcrumbPath = displayTerm 
     ? [displayTerm.category, displayTerm.subcategory, displayTerm.term]
@@ -230,8 +228,13 @@ export default function FrontendKnowledgeHub() {
                 <div className="mb-6 shrink-0"><BreadcrumbNav path={breadcrumbPath} /></div>
                 <div className="max-w-5xl w-full mx-auto flex-1 flex flex-col">
                   <div className="bg-slate-800/30 border border-slate-700/50 rounded-2xl p-6 mb-6 shadow-xl backdrop-blur-sm shrink-0">
-                    <div className="inline-flex items-center px-3 py-1 rounded-full bg-slate-800 border border-slate-700 text-xs font-mono text-slate-400 mb-4">
-                      ID: {displayTerm.id} | TYPE: {displayTerm.category.toUpperCase()}
+                    <div className="flex justify-between items-start mb-4">
+                      <div className="inline-flex items-center px-3 py-1 rounded-full bg-slate-800 border border-slate-700 text-xs font-mono text-slate-400">
+                        ID: {displayTerm.id} | TYPE: {displayTerm.category.toUpperCase()}
+                      </div>
+                      <button onClick={() => setActiveTerm(null)} className="text-slate-400 hover:text-white text-sm flex items-center px-3 py-1 bg-slate-800 rounded-lg">
+                        Back to {activeCategory}
+                      </button>
                     </div>
                     <h1 className="text-3xl font-extrabold text-white tracking-tight mb-4">{displayTerm.term}</h1>
                     <p className="text-base text-slate-300 leading-relaxed max-w-3xl">
@@ -241,7 +244,7 @@ export default function FrontendKnowledgeHub() {
                   
                   <div className="flex items-center justify-between mb-4 shrink-0">
                     <h3 className="text-lg font-bold text-white flex items-center">
-                      <Terminal className="w-5 h-5 mr-2 text-indigo-400" /> W3Schools Playground
+                      <Terminal className="w-5 h-5 mr-2 text-indigo-400" /> Interactive Sandbox (Optional)
                     </h3>
                     <span className="text-xs text-slate-500 bg-slate-800 px-2 py-1 rounded font-mono">0ms Sandboxed HTML5</span>
                   </div>
@@ -257,9 +260,49 @@ export default function FrontendKnowledgeHub() {
                 </div>
               </div>
             ) : (
-              <div className="h-full flex items-center justify-center flex-col text-slate-500">
-                <BookOpen className="w-16 h-16 mb-4 opacity-20" />
-                <p className="text-lg">Select a term from the taxonomy tree to explore.</p>
+              <div className="h-full flex flex-col p-6 lg:p-10 overflow-y-auto custom-scrollbar">
+                <div className="mb-10">
+                  <h1 className="text-4xl font-extrabold text-white mb-3 flex items-center">
+                    {activeCategory === 'HTML' && <Code className="w-8 h-8 mr-3 text-orange-500" />}
+                    {activeCategory === 'CSS' && <Lightbulb className="w-8 h-8 mr-3 text-blue-500" />}
+                    {activeCategory === 'JavaScript' && <Terminal className="w-8 h-8 mr-3 text-yellow-400" />}
+                    {activeCategory === 'Animations' && <Zap className="w-8 h-8 mr-3 text-pink-500" />}
+                    {['UI Components', 'Ecosystem'].includes(activeCategory) && <Layers className="w-8 h-8 mr-3 text-indigo-500" />}
+                    {activeCategory} Encyclopedia
+                  </h1>
+                  <p className="text-slate-400 text-lg">Browse {tree[activeCategory] ? Object.values(tree[activeCategory]).flat().length : 0} verified concepts, terms, and components.</p>
+                </div>
+                
+                {tree[activeCategory] ? Object.keys(tree[activeCategory]).map(subCat => (
+                  <div key={subCat} className="mb-12">
+                    <h2 className="text-2xl font-bold text-slate-200 border-b border-slate-700/60 pb-3 mb-6 flex items-center">
+                      {subCat}
+                    </h2>
+                    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                      {tree[activeCategory][subCat].map(term => (
+                        <div 
+                          key={term.id} 
+                          onClick={() => selectTerm(term)}
+                          className="bg-slate-800/40 border border-slate-700 hover:border-indigo-500/50 rounded-xl p-5 cursor-pointer hover:bg-slate-800/80 transition-all group flex flex-col"
+                        >
+                          <div className="flex justify-between items-start mb-3">
+                            <h3 className="text-lg font-bold text-indigo-300 group-hover:text-indigo-400">{term.term}</h3>
+                            <span className="text-[10px] font-mono text-slate-500 bg-slate-900 px-2 py-1 rounded shrink-0 ml-2">{term.id}</span>
+                          </div>
+                          <p className="text-sm text-slate-400 line-clamp-3 mb-4 flex-1">{term.definition}</p>
+                          <div className="text-xs font-semibold text-indigo-400/80 group-hover:text-indigo-400 flex items-center mt-auto">
+                            View Details <ChevronRight className="w-3 h-3 ml-1" />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )) : (
+                  <div className="text-slate-500 flex flex-col items-center justify-center py-20">
+                    <BookOpen className="w-16 h-16 mb-4 opacity-20" />
+                    <p className="text-lg">No terms found for this category.</p>
+                  </div>
+                )}
               </div>
             )
           ) : (
