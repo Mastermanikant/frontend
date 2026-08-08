@@ -40,10 +40,11 @@ export default function ButtonLibraryDemo() {
               {category.buttons.map((btn, btnIdx) => {
                 const uniqueId = `${catIdx}-${btnIdx}`;
                 
-                // Safe CSS Scoping to avoid destroying values like .2s or double-prefixing
+                // Safe CSS Scoping using a placeholder to avoid double-prefixing
                 const scopedCss = btn.css
-                  .replace(/(^|\n|\})\s*button\s*\{/g, `$1 .btn-preview-${uniqueId} button {`)
-                  .replace(/(^|\n|\})\s*\.([a-zA-Z_-][a-zA-Z0-9_-]*)/g, `$1 .btn-preview-${uniqueId} .$2`);
+                  .replace(/(^|\n|\})\s*button\s*\{/g, `$1 %%SCOPE%% button {`)
+                  .replace(/(^|\n|\})\s*\.([a-zA-Z_-][a-zA-Z0-9_-]*)/g, `$1 %%SCOPE%% .$2`)
+                  .replace(/%%SCOPE%%/g, `.btn-preview-${uniqueId}`);
 
                 return (
                   <div key={btnIdx} className="bg-[#161925] border border-slate-800 rounded-xl overflow-hidden flex flex-col shadow-xl">
