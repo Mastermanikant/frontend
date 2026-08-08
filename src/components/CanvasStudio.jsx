@@ -144,7 +144,7 @@ export default function CanvasStudio() {
             )}
           </div>
           <div className="flex-1 overflow-hidden">
-            <LiveCanvas componentId={selectedId} style={style} animKey={animKey} />
+            <LiveCanvas componentId={selectedId} style={style} onChangeStyle={setStyle} animKey={animKey} />
           </div>
         </main>
 
