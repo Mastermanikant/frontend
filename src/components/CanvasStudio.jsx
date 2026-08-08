@@ -1,24 +1,38 @@
 import React, { useState } from 'react';
-import { RefreshCw, Layers, BookOpen, ChevronDown, Palette, Maximize2, Columns, LayoutGrid } from 'lucide-react';
+import { RefreshCw, Layers as LayersIcon, BookOpen, ChevronDown, Palette, Maximize2, LayoutGrid, Undo2, Redo2, Layout } from 'lucide-react';
 import ComponentLibrary from './ComponentLibrary';
 import StyleControls from './StyleControls';
 import LiveCanvas from './LiveCanvas';
 import OutputPanel from './OutputPanel';
 import BackgroundCanvas from './BackgroundCanvas';
 import FrontendEncyclopediaModal from './FrontendEncyclopediaModal';
+import TemplatePreviewModal from './TemplatePreviewModal';
+import LayersTreePanel from './LayersTreePanel';
 import { DEFAULT_STYLE } from '../data/componentLibrary';
 import { backgroundThemes } from '../data/frontendKnowledge';
+import { useCanvas } from '../context/CanvasContext';
 
 export default function CanvasStudio() {
-  const [selectedId, setSelectedId]       = useState('btn-conic-laser');
-  const [style, setStyle]                 = useState(DEFAULT_STYLE);
-  const [activeTheme, setActiveTheme]     = useState('aurora');
-  const [animKey, setAnimKey]             = useState(0);
-  const [isThemeOpen, setIsThemeOpen]     = useState(false);
-  const [isEncyclopediaOpen, setIsEncyclopediaOpen] = useState(false);
-  const [viewMode, setViewMode]           = useState('full'); // 'full' | 'stage' | 'dev'
+  const {
+    elements,
+    setElements,
+    selectedElementId,
+    setSelectedElementId,
+    selectedElement,
+    updateElement,
+    addElement,
+    undo,
+    redo,
+    canUndo,
+    canRedo
+  } = useCanvas();
 
-  const resetStyle = () => setStyle(DEFAULT_STYLE);
+  const [activeTheme, setActiveTheme]             = useState('aurora');
+  const [animKey, setAnimKey]                     = useState(0);
+  const [isThemeOpen, setIsThemeOpen]             = useState(false);
+  const [isEncyclopediaOpen, setIsEncyclopediaOpen] = useState(false);
+  const [isTemplateModalOpen, setIsTemplateModalOpen] = useState(false);
+  const [viewMode, setViewMode]                   = useState('full'); // 'full' | 'stage'
 
   const currentThemeObj = backgroundThemes.find(t => t.id === activeTheme) || backgroundThemes[0];
 
@@ -30,7 +44,7 @@ export default function CanvasStudio() {
       <header className="sticky top-0 z-40 bg-slate-950/85 backdrop-blur-xl border-b border-slate-800/80 px-5 py-2.5 flex items-center justify-between shrink-0 h-[49px]">
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-cyan-400 via-purple-500 to-pink-500 flex items-center justify-center shadow-lg shadow-cyan-500/20 shrink-0">
-            <Layers className="w-4 h-4 text-white" />
+            <LayersIcon className="w-4 h-4 text-white" />
           </div>
           <div>
             <h1 className="text-sm font-black gradient-text font-heading leading-tight flex items-center gap-2">
@@ -40,7 +54,7 @@ export default function CanvasStudio() {
               </span>
             </h1>
             <p className="text-[10px] text-slate-500">
-              Pick Component → Customize Layers &amp; Style → Send Visual Spec to Developer
+              Pick Component / Template → Drag &amp; Customize → Export Live Code
             </p>
           </div>
         </div>
@@ -48,11 +62,40 @@ export default function CanvasStudio() {
         {/* Action Controls Header */}
         <div className="flex items-center gap-2">
 
-          {/* View Mode Selector (Full / Focus Stage / Code Mode) */}
+          {/* Undo / Redo Buttons */}
+          <div className="flex items-center gap-1 bg-slate-900/90 p-1 rounded-xl border border-slate-800 text-[10px]">
+            <button
+              onClick={undo}
+              disabled={!canUndo}
+              title="Undo (Ctrl+Z)"
+              className="p-1 rounded-lg text-slate-400 hover:text-white disabled:opacity-30 disabled:hover:text-slate-400 transition"
+            >
+              <Undo2 className="w-3.5 h-3.5" />
+            </button>
+            <button
+              onClick={redo}
+              disabled={!canRedo}
+              title="Redo (Ctrl+Y)"
+              className="p-1 rounded-lg text-slate-400 hover:text-white disabled:opacity-30 disabled:hover:text-slate-400 transition"
+            >
+              <Redo2 className="w-3.5 h-3.5" />
+            </button>
+          </div>
+
+          {/* 30+ Website Templates Modal Button */}
+          <button
+            onClick={() => setIsTemplateModalOpen(true)}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-cyan-500/10 text-cyan-300 border border-cyan-500/30 hover:bg-cyan-500/20 transition text-xs font-bold"
+          >
+            <Layout className="w-3.5 h-3.5" />
+            <span>30+ Templates</span>
+          </button>
+
+          {/* View Mode Selector */}
           <div className="flex items-center gap-1 bg-slate-900/90 p-1 rounded-xl border border-slate-800 text-[10px]">
             <button
               onClick={() => setViewMode('full')}
-              title="Standard 4-Panel Independent Mode"
+              title="Standard Studio Mode"
               className={`px-2 py-1 rounded-lg font-bold flex items-center gap-1 transition ${viewMode === 'full' ? 'bg-cyan-500 text-black' : 'text-slate-500 hover:text-white'}`}
             >
               <LayoutGrid className="w-3 h-3" />
@@ -60,7 +103,7 @@ export default function CanvasStudio() {
             </button>
             <button
               onClick={() => setViewMode('stage')}
-              title="Focus Stage Mode (Max Canvas Real Estate)"
+              title="Focus Stage Mode"
               className={`px-2 py-1 rounded-lg font-bold flex items-center gap-1 transition ${viewMode === 'stage' ? 'bg-purple-500 text-white' : 'text-slate-500 hover:text-white'}`}
             >
               <Maximize2 className="w-3 h-3" />
@@ -68,7 +111,7 @@ export default function CanvasStudio() {
             </button>
           </div>
 
-          {/* A-Z Frontend Encyclopedia Guide Button */}
+          {/* A-Z Guide */}
           <button
             onClick={() => setIsEncyclopediaOpen(true)}
             className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-purple-500/10 text-purple-300 border border-purple-500/30 hover:bg-purple-500/20 transition text-xs font-bold"
@@ -77,7 +120,7 @@ export default function CanvasStudio() {
             <span>A-Z Guide</span>
           </button>
 
-          {/* 20 Background Themes Selector Dropdown */}
+          {/* 20 Background Themes Selector */}
           <div className="relative">
             <button
               onClick={() => setIsThemeOpen(!isThemeOpen)}
@@ -91,7 +134,7 @@ export default function CanvasStudio() {
             {isThemeOpen && (
               <div className="absolute right-0 mt-2 w-56 max-h-80 overflow-y-auto bg-slate-900 border border-slate-800 rounded-2xl shadow-2xl z-50 p-1.5 space-y-1">
                 <p className="text-[9px] font-black text-slate-500 uppercase tracking-widest px-2 py-1">
-                  20 Live Themes (पूरा साइट बदलें)
+                  20 Live Themes
                 </p>
                 {backgroundThemes.map(t => (
                   <button
@@ -111,30 +154,34 @@ export default function CanvasStudio() {
             )}
           </div>
 
-          {/* Reset Style Button */}
-          <button
-            onClick={() => { resetStyle(); setAnimKey(k => k + 1); }}
-            title="Reset style"
-            className="p-2 rounded-xl bg-slate-900 border border-slate-800 text-slate-500 hover:text-white hover:border-slate-600 transition"
-          >
-            <RefreshCw className="w-3.5 h-3.5" />
-          </button>
         </div>
       </header>
 
       {/* ── 4-PANEL INDEPENDENT SCROLL LAYOUT ───────────────────────────────────────────── */}
       <div className="flex-1 flex overflow-hidden relative z-10 h-[calc(100vh-49px)]">
 
-        {/* PANEL 1 — Component Library (Left, 250px, Independent Scroll) */}
+        {/* PANEL 1 — Component Library & DOM Layers (Left, 250px, Independent Scroll) */}
         {viewMode !== 'stage' && (
           <aside className="w-[250px] shrink-0 border-r border-slate-800/80 bg-slate-950/75 backdrop-blur-xl flex flex-col h-full overflow-hidden">
-            <div className="px-3 pt-2.5 pb-1 shrink-0 flex items-center justify-between border-b border-slate-900">
-              <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest">
-                Step 1 — Component (52)
-              </p>
+            <div className="flex-1 overflow-hidden flex flex-col h-1/2 border-b border-slate-900">
+              <ComponentLibrary 
+                selectedId={selectedElement?.type === 'button' ? selectedElement.componentId : null} 
+                onSelect={(compId) => {
+                  const newEl = {
+                    id: `el-${Date.now()}`,
+                    type: 'button',
+                    componentId: compId,
+                    style: { ...DEFAULT_STYLE },
+                    text: 'Click Me →',
+                    x: Math.random() * 100 + 50,
+                    y: Math.random() * 100 + 50
+                  };
+                  addElement(newEl);
+                }} 
+              />
             </div>
-            <div className="flex-1 overflow-hidden h-full">
-              <ComponentLibrary selectedId={selectedId} onSelect={setSelectedId} />
+            <div className="flex-1 overflow-hidden h-1/2">
+              <LayersTreePanel />
             </div>
           </aside>
         )}
@@ -144,55 +191,66 @@ export default function CanvasStudio() {
           <aside className="w-[220px] shrink-0 border-r border-slate-800/60 bg-slate-950/60 backdrop-blur-lg flex flex-col h-full overflow-hidden">
             <div className="px-3 pt-2.5 pb-1 shrink-0 flex items-center justify-between border-b border-slate-900">
               <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest">
-                Step 2 — Style Controls
+                Selected Element Style
               </p>
             </div>
             <div className="flex-1 overflow-hidden h-full">
-              <StyleControls style={style} onChange={setStyle} />
+              {selectedElement ? (
+                <StyleControls 
+                  style={selectedElement.style} 
+                  onChange={(newStyle) => {
+                    updateElement({ ...selectedElement, style: newStyle });
+                  }} 
+                />
+              ) : (
+                <div className="p-4 text-xs text-slate-500">Select an element on canvas to edit style</div>
+              )}
             </div>
           </aside>
         )}
 
-        {/* PANEL 3 — Live Canvas (Center Stage, flex-1, Independent Center Stage) */}
+        {/* PANEL 3 — Live Canvas (Center Stage, flex-1) */}
         <main className="flex-1 overflow-hidden bg-slate-950/30 backdrop-blur-sm relative flex flex-col h-full">
           <div className="px-4 pt-2.5 pb-1 border-b border-slate-800/40 shrink-0 flex items-center justify-between">
             <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest">
-              Step 3 — Live Interactive Canvas Stage
+              Live Interactive Canvas Stage
             </p>
-            {selectedId && (
-              <button
-                onClick={() => setAnimKey(k => k + 1)}
-                className="text-[10px] text-slate-500 hover:text-cyan-400 flex items-center gap-1 transition"
-              >
-                <RefreshCw className="w-3 h-3" /> Re-trigger Animation
-              </button>
-            )}
+            <button
+              onClick={() => setAnimKey(k => k + 1)}
+              className="text-[10px] text-slate-500 hover:text-cyan-400 flex items-center gap-1 transition"
+            >
+              <RefreshCw className="w-3 h-3" /> Re-trigger Animations
+            </button>
           </div>
           <div className="flex-1 overflow-hidden h-full">
-            <LiveCanvas componentId={selectedId} style={style} onChangeStyle={setStyle} animKey={animKey} />
+            <LiveCanvas animKey={animKey} />
           </div>
         </main>
 
-        {/* PANEL 4 — Output & Deconstruct (Right, 250px, Independent Scroll) */}
+        {/* PANEL 4 — Output & Deconstruct (Right, 250px) */}
         {viewMode !== 'stage' && (
           <aside className="w-[250px] shrink-0 border-l border-slate-800/80 bg-slate-950/75 backdrop-blur-xl flex flex-col h-full overflow-hidden">
             <div className="px-3 pt-2.5 pb-1 shrink-0 flex items-center justify-between border-b border-slate-900">
               <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest">
-                Step 4 — Dev Output &amp; Layers
+                Dev Output &amp; Layers
               </p>
             </div>
             <div className="flex-1 overflow-hidden h-full">
-              <OutputPanel componentId={selectedId} style={style} />
+              <OutputPanel elements={elements} selectedElementId={selectedElementId} />
             </div>
           </aside>
         )}
 
       </div>
 
-      {/* A-Z Frontend Encyclopedia Modal */}
+      {/* Modals */}
       <FrontendEncyclopediaModal
         isOpen={isEncyclopediaOpen}
         onClose={() => setIsEncyclopediaOpen(false)}
+      />
+      <TemplatePreviewModal
+        isOpen={isTemplateModalOpen}
+        onClose={() => setIsTemplateModalOpen(false)}
       />
     </div>
   );

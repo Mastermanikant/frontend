@@ -2,10 +2,9 @@ import React, { useState } from 'react';
 import { Copy, Check, Code2, Palette, Sparkles, FileText, Layers, Eye } from 'lucide-react';
 import { COMPONENTS } from '../data/componentLibrary';
 
-export default function OutputPanel({ componentId, style }) {
+export default function OutputPanel({ elements, selectedElementId }) {
   const [copiedKey, setCopiedKey] = useState(null);
   const [activeTab, setActiveTab] = useState('spec'); // 'spec' | 'deconstruct'
-  const comp = COMPONENTS.find(c => c.id === componentId);
 
   const copy = (text, key) => {
     navigator.clipboard.writeText(text);
@@ -13,13 +12,54 @@ export default function OutputPanel({ componentId, style }) {
     setTimeout(() => setCopiedKey(null), 2000);
   };
 
-  if (!comp) return (
-    <div className="h-full flex flex-col items-center justify-center text-center px-8 select-none">
-      <div className="text-4xl mb-3">📋</div>
-      <p className="text-sm font-bold text-white mb-1">Developer Spec Panel</p>
-      <p className="text-xs text-slate-500">Component चुनें — उसकी पूरी परतें (Layers), CSS &amp; AI Prompt यहाँ दिखेगा।</p>
-    </div>
-  );
+  const selectedElement = elements.find(el => el.id === selectedElementId);
+  const isCanvasMode = !selectedElement;
+
+  // Generate combined canvas code
+  const generateCanvasCode = () => {
+    let jsx = '<div className="relative w-full h-full">\n';
+    
+    elements.forEach(el => {
+      if (el.type === 'text') {
+        jsx += `  <div style={{ position: 'absolute', left: ${el.x}, top: ${el.y}, color: '${el.style.color}', fontSize: '${el.style.fontSize}', fontFamily: '${el.style.fontFamily}', fontWeight: '${el.style.fontWeight}' }}>\n`;
+        jsx += `    ${el.text}\n`;
+        jsx += `  </div>\n`;
+      } else if (el.type === 'button') {
+        const bg = el.style.bgType === 'gradient' ? `linear-gradient(135deg, ${el.style.bgColor1}, ${el.style.bgColor2})` : el.style.bgColor1;
+        jsx += `  <button style={{ position: 'absolute', left: ${el.x}, top: ${el.y}, borderRadius: '${el.style.borderRadius}px', background: '${bg}', color: '${el.style.textColor}' }} className="px-8 py-3.5 font-bold">\n`;
+        jsx += `    ${el.text}\n`;
+        jsx += `  </button>\n`;
+      }
+    });
+
+    jsx += '</div>';
+    return jsx;
+  };
+
+  if (isCanvasMode || elements.length === 0) {
+    return (
+      <div className="flex flex-col h-full overflow-y-auto select-none">
+        <div className="p-4 border-b border-slate-800 shrink-0 bg-slate-950/60">
+          <h3 className="text-xs font-black text-white truncate">Full Canvas Export</h3>
+          <p className="text-[10px] text-slate-500">Export the entire composition.</p>
+        </div>
+        <div className="p-4 space-y-4">
+          <Section icon={<Code2 className="w-3.5 h-3.5" />} label="Combined React Canvas Code">
+            <pre className="text-[10px] font-mono text-cyan-300 bg-slate-950 border border-slate-800 rounded-xl p-3 overflow-x-auto whitespace-pre-wrap leading-relaxed max-h-80">
+              {generateCanvasCode()}
+            </pre>
+            <CopyBtn label="Copy Full Canvas Code" text={generateCanvasCode()} copyKey="canvas" copiedKey={copiedKey} onCopy={copy} />
+          </Section>
+        </div>
+      </div>
+    );
+  }
+
+  // ELEMENT SPECIFIC RENDER
+  const style = selectedElement.style;
+  const comp = selectedElement.type === 'button' ? COMPONENTS.find(c => c.id === selectedElement.componentId) : null;
+  const name = comp ? comp.name : 'Text Box';
+  const category = selectedElement.type;
 
   // Generate CSS tokens
   const r = style.borderRadius === 9999 ? '9999px' : `${style.borderRadius}px`;
@@ -28,32 +68,18 @@ export default function OutputPanel({ componentId, style }) {
     : style.bgType === 'solid' ? style.bgColor1
     : style.bgType === 'glass' ? 'rgba(255,255,255,0.08)' : 'transparent';
 
-  const cssSnippet = `.component {
+  const cssSnippet = selectedElement.type === 'text' ? `.text-element {\n  color: ${style.color};\n  font-size: ${style.fontSize};\n  font-family: '${style.fontFamily}';\n}` : `.component {
   border-radius: ${r};
   background: ${bg};
-  color: ${style.textColor};${style.borderStyle !== 'none' ? `\n  border: ${style.borderWidth}px ${style.borderStyle === 'laserSpin' ? 'solid' : style.borderStyle} ${style.borderColor};` : ''}${style.bgType === 'glass' ? '\n  backdrop-filter: blur(16px);' : ''}${style.shadowType === 'neonGlow' ? `\n  box-shadow: 0 0 20px ${style.glowColor}66;` : ''}
+  color: ${style.textColor};${style.borderStyle && style.borderStyle !== 'none' ? `\n  border: ${style.borderWidth}px ${style.borderStyle === 'laserSpin' ? 'solid' : style.borderStyle} ${style.borderColor};` : ''}${style.bgType === 'glass' ? '\n  backdrop-filter: blur(16px);' : ''}
 }`;
-
-  const fullSpec = `COMPONENT: ${comp.name}
-CATEGORY: ${comp.category}
-
-EFFECTS USED:
-${comp.effects?.map(e => `  • ${e}`).join('\n')}
-
-STYLE CONFIG:
-  Border Radius: ${r}
-  Background: ${bg}
-  Text Color: ${style.textColor}${style.borderStyle !== 'none' ? `\n  Border: ${style.borderWidth}px ${style.borderStyle} ${style.borderColor}` : ''}${style.shadowType !== 'none' ? `\n  Shadow: ${style.shadowType}` : ''}${style.hoverEffect !== 'none' ? `\n  Hover: ${style.hoverEffect}` : ''}
-
-AI PROMPT:
-${comp.aiPrompt}`;
 
   return (
     <div className="flex flex-col h-full overflow-y-auto select-none">
       {/* Header Tabs */}
       <div className="p-3 border-b border-slate-800 shrink-0 bg-slate-950/60">
-        <h3 className="text-xs font-black text-white truncate">{comp.name}</h3>
-        <p className="text-[10px] text-slate-500 capitalize">{comp.category}</p>
+        <h3 className="text-xs font-black text-white truncate">{name}</h3>
+        <p className="text-[10px] text-slate-500 capitalize">{category}</p>
 
         <div className="flex gap-1 mt-2 bg-slate-900 p-1 rounded-xl border border-slate-800">
           <button
@@ -80,38 +106,6 @@ ${comp.aiPrompt}`;
         {/* ── TAB 1: SPEC & EXPORT ── */}
         {activeTab === 'spec' && (
           <>
-            {/* Effects Used */}
-            <Section icon={<Sparkles className="w-3.5 h-3.5" />} label="इस्तेमाल हुए इफ़ेक्ट्स">
-              <div className="flex flex-wrap gap-1.5">
-                {comp.effects?.map((eff, i) => (
-                  <span key={i} className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-purple-500/20 text-purple-300 border border-purple-500/25">
-                    ✨ {eff}
-                  </span>
-                ))}
-              </div>
-            </Section>
-
-            {/* Color Tokens */}
-            <Section icon={<Palette className="w-3.5 h-3.5" />} label="रंग टोकन्स (Tokens)">
-              <div className="space-y-1 bg-slate-950 p-2.5 rounded-xl border border-slate-800">
-                {[
-                  { label: 'Primary', value: style.bgColor1 },
-                  { label: 'Accent',  value: style.bgColor2 },
-                  { label: 'Text',    value: style.textColor },
-                  { label: 'Glow',   value: style.glowColor },
-                ].map(({ label, value }) => (
-                  <div key={label} className="flex items-center justify-between text-[11px]">
-                    <span className="text-slate-500 font-medium">{label}</span>
-                    <div className="flex items-center gap-1.5">
-                      <div className="w-3.5 h-3.5 rounded border border-slate-700" style={{ backgroundColor: value }} />
-                      <span className="font-mono text-slate-300 text-[10px]">{value}</span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-              <CopyBtn label="Copy Tokens" text={`--color-primary: ${style.bgColor1};\n--color-accent: ${style.bgColor2};\n--text: ${style.textColor};\n--glow: ${style.glowColor};`} copyKey="tokens" copiedKey={copiedKey} onCopy={copy} />
-            </Section>
-
             {/* CSS Snippet */}
             <Section icon={<Code2 className="w-3.5 h-3.5" />} label="मुख्य CSS Code">
               <pre className="text-[10px] font-mono text-slate-300 bg-slate-950 border border-slate-800 rounded-xl p-2.5 whitespace-pre-wrap leading-relaxed">
@@ -121,20 +115,19 @@ ${comp.aiPrompt}`;
             </Section>
 
             {/* AI Prompt */}
-            <Section icon={<Sparkles className="w-3.5 h-3.5" />} label="🤖 AI Prompt (Dev को दें)">
-              <p className="text-[10px] text-slate-300 bg-slate-950 border border-purple-500/30 rounded-xl p-2.5 leading-relaxed">
-                {comp.aiPrompt}
-              </p>
-              <CopyBtn label="Copy AI Prompt" text={comp.aiPrompt} copyKey="prompt" copiedKey={copiedKey} onCopy={copy} variant="purple" />
-            </Section>
-
-            {/* Copy All */}
-            <CopyBtn label="📋 Copy Full Spec Sheet" text={fullSpec} copyKey="full" copiedKey={copiedKey} onCopy={copy} variant="green" />
+            {comp && (
+              <Section icon={<Sparkles className="w-3.5 h-3.5" />} label="🤖 AI Prompt (Dev को दें)">
+                <p className="text-[10px] text-slate-300 bg-slate-950 border border-purple-500/30 rounded-xl p-2.5 leading-relaxed">
+                  {comp.aiPrompt}
+                </p>
+                <CopyBtn label="Copy AI Prompt" text={comp.aiPrompt} copyKey="prompt" copiedKey={copiedKey} onCopy={copy} variant="purple" />
+              </Section>
+            )}
           </>
         )}
 
         {/* ── TAB 2: DECONSTRUCT (यह किससे मिलकर बना है) ── */}
-        {activeTab === 'deconstruct' && (
+        {activeTab === 'deconstruct' && selectedElement.type === 'button' && (
           <div className="space-y-3">
             <p className="text-[10px] text-slate-400 bg-purple-500/10 border border-purple-500/20 rounded-xl p-2.5 leading-relaxed">
               🔍 <strong>Component Layers Breakdown:</strong> इस component को 5 अलग-अलग परतों से मिलकर बनाया गया है:
@@ -149,26 +142,14 @@ ${comp.aiPrompt}`;
             <LayerCard
               num="2"
               title="Surface & Fill Layer"
-              tech={style.bgType.toUpperCase()}
-              detail={`background: ${bg}; ${style.bgType==='glass'?'backdrop-filter: blur(16px)':''}`}
+              tech={style.bgType?.toUpperCase() || 'SOLID'}
+              detail={`background: ${bg};`}
             />
             <LayerCard
               num="3"
               title="Border & Glow Stroke"
-              tech={style.borderStyle}
-              detail={style.borderStyle !== 'none' ? `border: ${style.borderWidth}px ${style.borderStyle} ${style.borderColor}` : 'border: none;'}
-            />
-            <LayerCard
-              num="4"
-              title="Typography & Content"
-              tech="Font & Color Tokens"
-              detail={`color: ${style.textColor}; font-weight: 700; text-align: center;`}
-            />
-            <LayerCard
-              num="5"
-              title="Micro-interaction & Physics"
-              tech={style.hoverEffect}
-              detail={`Hover: ${style.hoverEffect}; Shadow: ${style.shadowType}; Entrance: ${style.entranceAnim}`}
+              tech={style.borderStyle || 'none'}
+              detail={style.borderStyle && style.borderStyle !== 'none' ? `border: ${style.borderWidth}px ${style.borderStyle} ${style.borderColor}` : 'border: none;'}
             />
           </div>
         )}
