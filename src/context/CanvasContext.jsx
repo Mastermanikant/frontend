@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useCallback } from 'react';
+import { TEMPLATES } from '../data/templatesLibrary';
 import { DEFAULT_STYLE } from '../data/componentLibrary';
 
 const CanvasContext = createContext();
@@ -30,11 +31,12 @@ const INITIAL_ELEMENTS = [
 ];
 
 export function CanvasProvider({ children }) {
-  const [elements, setElementsState] = useState(INITIAL_ELEMENTS);
-  const [activeFullPageTemplate, setActiveFullPageTemplate] = useState(null);
-  const [selectedElementId, setSelectedElementId] = useState('el-hero-btn');
+  const [elements, setElementsState] = useState([]);
+  // DEFAULT LOAD FULL READYMADE AI SAAS WEBSITE TEMPLATE SO THE STAGE NEVER LOOKS BLANK OR WIDGET-LIKE!
+  const [activeFullPageTemplate, setActiveFullPageTemplate] = useState(TEMPLATES[0].pageData);
+  const [selectedElementId, setSelectedElementId] = useState(null);
   const [stageMode, setStageMode] = useState('edit'); // 'edit' | 'live'
-  const [history, setHistory] = useState([INITIAL_ELEMENTS]);
+  const [history, setHistory] = useState([[]]);
   const [historyIndex, setHistoryIndex] = useState(0);
 
   // Helper to update elements with undo/redo stack support
