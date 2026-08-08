@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Frontend Button Library</title>
+
+<style>
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:Arial,Helvetica,sans-serif;
+    background:#f5f7fa;
+    color:#1f2937;
+}
+
+header{
+    background:#111827;
+    color:white;
+    padding:35px 20px;
+    text-align:center;
+}
+
+header h1{
+    margin:0 0 10px;
+    font-size:32px;
+}
+
+header p{
+    margin:0;
+    color:#cbd5e1;
+}
+
+.container{
+    width:min(1400px,94%);
+    margin:30px auto 60px;
+}
+
+.category{
+    margin-bottom:40px;
+}
+
+.category h2{
+    font-size:22px;
+    margin:0 0 15px;
+    padding-bottom:10px;
+    border-bottom:2px solid #e5e7eb;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+    gap:16px;
+}
+
+.card{
+    background:white;
+    border:1px solid #e5e7eb;
+    border-radius:12px;
+    padding:18px;
+    min-height:145px;
+    box-shadow:0 2px 8px rgba(0,0,0,.04);
+}
+
+.name{
+    font-weight:700;
+    font-size:14px;
+    margin-bottom:18px;
+    color:#374151;
+}
+
+.preview{
+    min-height:65px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    flex-wrap:wrap;
+}
+
+/* BASE BUTTON */
+
+button{
+    border:0;
+    cursor:pointer;
+    font-size:14px;
+    font-weight:600;
+    padding:11px 18px;
+    border-radius:8px;
+    transition:.2s;
+}
+
+button:hover{
+    transform:translateY(-1px);
+}
+
+/* BASIC */
+
+.primary{
+    background:#2563eb;
+    color:white;
+}
+
+.secondary{
+    background:#e5e7eb;
+    color:#111827;
+}
+
+.tertiary{
+    background:#f3f4f6;
+    color:#374151;
+}
+
+.cta{
+    background:#16a34a;
+    color:white;
+    padding:13px 25px;
+}
+
+.outline{
+    background:white;
+    border:2px solid #2563eb;
+    color:#2563eb;
+}
+
+.ghost{
+    background:transparent;
+    color:#2563eb;
+}
+
+.text{
+    background:none;
+    color:#2563eb;
+    padding:8px;
+}
+
+.link{
+    background:none;
+    color:#2563eb;
+    text-decoration:underline;
+    padding:8px;
+}
+
+/* ACTION */
+
+.danger{
+    background:#dc2626;
+    color:white;
+}
+
+.warning{
+    background:#f59e0b;
+    color:white;
+}
+
+.success{
+    background:#16a34a;
+    color:white;
+}
+
+.add{
+    background:#2563eb;
+    color:white;
+}
+
+.remove{
+    background:#ef4444;
+    color:white;
+}
+
+.save{
+    background:#059669;
+    color:white;
+}
+
+.edit{
+    background:#7c3aed;
+    color:white;
+}
+
+/* ICON */
+
+.icon{
+    width:44px;
+    height:44px;
+    padding:0;
+    border-radius:50%;
+    background:#2563eb;
+    color:white;
+    font-size:20px;
+}
+
+.icon-square{
+    width:44px;
+    height:44px;
+    padding:0;
+    border-radius:8px;
+    background:#111827;
+    color:white;
+    font-size:19px;
+}
+
+.icon-text{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    background:#2563eb;
+    color:white;
+}
+
+/* SHAPES */
+
+.pill{
+    border-radius:999px;
+    background:#2563eb;
+    color:white;
+}
+
+.rounded{
+    border-radius:20px;
+    background:#7c3aed;
+    color:white;
+}
+
+.square{
+    border-radius:2px;
+    background:#111827;
+    color:white;
+}
+
+.circle{
+    width:50px;
+    height:50px;
+    padding:0;
+    border-radius:50%;
+    background:#ec4899;
+    color:white;
+}
+
+/* SPECIAL VISUALS */
+
+.gradient{
+    background:linear-gradient(135deg,#6366f1,#ec4899);
+    color:white;
+}
+
+.glass{
+    background:rgba(255,255,255,.55);
+    color:#111827;
+    border:1px solid rgba(255,255,255,.8);
+    box-shadow:0 8px 25px rgba(0,0,0,.12);
+    backdrop-filter:blur(10px);
+}
+
+.threeD{
+    background:#2563eb;
+    color:white;
+    box-shadow:0 5px 0 #1e40af;
+}
+
+.neumorphic{
+    background:#e5e7eb;
+    color:#374151;
+    box-shadow:8px 8px 15px #cbd5e1,
+               -8px -8px 15px white;
+}
+
+.raised{
+    background:white;
+    color:#111827;
+    box-shadow:0 5px 15px rgba(0,0,0,.18);
+}
+
+.floating{
+    border-radius:50%;
+    width:56px;
+    height:56px;
+    padding:0;
+    background:#2563eb;
+    color:white;
+    box-shadow:0 8px 20px rgba(37,99,235,.35);
+}
+
+.transparent{
+    background:transparent;
+    border:1px solid #9ca3af;
+    color:#374151;
+}
+
+/* STATES */
+
+.disabled{
+    background:#d1d5db;
+    color:#9ca3af;
+    cursor:not-allowed;
+}
+
+.loading{
+    background:#2563eb;
+    color:white;
+}
+
+.loading::before{
+    content:"";
+    display:inline-block;
+    width:12px;
+    height:12px;
+    margin-right:7px;
+    border:2px solid rgba(255,255,255,.4);
+    border-top-color:white;
+    border-radius:50%;
+    animation:spin .7s linear infinite;
+    vertical-align:-2px;
+}
+
+@keyframes spin{
+    to{transform:rotate(360deg);}
+}
+
+.success-state{
+    background:#16a34a;
+    color:white;
+}
+
+.error-state{
+    background:#dc2626;
+    color:white;
+}
+
+.toggle{
+    background:#2563eb;
+    color:white;
+    border-radius:999px;
+}
+
+.pressed{
+    background:#1d4ed8;
+    color:white;
+    box-shadow:inset 0 3px 7px rgba(0,0,0,.3);
+}
+
+/* GROUPS */
+
+.group{
+    display:flex;
+    gap:0;
+}
+
+.group button{
+    border-radius:0;
+    border-right:1px solid rgba(255,255,255,.3);
+}
+
+.group button:first-child{
+    border-radius:8px 0 0 8px;
+}
+
+.group button:last-child{
+    border-radius:0 8px 8px 0;
+    border:0;
+}
+
+.segment{
+    display:flex;
+    background:#e5e7eb;
+    padding:4px;
+    border-radius:9px;
+}
+
+.segment button{
+    background:transparent;
+    color:#374151;
+    border-radius:6px;
+}
+
+.segment button.active{
+    background:white;
+    box-shadow:0 2px 5px rgba(0,0,0,.1);
+}
+
+/* SPLIT */
+
+.split{
+    display:flex;
+}
+
+.split button{
+    border-radius:8px 0 0 8px;
+}
+
+.split button:last-child{
+    border-radius:0 8px 8px 0;
+    border-left:1px solid rgba(255,255,255,.4);
+}
+
+/* FAB */
+
+.fab{
+    width:58px;
+    height:58px;
+    border-radius:50%;
+    padding:0;
+    background:#ec4899;
+    color:white;
+    font-size:24px;
+    box-shadow:0 8px 20px rgba(0,0,0,.2);
+}
+
+/* SOCIAL */
+
+.facebook{background:#1877f2;color:white;}
+.x{background:#000;color:white;}
+.youtube{background:#ff0000;color:white;}
+.linkedin{background:#0a66c2;color:white;}
+.github{background:#24292f;color:white;}
+
+/* MEDIA */
+
+.play{
+    width:55px;
+    height:55px;
+    border-radius:50%;
+    background:#ef4444;
+    color:white;
+    font-size:22px;
+    padding-left:17px;
+}
+
+.media{
+    background:#111827;
+    color:white;
+    width:45px;
+    height:45px;
+    padding:0;
+    border-radius:50%;
+}
+
+/* DROPDOWN */
+
+.dropdown{
+    background:#2563eb;
+    color:white;
+}
+
+/* BADGE */
+
+.badge{
+    position:relative;
+    background:#111827;
+    color:white;
+}
+
+.badge span{
+    position:absolute;
+    top:-8px;
+    right:-8px;
+    background:#ef4444;
+    color:white;
+    width:20px;
+    height:20px;
+    border-radius:50%;
+    font-size:11px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+/* TOOLTIP */
+
+.tooltip{
+    position:relative;
+    background:#111827;
+    color:white;
+}
+
+.tooltip:hover::after{
+    content:"Tooltip text";
+    position:absolute;
+    bottom:calc(100% + 8px);
+    left:50%;
+    transform:translateX(-50%);
+    background:#111827;
+    color:white;
+    padding:6px 9px;
+    border-radius:5px;
+    font-size:11px;
+    white-space:nowrap;
+}
+
+/* LOGIN */
+
+.google{
+    background:white;
+    border:1px solid #d1d5db;
+    color:#374151;
+}
+
+.login{
+    background:#111827;
+    color:white;
+}
+
+/* PAGINATION */
+
+.pagination button{
+    width:38px;
+    height:38px;
+    padding:0;
+    background:white;
+    border:1px solid #d1d5db;
+    color:#374151;
+}
+
+.pagination button.active{
+    background:#2563eb;
+    color:white;
+}
+
+/* SEARCH */
+
+.search{
+    display:flex;
+}
+
+.search input{
+    width:130px;
+    padding:10px;
+    border:1px solid #d1d5db;
+    border-radius:8px 0 0 8px;
+    outline:none;
+}
+
+.search button{
+    border-radius:0 8px 8px 0;
+    background:#2563eb;
+    color:white;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:600px){
+    header h1{
+        font-size:25px;
+    }
+
+    .grid{
+        grid-template-columns:1fr;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>Frontend Button Library</h1>
+    <p>Button Types • Styles • States • Actions • Components</p>
+</header>
+
+<div class="container">
+
+<!-- BASIC BUTTONS -->
+<section class="category">
+<h2>1. Basic Buttons</h2>
+<div class="grid">
+
+<div class="card"><div class="name">Primary Button</div><div class="preview"><button class="primary">Primary</button></div></div>
+
+<div class="card"><div class="name">Secondary Button</div><div class="preview"><button class="secondary">Secondary</button></div></div>
+
+<div class="card"><div class="name">Tertiary Button</div><div class="preview"><button class="tertiary">Tertiary</button></div></div>
+
+<div class="card"><div class="name">CTA Button</div><div class="preview"><button class="cta">Get Started</button></div></div>
+
+<div class="card"><div class="name">Outline Button</div><div class="preview"><button class="outline">Outline</button></div></div>
+
+<div class="card"><div class="name">Ghost Button</div><div class="preview"><button class="ghost">Ghost</button></div></div>
+
+<div class="card"><div class="name">Text Button</div><div class="preview"><button class="text">Text Button</button></div></div>
+
+<div class="card"><div class="name">Link Button</div><div class="preview"><button class="link">Learn More</button></div></div>
+
+</div>
+</section>
+
+
+<!-- ACTION BUTTONS -->
+<section class="category">
+<h2>2. Action Buttons</h2>
+<div class="grid">
+
+<div class="card"><div class="name">Save Button</div><div class="preview"><button class="save">Save</button></div></div>
+
+<div class="card"><div class="name">Edit Button</div><div class="preview"><button class="edit">Edit</button></div></div>
+
+<div class="card"><div class="name">Delete Button</div><div class="preview"><button class="danger">Delete</button></div></div>
+
+<div class="card"><div class="name">Add Button</div><div class="preview"><button class="add">+ Add</button></div></div>
+
+<div class="card"><div class="name">Remove Button</div><div class="preview"><button class="remove">− Remove</button></div></div>
+
+<div class="card"><div class="name">Success Button</div><div class="preview"><button class="success">Success</button></div></div>
+
+<div class="card"><div class="name">Warning Button</div><div class="preview"><button class="warning">Warning</button></div></div>
+
+<div class="card"><div class="name">Danger Button</div><div class="preview"><button class="danger">Danger</button></div></div>
+
+</div>
+</section>
+
+
+<!-- ICON BUTTONS -->
+<section class="category">
+<h2>3. Icon & Content Buttons</h2>
+<div class="grid">
+
+<div class="card"><div class="name">Icon Button</div><div class="preview"><button class="icon">♥</button></div></div>
+
+<div class="card"><div class="name">Icon Square Button</div><div class="preview"><button class="icon-square">⚙</button></div></div>
+
+<div class="card"><div class="name">Icon + Text Button</div><div class="preview"><button class="icon-text">⬇ Download</button></div></div>
+
+<div class="card"><div class="name">Avatar Button</div><div class="preview"><button class="circle">M</button></div></div>
+
+<div class="card"><div class="name">Badge Button</div><div class="preview"><button class="badge">Notifications <span>3</span></button></div></div>
+
+<div class="card"><div class="name">Dropdown Button</div><div class="preview"><button class="dropdown">Options ▾</button></div></div>
+
+</div>
+</section>
+
+
+<!-- SHAPES -->
+<section class="category">
+<h2>4. Shape & Visual Style</h2>
+<div class="grid">
+
+<div class="card"><div class="name">Pill Button</div><div class="preview"><button class="pill">Pill Button</button></div></div>
+
+<div class="card"><div class="name">Rounded Button</div><div class="preview"><button class="rounded">Rounded</button></div></div>
+
+<div class="card"><div class="name">Square Button</div><div class="preview"><button class="square">Square</button></div></div>
+
+<div class="card"><div class="name">Circle Button</div><div class="preview"><button class="circle">+</button></div></div>
+
+<div class="card"><div class="name">Gradient Button</div><div class="preview"><button class="gradient">Gradient</button></div></div>
+
+<div class="card"><div class="name">Glassmorphism Button</div><div class="preview"><button class="glass">Glass</button></div></div>
+
+<div class="card"><div class="name">3D Button</div><div class="preview"><button class="threeD">3D Button</button></div></div>
+
+<div class="card"><div class="name">Neumorphic Button</div><div class="preview"><button class="neumorphic">Neumorphic</button></div></div>
+
+<div class="card"><div class="name">Raised Button</div><div class="preview"><button class="raised">Raised</button></div></div>
+
+<div class="card"><div class="name">Transparent Button</div><div class="preview"><button class="transparent">Transparent</button></div></div>
+
+<div class="card"><div class="name">Floating Button</div><div class="preview"><button class="floating">+</button></div></div>
+
+</div>
+</section>
+
+
+<!-- STATES -->
+<section class="category">
+<h2>5. Button States</h2>
+<div class="grid">
+
+<div class="card"><div class="name">Normal State</div><div class="preview"><button class="primary">Normal</button></div></div>
+
+<div class="card"><div class="name">Hover State</div><div class="preview"><button class="primary">Hover Me</button></div></div>
+
+<div class="card"><div class="name">Pressed State</div><div class="preview"><button class="pressed">Pressed</button></div></div>
+
+<div class="card"><div class="name">Disabled State</div><div class="preview"><button class="disabled" disabled>Disabled</button></div></div>
+
+<div class="card"><div class="name">Loading Button</div><div class="preview"><button class="loading">Loading</button></div></div>
+
+<div class="card"><div class="name">Success State</div><div class="preview"><button class="success-state">✓ Completed</button></div></div>
+
+<div class="card"><div class="name">Error State</div><div class="preview"><button class="error-state">✕ Error</button></div></div>
+
+<div class="card"><div class="name">Toggle Button</div><div class="preview"><button class="toggle" onclick="this.classList.toggle('pressed')">Toggle</button></div></div>
+
+</div>
+</section>
+
+
+<!-- GROUPS -->
+<section class="category">
+<h2>6. Button Groups & Advanced</h2>
+<div class="grid">
+
+<div class="card"><div class="name">Button Group</div><div class="preview"><div class="group"><button class="primary">One</button><button class="primary">Two</button><button class="primary">Three</button></div></div></div>
+
+<div class="card"><div class="name">Segmented Button</div><div class="preview"><div class="segment"><button>Day</button><button class="active">Week</button><button>Month</button></div></div></div>
+
+<div class="card"><div class="name">Split Button</div><div class="preview"><div class="split"><button class="primary">Save</button><button class="primary">▾</button></div></div></div>
+
+<div class="card"><div class="name">Floating Action Button</div><div class="preview"><button class="fab">+</button></div></div>
+
+<div class="card"><div class="name">Tooltip Button</div><div class="preview"><button class="tooltip">Hover Me</button></div></div>
+
+<div class="card"><div class="name">Filter Button</div><div class="preview"><button class="outline">☷ Filter</button></div></div>
+
+<div class="card"><div class="name">Sort Button</div><div class="preview"><button class="outline">↕ Sort</button></div></div>
+
+<div class="card"><div class="name">Refresh Button</div><div class="preview"><button class="secondary">↻ Refresh</button></div></div>
+
+</div>
+</section>
+
+
+<!-- NAVIGATION -->
+<section class="category">
+<h2>7. Navigation Buttons</h2>
+<div class="grid">
+
+<div class="card"><div class="name">Back Button</div><div class="preview"><button class="secondary">← Back</button></div></div>
+
+<div class="card"><div class="name">Next Button</div><div class="preview"><button class="primary">Next →</button></div></div>
+
+<div class="card"><div class="name">Previous Button</div><div class="preview"><button class="secondary">← Previous</button></div></div>
+
+<div class="card"><div class="name">Continue Button</div><div class="preview"><button class="primary">Continue →</button></div></div>
+
+<div class="card"><div class="name">Pagination Button</div><div class="preview"><div class="pagination"><button>1</button><button class="active">2</button><button>3</button><button>4</button></div></div></div>
+
+</div>
+</section>
+
+
+<!-- MEDIA -->
+<section class="category">
+<h2>8. Media Control Buttons</h2>
+<div class="grid">
+
+<div class="card"><div class="name">Play Button</div><div class="preview"><button class="play">▶</button></div></div>
+
+<div class="card"><div class="name">Pause Button</div><div class="preview"><button class="media">Ⅱ</button></div></div>
+
+<div class="card"><div class="name">Stop Button</div><div class="preview"><button class="media">■</button></div></div>
+
+<div class="card"><div class="name">Mute Button</div><div class="preview"><button class="media">🔇</button></div></div>
+
+<div class="card"><div class="name">Fullscreen Button</div><div class="preview"><button class="media">⛶</button></div></div>
+
+</div>
+</section>
+
+
+<!-- SOCIAL -->
+<section class="category">
+<h2>9. Social & Login Buttons</h2>
+<div class="grid">
+
+<div class="card"><div class="name">Facebook Button</div><div class="preview"><button class="facebook">f Facebook</button></div></div>
+
+<div class="card"><div class="name">X Button</div><div class="preview"><button class="x">𝕏 Follow</button></div></div>
+
+<div class="card"><div class="name">YouTube Button</div><div class="preview"><button class="youtube">▶ YouTube</button></div></div>
+
+<div class="card"><div class="name">LinkedIn Button</div><div class="preview"><button class="linkedin">in LinkedIn</button></div></div>
+
+<div class="card"><div class="name">GitHub Button</div><div class="preview"><button class="github">◉ GitHub</button></div></div>
+
+<div class="card"><div class="name">Google Login Button</div><div class="preview"><button class="google">G Continue with Google</button></div></div>
+
+<div class="card"><div class="name">Login Button</div><div class="preview"><button class="login">Login</button></div></div>
+
+</div>
+</section>
+
+
+<!-- UTILITY -->
+<section class="category">
+<h2>10. Utility Buttons</h2>
+<div class="grid">
+
+<div class="card"><div class="name">Search Button</div><div class="preview"><div class="search"><input placeholder="Search"><button>🔍</button></div></div></div>
+
+<div class="card"><div class="name">Upload Button</div><div class="preview"><button class="primary">↑ Upload</button></div></div>
+
+<div class="card"><div class="name">Download Button</div><div class="preview"><button class="primary">↓ Download</button></div></div>
+
+<div class="card"><div class="name">Share Button</div><div class="preview"><button class="secondary">↗ Share</button></div></div>
+
+<div class="card"><div class="name">Copy Button</div><div class="preview"><button class="secondary">▣ Copy</button></div></div>
+
+<div class="card"><div class="name">Print Button</div><div class="preview"><button class="secondary">🖨 Print</button></div></div>
+
+<div class="card"><div class="name">Close Button</div><div class="preview"><button class="danger">✕ Close</button></div></div>
+
+<div class="card"><div class="name">Clear Button</div><div class="preview"><button class="secondary">Clear</button></div></div>
+
+</div>
+</section>
+
+</div>
+
+</body>
+</html>

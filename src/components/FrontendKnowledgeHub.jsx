@@ -12,6 +12,7 @@ import StyleControls from './StyleControls';
 import LiveCanvas from './LiveCanvas';
 import OutputPanel from './OutputPanel';
 import BackgroundCanvas from './BackgroundCanvas';
+import ButtonLibraryDemo from './ButtonLibraryDemo';
 
 export default function FrontendKnowledgeHub() {
   const { stageMode, setStageMode } = useCanvas();
@@ -122,6 +123,13 @@ export default function FrontendKnowledgeHub() {
              Encyclopedia
            </button>
            <button 
+             onClick={() => setMainView('buttons')}
+             className={`px-3 py-1.5 text-sm font-bold rounded-md transition-all ${mainView === 'buttons' ? 'bg-pink-600 text-white shadow-md' : 'text-slate-400 hover:text-white'}`}
+           >
+             <Layers className="w-4 h-4 inline mr-2" />
+             Button Library
+           </button>
+           <button 
              onClick={() => setMainView('canvas')}
              className={`px-3 py-1.5 text-sm font-bold rounded-md transition-all ${mainView === 'canvas' ? 'bg-cyan-600 text-white shadow-md' : 'text-slate-400 hover:text-white'}`}
            >
@@ -222,7 +230,9 @@ export default function FrontendKnowledgeHub() {
         {/* Right Content Area */}
         <main className="flex-1 bg-[#0f111a] flex flex-col relative overflow-hidden">
           
-          {mainView === 'encyclopedia' ? (
+          {mainView === 'buttons' ? (
+            <ButtonLibraryDemo />
+          ) : mainView === 'encyclopedia' ? (
             displayTerm ? (
               <div className="h-full flex flex-col p-6 lg:p-8 overflow-y-auto custom-scrollbar">
                 <div className="mb-6 shrink-0"><BreadcrumbNav path={breadcrumbPath} /></div>
