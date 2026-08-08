@@ -91,8 +91,6 @@ export default function FrontendKnowledgeHub() {
     return { html, css, js };
   };
 
-  const templates = getSandboxTemplates(displayTerm);
-
   return (
     <div className="flex flex-col h-screen bg-[#0f111a] text-slate-300 font-sans overflow-hidden">
       
