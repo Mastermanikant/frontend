@@ -16,7 +16,7 @@ export default function TemplatePreviewModal({ isOpen, onClose }) {
 
   const handleUseTemplate = () => {
     if (selectedTemplate) {
-      loadTemplate(selectedTemplate.elements);
+      loadTemplate(selectedTemplate);
       onClose();
     }
   };
@@ -32,8 +32,8 @@ export default function TemplatePreviewModal({ isOpen, onClose }) {
               <Layout className="w-4 h-4" />
             </div>
             <div>
-              <h3 className="text-sm font-black text-white font-heading">Template Library (30+ Website Frontends)</h3>
-              <p className="text-[10px] text-slate-400">Select any template to load live onto the Canvas Stage.</p>
+              <h3 className="text-sm font-black text-white font-heading">Template Library (Full A-Z Website Frontends)</h3>
+              <p className="text-[10px] text-slate-400">Select any complete website template to load onto the stage.</p>
             </div>
           </div>
           <button onClick={onClose} className="p-2 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800 transition">
@@ -58,7 +58,7 @@ export default function TemplatePreviewModal({ isOpen, onClose }) {
           ))}
         </div>
 
-        {/* Main Body (Split 2-Panel: Grid on Left, Live Preview Card on Right) */}
+        {/* Main Body (Split 2-Panel) */}
         <div className="flex-1 flex overflow-hidden">
           
           {/* Left Grid */}
@@ -92,11 +92,12 @@ export default function TemplatePreviewModal({ isOpen, onClose }) {
               </div>
 
               <div className="mt-6 space-y-2">
-                <p className="text-xs font-bold text-slate-400 uppercase tracking-wider">Template Includes:</p>
+                <p className="text-xs font-bold text-slate-400 uppercase tracking-wider">Full Website Includes:</p>
                 <div className="text-xs text-slate-300 space-y-1">
-                  <div className="flex items-center gap-2"><Check className="w-3.5 h-3.5 text-green-400" /> {selectedTemplate.elements.length} Interactive Elements &amp; Buttons</div>
-                  <div className="flex items-center gap-2"><Check className="w-3.5 h-3.5 text-green-400" /> Live CSS Token &amp; Typography Binding</div>
-                  <div className="flex items-center gap-2"><Check className="w-3.5 h-3.5 text-green-400" /> Clean React + Tailwind Code Export</div>
+                  <div className="flex items-center gap-2"><Check className="w-3.5 h-3.5 text-green-400" /> Header / Navbar &amp; Logo Badge</div>
+                  <div className="flex items-center gap-2"><Check className="w-3.5 h-3.5 text-green-400" /> Hero Section &amp; CTA Buttons</div>
+                  <div className="flex items-center gap-2"><Check className="w-3.5 h-3.5 text-green-400" /> 3x Feature Cards Grid &amp; Pricing Tiers</div>
+                  <div className="flex items-center gap-2"><Check className="w-3.5 h-3.5 text-green-400" /> Footer with Copyright &amp; Social Links</div>
                 </div>
               </div>
             </div>
@@ -105,7 +106,7 @@ export default function TemplatePreviewModal({ isOpen, onClose }) {
               onClick={handleUseTemplate}
               className="w-full py-3 rounded-2xl bg-gradient-to-r from-cyan-500 to-purple-600 text-white font-bold text-sm shadow-xl shadow-cyan-500/20 hover:opacity-90 transition flex items-center justify-center gap-2"
             >
-              <span>Use This Template On Stage</span>
+              <span>Load Full Website On Stage</span>
               <ArrowRight className="w-4 h-4" />
             </button>
           </div>

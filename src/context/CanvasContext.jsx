@@ -31,6 +31,7 @@ const INITIAL_ELEMENTS = [
 
 export function CanvasProvider({ children }) {
   const [elements, setElementsState] = useState(INITIAL_ELEMENTS);
+  const [activeFullPageTemplate, setActiveFullPageTemplate] = useState(null);
   const [selectedElementId, setSelectedElementId] = useState('el-hero-btn');
   const [history, setHistory] = useState([INITIAL_ELEMENTS]);
   const [historyIndex, setHistoryIndex] = useState(0);
@@ -98,9 +99,18 @@ export function CanvasProvider({ children }) {
     addElement(dup);
   };
 
-  const loadTemplate = (templateElements) => {
-    setElements(templateElements);
-    setSelectedElementId(templateElements[0]?.id || null);
+  const loadTemplate = (templateObj) => {
+    if (templateObj.isFullPage && templateObj.pageData) {
+      setActiveFullPageTemplate(templateObj.pageData);
+      setElements([]); // Clear freeform elements so full page renders
+    } else if (templateObj.elements) {
+      setActiveFullPageTemplate(null);
+      setElements(templateObj.elements);
+      setSelectedElementId(templateObj.elements[0]?.id || null);
+    } else if (Array.isArray(templateObj)) {
+      setActiveFullPageTemplate(null);
+      setElements(templateObj);
+    }
   };
 
   const selectedElement = elements.find(el => el.id === selectedElementId) || null;
@@ -110,6 +120,8 @@ export function CanvasProvider({ children }) {
       value={{
         elements,
         setElements,
+        activeFullPageTemplate,
+        setActiveFullPageTemplate,
         selectedElementId,
         setSelectedElementId,
         selectedElement,
