@@ -6,7 +6,9 @@ import { ChevronDown, ChevronRight, Layers, Sparkles } from 'lucide-react';
 
 export default function ButtonLibraryDemo() {
   const [sandboxData, setSandboxData] = useState(null);
-  const [expandedCat, setExpandedCat] = useState({ basic: true, "design-systems": true, animations: true, states: true });
+  
+  // By default, ALL categories are SHRINKED (collapsed) for clean UI!
+  const [expandedCat, setExpandedCat] = useState({});
   const [expandedSubCat, setExpandedSubCat] = useState({});
 
   const toggleCat = (id) => {
@@ -33,16 +35,16 @@ export default function ButtonLibraryDemo() {
             Exhaustive Button Library
           </h1>
           <p className="text-lg md:text-xl text-slate-400 mb-6 max-w-3xl">
-            Categorized Taxonomy of Button Types, Sub-types, Shapes, Design Systems, and Motion Effects.
-            Expand any category below to browse variants, copy clean code with 1-click, or edit live on stage.
+            Categorized Taxonomy of 30+ Button Types, Sub-types, Shapes, Design Systems, and Motion Effects.
+            Click any category below to expand, use <span className="text-indigo-400 font-semibold">[Quick Edit]</span> for live CSS tweaks, or <span className="text-pink-400 font-semibold">[Full Sandbox]</span> for fullscreen IDE.
           </p>
         </header>
 
         {/* Categories SILO Hierarchy */}
         {buttonCategories.map((cat) => (
-          <section key={cat.id} className="mb-10 bg-slate-900/30 border border-slate-800/80 rounded-2xl overflow-hidden shadow-xl">
+          <section key={cat.id} className="mb-8 bg-slate-900/30 border border-slate-800/80 rounded-2xl overflow-hidden shadow-xl">
             
-            {/* Level 1: Category Header (Collapsible) */}
+            {/* Level 1: Category Header (Collapsible - Shrinked by Default) */}
             <button 
               onClick={() => toggleCat(cat.id)}
               className="w-full flex items-center justify-between p-5 bg-[#141724] hover:bg-[#1a1f30] transition-colors border-b border-slate-800 text-left font-bold text-xl text-slate-100"
@@ -52,10 +54,10 @@ export default function ButtonLibraryDemo() {
                 {cat.name}
               </span>
               <div className="flex items-center space-x-3">
-                <span className="text-xs font-mono text-slate-500 bg-slate-800 px-3 py-1 rounded-full border border-slate-700">
+                <span className="text-xs font-mono text-slate-400 bg-slate-800 px-3 py-1 rounded-full border border-slate-700">
                   {cat.subcategories.reduce((acc, sub) => acc + sub.buttons.length, 0)} Variants
                 </span>
-                {expandedCat[cat.id] ? <ChevronDown className="w-5 h-5 text-slate-400" /> : <ChevronRight className="w-5 h-5 text-slate-400" />}
+                {expandedCat[cat.id] ? <ChevronDown className="w-5 h-5 text-indigo-400" /> : <ChevronRight className="w-5 h-5 text-slate-400" />}
               </div>
             </button>
 
@@ -63,7 +65,7 @@ export default function ButtonLibraryDemo() {
             {expandedCat[cat.id] && (
               <div className="p-6 space-y-10">
                 {cat.subcategories.map((sub, subIdx) => {
-                  const isSubOpen = expandedSubCat[sub.name] !== false; // open by default
+                  const isSubOpen = expandedSubCat[sub.name] !== false; // open by default when parent expanded
                   
                   return (
                     <div key={subIdx} className="space-y-6">

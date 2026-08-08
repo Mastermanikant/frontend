@@ -1,4 +1,4 @@
-// Comprehensive Structured Button Library Database
+// Comprehensive 30+ Button Taxonomy Database
 
 export const globalKeyframes = `
 @keyframes gradientShift {
@@ -22,9 +22,18 @@ export const globalKeyframes = `
   to { transform: rotate(360deg); }
 }
 
-@keyframes neonBorder {
-  0%, 100% { border-color: #ec4899; box-shadow: 0 0 10px #ec4899; }
-  50% { border-color: #3b82f6; box-shadow: 0 0 10px #3b82f6; }
+@keyframes neonBorderPulse {
+  0%, 100% { border-color: #ec4899; box-shadow: 0 0 15px #ec4899; }
+  50% { border-color: #3b82f6; box-shadow: 0 0 15px #3b82f6; }
+}
+
+@keyframes glitchAnim {
+  0% { transform: translate(0); }
+  20% { transform: translate(-2px, 2px); }
+  40% { transform: translate(-2px, -2px); }
+  60% { transform: translate(2px, 2px); }
+  80% { transform: translate(2px, -2px); }
+  100% { transform: translate(0); }
 }
 `;
 
@@ -57,9 +66,28 @@ export const buttonCategories = [
   background: #4338ca;
   transform: translateY(-2px);
   box-shadow: 0 6px 16px rgba(79, 70, 229, 0.4);
+}`
+          },
+          {
+            id: "btn-accent-emerald",
+            name: "Emerald Accent Button",
+            tags: ["Solid", "Accent", "Green"],
+            html: `<button class="btn-accent-emerald">Confirm Purchase</button>`,
+            css: `.btn-accent-emerald {
+  background: #10b981;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 600;
+  padding: 12px 28px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
 }
-.btn-primary-solid:active {
-  transform: translateY(0);
+.btn-accent-emerald:hover {
+  background: #059669;
+  transform: translateY(-2px);
 }`
           },
           {
@@ -82,7 +110,6 @@ export const buttonCategories = [
 .btn-pill-solid:hover {
   background: #0891b2;
   transform: scale(1.04);
-  box-shadow: 0 6px 20px rgba(6, 182, 212, 0.5);
 }`
           },
           {
@@ -135,6 +162,34 @@ export const buttonCategories = [
 }`
           },
           {
+            id: "btn-gradient-border",
+            name: "Gradient Border Outline",
+            tags: ["Gradient", "Border", "Outline"],
+            html: `<button class="btn-gradient-border"><span class="inner">Gradient Outline</span></button>`,
+            css: `.btn-gradient-border {
+  paddings: 2px;
+  background: linear-gradient(135deg, #ec4899, #8b5cf6, #3b82f6);
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  display: inline-block;
+  padding: 2px;
+}
+.btn-gradient-border .inner {
+  background: #0f172a;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 12px 24px;
+  border-radius: 8px;
+  display: block;
+  transition: background 0.2s ease;
+}
+.btn-gradient-border:hover .inner {
+  background: transparent;
+}`
+          },
+          {
             id: "btn-ghost-minimal",
             name: "Subtle Ghost Button",
             tags: ["Ghost", "Subtle", "Text"],
@@ -156,6 +211,62 @@ export const buttonCategories = [
 }`
           }
         ]
+      },
+      {
+        name: "Icon & Combo Buttons",
+        buttons: [
+          {
+            id: "btn-icon-label",
+            name: "Icon + Label Button",
+            tags: ["Icon", "Label", "Flex"],
+            html: `<button class="btn-icon-label"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg> Continue Next</button>`,
+            css: `.btn-icon-label {
+  background: #3b82f6;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 12px 24px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+}
+.btn-icon-label .icon {
+  width: 18px;
+  height: 18px;
+  transition: transform 0.2s ease;
+}
+.btn-icon-label:hover .icon {
+  transform: translateX(4px);
+}`
+          },
+          {
+            id: "btn-circle-icon",
+            name: "Circular Action Icon",
+            tags: ["Circle", "Icon-Only", "Action"],
+            html: `<button class="btn-circle-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M12 5v14M5 12h14"/></svg></button>`,
+            css: `.btn-circle-icon {
+  width: 48px;
+  height: 48px;
+  background: #6366f1;
+  color: #ffffff;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 14px rgba(99, 102, 241, 0.4);
+  transition: all 0.2s ease;
+}
+.btn-circle-icon:hover {
+  transform: rotate(90deg) scale(1.1);
+}`
+          }
+        ]
       }
     ]
   },
@@ -172,7 +283,7 @@ export const buttonCategories = [
             tags: ["Glassmorphism", "Blur", "Modern"],
             html: `<button class="btn-glassmorphism">Glass Studio</button>`,
             css: `.btn-glassmorphism {
-  background: rgba(255, 255, 255, 0.07);
+  background: rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   color: #ffffff;
@@ -180,14 +291,14 @@ export const buttonCategories = [
   font-weight: 600;
   padding: 14px 32px;
   border-radius: 14px;
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   cursor: pointer;
   transition: all 0.3s ease;
   box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
 }
 .btn-glassmorphism:hover {
-  background: rgba(255, 255, 255, 0.15);
-  border-color: rgba(255, 255, 255, 0.35);
+  background: rgba(255, 255, 255, 0.16);
+  border-color: rgba(255, 255, 255, 0.4);
   transform: translateY(-2px);
 }`
           },
@@ -210,6 +321,27 @@ export const buttonCategories = [
 }
 .btn-neumorphism-dark:active {
   box-shadow: inset 4px 4px 8px #151924, inset -4px -4px 8px #272f42;
+}`
+          },
+          {
+            id: "btn-neumorphism-light",
+            name: "Neumorphic Soft Light",
+            tags: ["Neumorphism", "Light", "Soft"],
+            html: `<button class="btn-neumorphism-light">Soft Button</button>`,
+            css: `.btn-neumorphism-light {
+  background: #e0e5ec;
+  color: #334155;
+  font-size: 15px;
+  font-weight: 700;
+  padding: 14px 30px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 6px 6px 12px #a3b1c6, -6px -6px 12px #ffffff;
+  transition: all 0.2s ease;
+}
+.btn-neumorphism-light:active {
+  box-shadow: inset 4px 4px 8px #a3b1c6, inset -4px -4px 8px #ffffff;
 }`
           }
         ]
@@ -267,6 +399,28 @@ export const buttonCategories = [
 .btn-3d-elevated:active {
   top: 4px;
   box-shadow: 0 2px 0 #047857, 0 4px 10px rgba(0,0,0,0.3);
+}`
+          },
+          {
+            id: "btn-retro-synthwave",
+            name: "Synthwave Retro 80s",
+            tags: ["Retro", "Synthwave", "Purple"],
+            html: `<button class="btn-retro-synthwave">SYNTHWAVE</button>`,
+            css: `.btn-retro-synthwave {
+  background: linear-gradient(180deg, #d946ef 0%, #8b5cf6 100%);
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 3px;
+  padding: 14px 30px;
+  border-radius: 6px;
+  border: 2px solid #f472b6;
+  box-shadow: 0 4px 0 #7e22ce, 0 0 20px rgba(217, 70, 239, 0.6);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.btn-retro-synthwave:hover {
+  filter: brightness(1.2);
 }`
           }
         ]
@@ -348,6 +502,26 @@ export const buttonCategories = [
   cursor: pointer;
   animation: pulseGlow 2s infinite;
 }`
+          },
+          {
+            id: "btn-glitch-text",
+            name: "Glitch Effect Motion",
+            tags: ["Glitch", "Cyber", "Motion"],
+            html: `<button class="btn-glitch-text">GLITCH_ME</button>`,
+            css: `.btn-glitch-text {
+  background: #18181b;
+  color: #22c55e;
+  font-size: 14px;
+  font-weight: 800;
+  padding: 12px 28px;
+  border: 1px solid #22c55e;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.btn-glitch-text:hover {
+  animation: glitchAnim 0.3s infinite;
+  box-shadow: 0 0 12px rgba(34, 197, 94, 0.6);
+}`
           }
         ]
       }
@@ -355,7 +529,7 @@ export const buttonCategories = [
   },
   {
     id: "states",
-    name: "04. Feedback & Action States",
+    name: "04. Feedback, Social & Action States",
     subcategories: [
       {
         name: "Loading & Toggles",
@@ -416,6 +590,57 @@ export const buttonCategories = [
 }
 .btn-toggle-switch.active .knob {
   transform: translateX(28px);
+}`
+          }
+        ]
+      },
+      {
+        name: "Social Brands & Integrations",
+        buttons: [
+          {
+            id: "btn-github-brand",
+            name: "GitHub Dark Button",
+            tags: ["Social", "GitHub", "Brand"],
+            html: `<button class="btn-github-brand"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg> Continue with GitHub</button>`,
+            css: `.btn-github-brand {
+  background: #24292e;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 12px 24px;
+  border-radius: 8px;
+  border: 1px solid #444d56;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  transition: background 0.2s ease;
+}
+.btn-github-brand:hover {
+  background: #2f363d;
+}`
+          },
+          {
+            id: "btn-discord-brand",
+            name: "Discord Purple Button",
+            tags: ["Social", "Discord", "Brand"],
+            html: `<button class="btn-discord-brand"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 00-4.885-1.515.074.074 0 00-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 00-5.487 0 12.64 12.64 0 00-.617-1.25.077.077 0 00-.079-.037A19.736 19.736 0 003.677 4.37a.07.07 0 00-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 00.031.057 19.9 19.9 0 005.993 3.03.078.078 0 00.084-.028c.462-.63.874-1.295 1.226-1.994.021-.041.001-.09-.041-.106a13.107 13.107 0 01-1.872-.892.077.077 0 01-.008-.128 10.2 10.2 0 00.372-.292.074.074 0 01.077-.01c3.928 1.793 8.18 1.793 12.061 0a.074.074 0 01.078.01c.12.098.246.198.373.292a.077.077 0 01-.006.127 12.299 12.299 0 01-1.873.892.077.077 0 00-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 00.084.028 19.839 19.839 0 006.002-3.03.077.077 0 00.032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 00-.031-.028zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg> Join Discord</button>`,
+            css: `.btn-discord-brand {
+  background: #5865f2;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 12px 24px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  transition: background 0.2s ease;
+}
+.btn-discord-brand:hover {
+  background: #4752c4;
 }`
           }
         ]
