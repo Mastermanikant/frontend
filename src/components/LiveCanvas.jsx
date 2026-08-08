@@ -350,6 +350,86 @@ export default function LiveCanvas({ componentId, style, animKey }) {
         🔒 Pay Securely — ₹2,499
       </button>
     );
+    if (id === 'btn-shimmer-gold') return (
+      <button style={{ borderRadius: r, background:'linear-gradient(135deg, #eab308, #ca8a04, #fef08a)', color:'#422006', boxShadow:'0 4px 25px rgba(234,179,8,0.5)' }}
+        className="px-7 py-3 font-black text-sm shiny-btn hover:scale-105 transition-all">
+        👑 VIP Gold Pass
+      </button>
+    );
+    if (id === 'btn-holographic') return (
+      <button style={{ borderRadius: r, background:'linear-gradient(135deg, #3b82f6, #ec4899, #10b981, #f59e0b)', color:'#fff', boxShadow:'0 8px 30px rgba(236,72,153,0.4)' }}
+        className="px-7 py-3 font-black text-sm animate-gradient bg-[length:300%] hover:scale-105 transition-all">
+        💿 Holographic Foil
+      </button>
+    );
+    if (id === 'btn-matrix-code') return (
+      <button style={{ borderRadius: 0, background:'#022c22', color:'#22c55e', border:'1px solid #10b981', fontFamily:'monospace', boxShadow:'0 0 15px rgba(16,185,129,0.4)' }}
+        className="px-6 py-3 font-bold text-xs uppercase tracking-widest hover:bg-emerald-950 transition-all">
+        &gt; EXECUTE_CODE_
+      </button>
+    );
+    if (id === 'btn-skeuomorphic') return (
+      <button style={{ borderRadius: r, background:'linear-gradient(180deg, #475569 0%, #1e293b 50%, #0f172a 100%)', color:'#f8fafc', border:'1px solid #64748b', boxShadow:'inset 0 1px 0 rgba(255,255,255,0.4), 0 4px 10px rgba(0,0,0,0.5)' }}
+        className="px-7 py-3 font-bold text-sm active:translate-y-0.5 transition-all">
+        Gloss Skeuomorph
+      </button>
+    );
+    if (id === 'btn-micro-badge') return (
+      <div className="relative">
+        <button style={{ borderRadius: r, background:`linear-gradient(135deg,${style.bgColor1},${style.bgColor2})`, color: style.textColor, boxShadow: glowShadow }}
+          className="px-6 py-3 font-bold text-sm">
+          Notifications
+        </button>
+        <span className="absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full bg-red-500 text-white font-black text-[9px] flex items-center justify-center animate-pulse border-2 border-slate-950">
+          3
+        </span>
+      </div>
+    );
+    if (id === 'btn-floating-dock') return (
+      <button style={{ borderRadius:'9999px', background:'rgba(15,23,42,0.85)', backdropFilter:'blur(20px)', border:'1px solid rgba(255,255,255,0.15)', color: style.bgColor1, boxShadow: glowShadow }}
+        className="px-8 py-3 font-bold text-sm flex items-center gap-2 hover:-translate-y-1 hover:shadow-2xl transition-all">
+        ✦ Floating Action Pill
+      </button>
+    );
+    if (id === 'btn-neon-cyber-ring') return (
+      <div className="p-1 rounded-full bg-gradient-to-r from-cyan-400 via-pink-500 to-purple-600 animate-gradient">
+        <button style={{ borderRadius:'9999px', background:'#080c14', color:'#fff' }}
+          className="px-7 py-3 font-bold text-sm">
+          Cyber Neon Ring
+        </button>
+      </div>
+    );
+    if (id === 'btn-glass-pill') return (
+      <button style={{ borderRadius:'9999px', background:'rgba(255,255,255,0.1)', backdropFilter:'blur(20px)', border:'1px solid rgba(255,255,255,0.3)', color: style.textColor, boxShadow: glowShadow }}
+        className="px-8 py-3 font-bold text-sm hover:bg-white/20 transition-all">
+        Frosted Glass Pill 🍷
+      </button>
+    );
+    if (id === 'btn-gradient-sweep-dark') return (
+      <button style={{ borderRadius: r, background:'#0f172a', color:'#e2e8f0', border:'1px solid #334155' }}
+        className="px-7 py-3 font-bold text-sm shiny-btn hover:border-cyan-500 transition-all">
+        Dark Velvet Sweep ✨
+      </button>
+    );
+    if (id === 'btn-glow-outline-pill') return (
+      <button style={{ borderRadius:'9999px', border:`2px solid ${style.bgColor1}`, color: style.bgColor1, background:'transparent', boxShadow:`0 0 20px ${style.bgColor1}44` }}
+        className="px-8 py-3 font-bold text-sm hover:bg-cyan-500/10 transition-all">
+        Pill Cyan Glow 🌟
+      </button>
+    );
+    if (id === 'btn-3d-arcade') return (
+      <button style={{ borderRadius: 8, background:'#ef4444', color:'#fff', borderBottom:'6px solid #b91c1c', borderLeft:'2px solid #f87171', borderRight:'2px solid #b91c1c' }}
+        className="px-7 py-3 font-black text-sm uppercase tracking-wider active:translate-y-1 active:border-b-[2px] transition-all">
+        P1 PRESS START 🎮
+      </button>
+    );
+    if (id === 'btn-liquid-morph') return (
+      <button style={{ borderRadius:'24px', background:`linear-gradient(135deg,${style.bgColor1},${style.bgColor2})`, color: style.textColor }}
+        className="px-8 py-3 font-bold text-sm hover:rounded-full hover:scale-110 transition-all duration-500">
+        💧 Liquid Morph Blob
+      </button>
+    );
+
 
     // ── CARDS ──────────────────────────────────────────────────────────────────
     if (id === 'card-profile') return (

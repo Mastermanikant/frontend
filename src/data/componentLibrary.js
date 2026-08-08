@@ -5,12 +5,12 @@
 // ============================================================
 
 export const CATEGORIES = [
-  { id: 'buttons',     label: 'Buttons',     emoji: '🔘', count: 40 },
+  { id: 'buttons',     label: 'Buttons',     emoji: '🔘', count: 52 },
   { id: 'cards',       label: 'Cards',       emoji: '🃏', count: 18 },
   { id: 'inputs',      label: 'Inputs',      emoji: '✏️', count: 14 },
   { id: 'navigation',  label: 'Navigation',  emoji: '🧭', count: 12 },
   { id: 'text',        label: 'Text FX',     emoji: '✨', count: 10 },
-  { id: 'backgrounds', label: 'Backgrounds', emoji: '🎨', count: 10 },
+  { id: 'backgrounds', label: 'Backgrounds', emoji: '🎨', count: 20 },
   { id: 'animations',  label: 'Animations',  emoji: '🎬', count: 10 },
   { id: 'layouts',     label: 'Layouts',     emoji: '📐', count: 8  },
   { id: 'feedback',    label: 'Feedback',    emoji: '🔔', count: 8  },
@@ -58,6 +58,19 @@ export const COMPONENTS = [
   { id: 'btn-icon-right',    category: 'buttons', name: 'Icon + Text Right',     effects: ['Arrow Icon Right','Hover Arrow Slide','CTA Style'],        demoType: 'btn-icon-right',    aiPrompt: 'Design a CTA button with a right-arrow icon that slides right by 4px on hover using transform translateX transition.' },
   { id: 'btn-split',         category: 'buttons', name: 'Split Dropdown Button', effects: ['Flex Group','Divider Line','Dropdown Arrow'],              demoType: 'btn-split',         aiPrompt: 'Build a split button component with a main action area and a dropdown arrow section divided by a vertical separator.' },
   { id: 'btn-payment',       category: 'buttons', name: 'Payment / Checkout',    effects: ['Lock Icon','Secure Badge','Strong CTA Style'],             demoType: 'btn-payment',       aiPrompt: 'Create a payment/checkout button with a lock security icon, strong bold CTA text, and a trust-building visual style.' },
+  { id: 'btn-shimmer-gold',  category: 'buttons', name: 'Shimmer Gold VIP',      effects: ['Gold Metallic Gradient','Shimmer Keyframe','VIP Glow'],    demoType: 'btn-shimmer-gold',  aiPrompt: 'Design a VIP metallic gold button with continuous shimmer sweep and warm ambient glow.' },
+  { id: 'btn-holographic',   category: 'buttons', name: 'Holographic Foil',     effects: ['Prism Angle Shifting','Multi-Tone Gradient','Glass Overlay'],demoType:'btn-holographic',  aiPrompt: 'Build a holographic foil button with iridescent color shifts on hover.' },
+  { id: 'btn-matrix-code',   category: 'buttons', name: 'Matrix Terminal Code',  effects: ['Emerald Neon Text','Code Border','Glitch Scanline'],       demoType: 'btn-matrix-code',   aiPrompt: 'Create a hacker/matrix dark terminal button with glowing emerald green code font.' },
+  { id: 'btn-skeuomorphic',  category: 'buttons', name: 'Classic Skeuomorph Gloss',effects:['Top Gloss Light','Bevel Emboss Border','Tactile Texture'],demoType:'btn-skeuomorphic',  aiPrompt: 'Design a retro skeuomorphic gloss button with top gradient highlight, heavy bevelled borders and tactile feel.' },
+  { id: 'btn-micro-badge',   category: 'buttons', name: 'Micro Badge Pill Button',effects:['Notification Badge','Dot Pulse','Compact Padding'],        demoType: 'btn-micro-badge',   aiPrompt: 'Build a button with an integrated live notification badge dot pulsing at top-right.' },
+  { id: 'btn-floating-dock', category: 'buttons', name: 'Floating Bar Action',   effects: ['Dock Float Elevation','Backdrop Blur','Spring Hover'],    demoType: 'btn-floating-dock', aiPrompt: 'Create a floating dock style action button with glass backdrop blur and spring lift.' },
+  { id: 'btn-neon-cyber-ring',category:'buttons', name: 'Neon Cyber Ring',       effects: ['Outer Glow Ring','Cyberpunk Accent','Laser Dash'],         demoType: 'btn-neon-cyber-ring',aiPrompt: 'Design a neon cyber ring button with animated glowing outline ring.' },
+  { id: 'btn-glass-pill',    category: 'buttons', name: 'Frosted Glass Pill CTA',effects:['Backdrop Blur 20px','White Stroke','Translucent Tint'],    demoType: 'btn-glass-pill',    aiPrompt: 'Build a capsule pill CTA in frosted glassmorphism with 20px blur and crisp white stroke.' },
+  { id: 'btn-gradient-sweep-dark',category:'buttons',name:'Dark Velvet Sweep',  effects: ['Dark Slate Surface','Indigo Linear Sweep','Subtle Sparkle'],demoType:'btn-gradient-sweep-dark',aiPrompt: 'Create a dark luxury button with an elegant indigo light sweep.' },
+  { id: 'btn-glow-outline-pill',category:'buttons',name:'Pill Outline Cyan Glow',effects:['Cyan Outline','Neon Pulse','Rounded 9999px'],           demoType: 'btn-glow-outline-pill',aiPrompt: 'Design a fully rounded pill outline button with reactive cyan glow.' },
+  { id: 'btn-3d-arcade',    category: 'buttons', name: 'Retro 3D Arcade Push',  effects: ['Arcade Bevel Bottom','Active Push Down','Bold Retro Font'],demoType: 'btn-3d-arcade',    aiPrompt: 'Build a retro 3D arcade button that depresses by 4px on click with satisfying press feel.' },
+  { id: 'btn-liquid-morph', category: 'buttons', name: 'Liquid Morph Blob',     effects: ['SVG Filter Liquid','Blob Morph','Spring Elastic'],         demoType: 'btn-liquid-morph',  aiPrompt: 'Create a liquid morphing blob button using CSS SVG goo filter effects.' },
+
 
   // ── CARDS ────────────────────────────────────────────────
   { id: 'card-profile',    category: 'cards', name: 'Profile Card',       effects: ['Avatar Circle','Name + Role','Social Links'],          demoType: 'card-profile',    aiPrompt: 'Create a profile card with circular avatar, name, role title, social links row, and subtle border with hover elevation.' },

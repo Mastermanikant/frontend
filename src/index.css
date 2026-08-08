@@ -33,7 +33,7 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Background Theme Presets */
+/* Background Theme Presets (20 Live Themes) */
 .bg-theme-aurora {
   background: radial-gradient(circle at 20% 20%, rgba(0, 242, 254, 0.25), transparent 40%),
               radial-gradient(circle at 80% 80%, rgba(255, 42, 133, 0.25), transparent 40%),
@@ -63,6 +63,66 @@ body {
 .bg-theme-neumorphism {
   background: #1a1d24;
 }
+
+.bg-theme-hyperdrive {
+  background: radial-gradient(circle at 50% 50%, #1e1b4b 0%, #020617 100%);
+}
+
+.bg-theme-matrix {
+  background: radial-gradient(ellipse at top, #022c22 0%, #020617 100%);
+}
+
+.bg-theme-sunset {
+  background: linear-gradient(180deg, #311042 0%, #701a75 40%, #831843 70%, #090d16 100%);
+}
+
+.bg-theme-emerald {
+  background: radial-gradient(circle at 70% 30%, rgba(16, 185, 129, 0.25), transparent 50%), #022c22;
+}
+
+.bg-theme-oled {
+  background: #000000;
+}
+
+.bg-theme-prism {
+  background: linear-gradient(135deg, #0f172a 0%, #172554 30%, #3b0764 60%, #4c0519 100%);
+}
+
+.bg-theme-cosmic {
+  background: radial-gradient(circle at 30% 70%, #581c87 0%, #1e1b4b 50%, #090d16 100%);
+}
+
+.bg-theme-blueprint {
+  background-color: #030712;
+  background-image: linear-gradient(rgba(56, 189, 248, 0.1) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(56, 189, 248, 0.1) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+.bg-theme-holographic {
+  background: linear-gradient(135deg, #1e293b 0%, #1e1b4b 25%, #4c0519 50%, #064e3b 75%, #0f172a 100%);
+}
+
+.bg-theme-lava {
+  background: radial-gradient(circle at 50% 80%, rgba(239, 68, 68, 0.3), transparent 60%), #180505;
+}
+
+.bg-theme-midnight {
+  background: linear-gradient(180deg, #030712 0%, #0f172a 50%, #020617 100%);
+}
+
+.bg-theme-toxic {
+  background: radial-gradient(circle at 20% 80%, rgba(132, 204, 22, 0.25), transparent 50%), #051403;
+}
+
+.bg-theme-vaporwave {
+  background: linear-gradient(135deg, #2e1065 0%, #701a75 50%, #06b6d4 100%);
+}
+
+.bg-theme-golden {
+  background: radial-gradient(circle at 50% 30%, rgba(234, 179, 8, 0.2), transparent 50%), #0c0a09;
+}
+
 
 /* Shrink Effect Canvas Container */
 .main-wrapper {
