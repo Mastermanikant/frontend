@@ -1,9 +1,9 @@
 import React, { useState, useMemo } from 'react';
 import GlobalSearchBar from './GlobalSearchBar';
 import BreadcrumbNav from './BreadcrumbNav';
-import TryItCodeSandbox from './TryItCodeSandbox';
+import InteractiveSandboxModal from './InteractiveSandboxModal';
 import { frontendKnowledgeGraph } from '../data/frontendKnowledgeGraph';
-import { BookOpen, Code, Lightbulb, Terminal, Zap, Compass, ChevronDown, ChevronRight, Layers, Layout, Palette, Code2, PanelLeftClose, PanelLeftOpen } from 'lucide-react';
+import { BookOpen, Code, Lightbulb, Terminal, Zap, Compass, ChevronDown, ChevronRight, Layers, Layout, Palette, Code2, PanelLeftClose, PanelLeftOpen, Play } from 'lucide-react';
 import { useCanvas } from '../context/CanvasContext';
 
 // Import Canvas Studio components to preserve & integrate them
@@ -20,7 +20,7 @@ export default function FrontendKnowledgeHub() {
   // Hub States
   const [activeCategory, setActiveCategory] = useState('HTML');
   const [activeSubcategory, setActiveSubcategory] = useState(null);
-  const [activeTerm, setActiveTerm] = useState(null);
+  const [sandboxData, setSandboxData] = useState(null);
   const [expandedCategories, setExpandedCategories] = useState({ HTML: true });
   
   // View State: 'encyclopedia' | 'canvas'
@@ -47,7 +47,6 @@ export default function FrontendKnowledgeHub() {
 
   const toggleCategory = (cat) => {
     setActiveCategory(cat);
-    setActiveTerm(null); // Show the category overview grid!
     setExpandedCategories(prev => ({ ...prev, [cat]: true }));
   };
 
@@ -59,16 +58,17 @@ export default function FrontendKnowledgeHub() {
     setMainView('encyclopedia');
     setActiveCategory(termItem.category);
     setActiveSubcategory(termItem.subcategory);
-    setActiveTerm(termItem);
     setExpandedCategories(prev => ({ ...prev, [termItem.category]: true }));
+    
+    // Auto-open Sandbox for the selected term!
+    const templates = getSandboxTemplates(termItem);
+    setSandboxData({
+      name: termItem.term,
+      html: templates.html,
+      css: templates.css,
+      js: templates.js
+    });
   };
-
-  // Only show a specific term if it was explicitly clicked. Otherwise show the category overview.
-  const displayTerm = activeTerm;
-
-  const breadcrumbPath = displayTerm 
-    ? [displayTerm.category, displayTerm.subcategory, displayTerm.term]
-    : [activeCategory];
 
   // Helper to generate sandbox templates based on category
   const getSandboxTemplates = (term) => {
@@ -177,7 +177,7 @@ export default function FrontendKnowledgeHub() {
                               <li key={item.id}>
                                 <button 
                                   onClick={() => selectTerm(item)}
-                                  className={`w-full text-left px-3 py-1.5 rounded-md text-sm transition-all truncate ${activeTerm?.id === item.id ? 'bg-indigo-500/20 text-indigo-300 border-l-2 border-indigo-500' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800 border-l-2 border-transparent'}`}
+                                  className={`w-full text-left px-3 py-1.5 rounded-md text-sm transition-all truncate text-slate-400 hover:text-slate-200 hover:bg-slate-800 border-l-2 border-transparent`}
                                 >
                                   {item.term}
                                 </button>
@@ -233,45 +233,8 @@ export default function FrontendKnowledgeHub() {
           {mainView === 'buttons' ? (
             <ButtonLibraryDemo />
           ) : mainView === 'encyclopedia' ? (
-            displayTerm ? (
-              <div className="h-full flex flex-col p-6 lg:p-8 overflow-y-auto custom-scrollbar">
-                <div className="mb-6 shrink-0"><BreadcrumbNav path={breadcrumbPath} /></div>
-                <div className="max-w-5xl w-full mx-auto flex-1 flex flex-col">
-                  <div className="bg-slate-800/30 border border-slate-700/50 rounded-2xl p-6 mb-6 shadow-xl backdrop-blur-sm shrink-0">
-                    <div className="flex justify-between items-start mb-4">
-                      <div className="inline-flex items-center px-3 py-1 rounded-full bg-slate-800 border border-slate-700 text-xs font-mono text-slate-400">
-                        ID: {displayTerm.id} | TYPE: {displayTerm.category.toUpperCase()}
-                      </div>
-                      <button onClick={() => setActiveTerm(null)} className="text-slate-400 hover:text-white text-sm flex items-center px-3 py-1 bg-slate-800 rounded-lg">
-                        Back to {activeCategory}
-                      </button>
-                    </div>
-                    <h1 className="text-3xl font-extrabold text-white tracking-tight mb-4">{displayTerm.term}</h1>
-                    <p className="text-base text-slate-300 leading-relaxed max-w-3xl">
-                      {displayTerm.definition}
-                    </p>
-                  </div>
-                  
-                  <div className="flex items-center justify-between mb-4 shrink-0">
-                    <h3 className="text-lg font-bold text-white flex items-center">
-                      <Terminal className="w-5 h-5 mr-2 text-indigo-400" /> Interactive Sandbox (Optional)
-                    </h3>
-                    <span className="text-xs text-slate-500 bg-slate-800 px-2 py-1 rounded font-mono">0ms Sandboxed HTML5</span>
-                  </div>
-                  
-                  <div className="flex-1 min-h-[500px]">
-                    <TryItCodeSandbox 
-                      key={displayTerm.id}
-                      initialHtml={templates.html}
-                      initialCss={templates.css}
-                      initialJs={templates.js}
-                    />
-                  </div>
-                </div>
-              </div>
-            ) : (
-              <div className="h-full flex flex-col p-6 lg:p-10 overflow-y-auto custom-scrollbar">
-                <div className="mb-10">
+              <div className="h-full flex flex-col p-6 lg:p-10 overflow-y-auto custom-scrollbar relative">
+                <div className="mb-10 shrink-0">
                   <h1 className="text-4xl font-extrabold text-white mb-3 flex items-center">
                     {activeCategory === 'HTML' && <Code className="w-8 h-8 mr-3 text-orange-500" />}
                     {activeCategory === 'CSS' && <Lightbulb className="w-8 h-8 mr-3 text-blue-500" />}
@@ -284,7 +247,7 @@ export default function FrontendKnowledgeHub() {
                 </div>
                 
                 {tree[activeCategory] ? Object.keys(tree[activeCategory]).map(subCat => (
-                  <div key={subCat} className="mb-12">
+                  <div key={subCat} className="mb-12 shrink-0">
                     <h2 className="text-2xl font-bold text-slate-200 border-b border-slate-700/60 pb-3 mb-6 flex items-center">
                       {subCat}
                     </h2>
@@ -292,29 +255,34 @@ export default function FrontendKnowledgeHub() {
                       {tree[activeCategory][subCat].map(term => (
                         <div 
                           key={term.id} 
-                          onClick={() => selectTerm(term)}
-                          className="bg-slate-800/40 border border-slate-700 hover:border-indigo-500/50 rounded-xl p-5 cursor-pointer hover:bg-slate-800/80 transition-all group flex flex-col"
+                          className="bg-slate-800/40 border border-slate-700 hover:border-indigo-500/50 rounded-xl p-5 transition-all flex flex-col shadow-lg"
                         >
                           <div className="flex justify-between items-start mb-3">
-                            <h3 className="text-lg font-bold text-indigo-300 group-hover:text-indigo-400">{term.term}</h3>
-                            <span className="text-[10px] font-mono text-slate-500 bg-slate-900 px-2 py-1 rounded shrink-0 ml-2">{term.id}</span>
+                            <h3 className="text-xl font-bold text-indigo-300">{term.term}</h3>
+                            <span className="text-[10px] font-mono text-slate-500 bg-slate-900 px-2 py-1 rounded shrink-0 ml-2 border border-slate-700/50">ID:{term.id}</span>
                           </div>
-                          <p className="text-sm text-slate-400 line-clamp-3 mb-4 flex-1">{term.definition}</p>
-                          <div className="text-xs font-semibold text-indigo-400/80 group-hover:text-indigo-400 flex items-center mt-auto">
-                            View Details <ChevronRight className="w-3 h-3 ml-1" />
+                          
+                          <p className="text-sm text-slate-400 mb-6 flex-1">
+                            {term.definition}
+                          </p>
+
+                          <div className="mt-auto pt-4 border-t border-slate-700/50 flex justify-end">
+                            <button 
+                              onClick={() => selectTerm(term)}
+                              className="flex items-center space-x-1.5 px-4 py-2 bg-pink-500/10 hover:bg-pink-500/20 text-pink-400 rounded-lg text-sm font-semibold transition-colors border border-pink-500/20"
+                            >
+                              <Play className="w-4 h-4" />
+                              <span>Interactive Sandbox</span>
+                            </button>
                           </div>
                         </div>
                       ))}
                     </div>
                   </div>
                 )) : (
-                  <div className="text-slate-500 flex flex-col items-center justify-center py-20">
-                    <BookOpen className="w-16 h-16 mb-4 opacity-20" />
-                    <p className="text-lg">No terms found for this category.</p>
-                  </div>
+                  <div className="text-slate-500 text-center mt-20">No data available for this category yet.</div>
                 )}
               </div>
-            )
           ) : (
             /* Visual Canvas Studio Stage */
             <div className="flex flex-1 overflow-hidden relative bg-slate-950">

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { buttonLibraryData } from '../data/buttonLibraryData';
-import { Check, Copy, Code2, ChevronDown, ChevronUp, Play, X } from 'lucide-react';
+import { Check, Copy, Code2, ChevronDown, ChevronUp, Play } from 'lucide-react';
+import InteractiveSandboxModal from './InteractiveSandboxModal';
 
 export default function ButtonLibraryDemo() {
   const [copiedIndex, setCopiedIndex] = useState(null);
@@ -22,39 +23,6 @@ export default function ButtonLibraryDemo() {
   const openSandbox = (btn) => {
     setSandboxData({ name: btn.name, html: btn.html, css: btn.css });
   };
-
-  // Update iframe preview when sandbox data changes
-  useEffect(() => {
-    if (sandboxData) {
-      const srcDoc = `
-        <!DOCTYPE html>
-        <html>
-          <head>
-            <style>
-              body { 
-                margin: 0; 
-                display: flex; 
-                align-items: center; 
-                justify-content: center; 
-                min-height: 100vh; 
-                background: #0f111a; 
-                color: white; 
-                font-family: sans-serif;
-              }
-              ${sandboxData.css}
-            </style>
-          </head>
-          <body>
-            ${sandboxData.html}
-          </body>
-        </html>
-      `;
-      const blob = new Blob([srcDoc], { type: 'text/html' });
-      const url = URL.createObjectURL(blob);
-      setPreviewUrl(url);
-      return () => URL.revokeObjectURL(url);
-    }
-  }, [sandboxData?.html, sandboxData?.css]);
 
   return (
     <div className="bg-[#0f111a] min-h-screen text-slate-200 font-sans p-4 md:p-8 overflow-y-auto relative">
@@ -156,64 +124,10 @@ export default function ButtonLibraryDemo() {
 
       {/* Interactive Sandbox Modal */}
       {sandboxData && (
-        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-[#12141c] w-full max-w-6xl h-[85vh] rounded-2xl border border-slate-700 shadow-2xl flex flex-col overflow-hidden animate-in zoom-in-95 duration-200">
-            {/* Modal Header */}
-            <div className="flex justify-between items-center p-4 border-b border-slate-800 bg-[#0f111a]">
-              <h2 className="text-xl font-bold flex items-center text-white">
-                <Play className="w-5 h-5 mr-3 text-pink-500" /> 
-                Interactive Sandbox: <span className="text-indigo-400 ml-2">{sandboxData.name}</span>
-              </h2>
-              <button 
-                onClick={() => setSandboxData(null)}
-                className="p-2 hover:bg-slate-800 rounded-full transition-colors"
-              >
-                <X className="w-6 h-6 text-slate-400 hover:text-white" />
-              </button>
-            </div>
-
-            {/* Modal Body (Split Pane) */}
-            <div className="flex-1 flex flex-col lg:flex-row overflow-hidden">
-              
-              {/* Left Pane: Code Editors */}
-              <div className="w-full lg:w-1/2 flex flex-col border-r border-slate-800">
-                <div className="flex-1 flex flex-col p-4">
-                  <label className="text-xs font-bold text-slate-400 mb-2 uppercase tracking-wide">HTML (Editable)</label>
-                  <textarea 
-                    className="flex-1 w-full bg-[#0a0b10] border border-slate-800 rounded-lg p-4 text-sm font-mono text-orange-300 focus:outline-none focus:border-indigo-500 custom-scrollbar resize-none"
-                    value={sandboxData.html}
-                    onChange={(e) => setSandboxData({ ...sandboxData, html: e.target.value })}
-                  />
-                </div>
-                <div className="flex-1 flex flex-col p-4 border-t border-slate-800">
-                  <label className="text-xs font-bold text-slate-400 mb-2 uppercase tracking-wide">CSS (Editable)</label>
-                  <textarea 
-                    className="flex-1 w-full bg-[#0a0b10] border border-slate-800 rounded-lg p-4 text-sm font-mono text-blue-300 focus:outline-none focus:border-indigo-500 custom-scrollbar resize-none"
-                    value={sandboxData.css}
-                    onChange={(e) => setSandboxData({ ...sandboxData, css: e.target.value })}
-                  />
-                </div>
-              </div>
-
-              {/* Right Pane: Live Preview */}
-              <div className="w-full lg:w-1/2 bg-[#0f111a] flex flex-col relative">
-                <div className="p-3 border-b border-slate-800 bg-[#161925]">
-                  <span className="text-xs font-bold text-green-400 uppercase tracking-wide flex items-center">
-                    <span className="w-2 h-2 rounded-full bg-green-500 mr-2 animate-pulse"></span>
-                    Live Output
-                  </span>
-                </div>
-                <iframe 
-                  src={previewUrl}
-                  className="flex-1 w-full border-none bg-[#0f111a]"
-                  title="Live Preview"
-                  sandbox="allow-scripts allow-same-origin"
-                />
-              </div>
-
-            </div>
-          </div>
-        </div>
+        <InteractiveSandboxModal 
+          sandboxData={sandboxData} 
+          onClose={() => setSandboxData(null)} 
+        />
       )}
     </div>
   );
