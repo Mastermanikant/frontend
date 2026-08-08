@@ -92,6 +92,6 @@ $('.category').each((i, el) => {
   });
 });
 
-const output = `// Auto-generated from button_demo.html\nexport const buttonLibraryData = ${JSON.stringify(categories, null, 2)};\n`;
+const output = `// Auto-generated from button_demo.html\nexport const globalKeyframes = \`${keyframes.replace(/`/g, '\\`')}\`;\n\nexport const buttonLibraryData = ${JSON.stringify(categories, null, 2)};\n`;
 fs.writeFileSync('src/data/buttonLibraryData.js', output);
 console.log('Successfully generated src/data/buttonLibraryData.js');
