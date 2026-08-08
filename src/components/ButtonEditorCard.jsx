@@ -95,37 +95,39 @@ export default function ButtonEditorCard({ btn, openSandbox }) {
         {/* Title, Color Picker Controls & Main Action Bar */}
         <div className="flex flex-col gap-3 mb-3">
           
-          <div className="flex justify-between items-start">
+          <div className="flex justify-between items-center gap-2">
             {showMeta ? (
-              <div>
-                <h3 className="font-bold text-base text-slate-100 flex items-center">
-                  {btn.name}
-                  {isModified && <span className="ml-2 w-2 h-2 rounded-full bg-amber-400" title="Modified" />}
+              <div className="flex-1 min-w-0 pr-2">
+                <h3 className="font-bold text-base text-slate-100 truncate flex items-center">
+                  <span className="truncate">{btn.name}</span>
+                  {isModified && <span className="ml-2 w-2 h-2 shrink-0 rounded-full bg-amber-400" title="Modified" />}
                 </h3>
                 
                 {/* Tags */}
-                <div className="flex flex-wrap gap-1.5 mt-2">
-                  {btn.tags?.map((tag, i) => (
-                    <span key={i} className="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-800 text-slate-400 border border-slate-700/50">
+                <div className="flex flex-wrap gap-1.5 mt-1.5">
+                  {btn.tags?.slice(0, 3).map((tag, i) => (
+                    <span key={i} className="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-800 text-slate-400 border border-slate-700/50 truncate max-w-[100px]">
                       {tag}
                     </span>
                   ))}
                 </div>
               </div>
             ) : (
-              <span className="text-xs font-mono text-indigo-400 flex items-center">
-                [Focus CSS Mode] {btn.name}
-              </span>
+              <div className="flex items-center shrink-0">
+                <span className="text-[11px] font-mono text-indigo-400 font-semibold bg-indigo-500/10 px-2 py-1 rounded border border-indigo-500/20">
+                  [Focus Mode]
+                </span>
+              </div>
             )}
             
-            <div className="flex space-x-1.5 shrink-0 ml-2">
+            <div className="flex space-x-1.5 shrink-0">
               <button 
                 onClick={() => openSandbox({ name: btn.name, html: htmlCode, css: cssCode })}
                 className="flex items-center space-x-1 px-2.5 py-1.5 bg-pink-500/10 hover:bg-pink-500/20 text-pink-400 rounded-lg text-xs font-semibold transition-colors border border-pink-500/20"
                 title="Full Screen IDE Sandbox"
               >
                 <Play className="w-3.5 h-3.5" />
-                <span>Sandbox</span>
+                <span className="hidden sm:inline">Sandbox</span>
               </button>
 
               <button 
@@ -134,7 +136,7 @@ export default function ButtonEditorCard({ btn, openSandbox }) {
                 title="Quick inline HTML & CSS editor"
               >
                 <Code2 className="w-3.5 h-3.5" />
-                <span>{isExpanded ? 'Hide Editor' : 'Quick Edit'}</span>
+                <span>{isExpanded ? 'Hide' : 'Edit'}</span>
               </button>
 
               <button 
@@ -151,10 +153,10 @@ export default function ButtonEditorCard({ btn, openSandbox }) {
           {/* Color Picker & Preset Color Dropdown Bar */}
           <div className="flex items-center justify-between bg-slate-950 p-2 rounded-xl border border-slate-800/80">
             <span className="text-[11px] font-semibold text-slate-400 flex items-center">
-              <Palette className="w-3.5 h-3.5 mr-1.5 text-indigo-400" /> Live Color:
+              <Palette className="w-3.5 h-3.5 mr-1.5 text-indigo-400" /> Color:
             </span>
             
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-1.5">
               {/* Preset Color Swatches */}
               <div className="flex space-x-1">
                 {PRESET_COLORS.map((c) => (
@@ -169,15 +171,14 @@ export default function ButtonEditorCard({ btn, openSandbox }) {
               </div>
 
               {/* Native Color Picker Input */}
-              <div className="relative flex items-center ml-2 border-l border-slate-800 pl-2">
+              <div className="relative flex items-center border-l border-slate-800 pl-1.5">
                 <input 
                   type="color" 
                   value={selectedColor}
                   onChange={(e) => handleColorChange(e.target.value)}
-                  className="w-6 h-6 rounded cursor-pointer border-0 bg-transparent"
+                  className="w-5 h-5 rounded cursor-pointer border-0 bg-transparent"
                   title="Pick Custom HEX Color"
                 />
-                <span className="text-[10px] font-mono text-slate-400 ml-1.5 uppercase">{selectedColor}</span>
               </div>
             </div>
           </div>
@@ -186,17 +187,17 @@ export default function ButtonEditorCard({ btn, openSandbox }) {
 
         {/* Expandable Live Editor Drawer */}
         {isExpanded && (
-          <div className="mt-3 space-y-3 pt-3 border-t border-slate-800 animate-in fade-in slide-in-from-top-2 duration-200">
+          <div className="mt-2 space-y-3 pt-3 border-t border-slate-800 animate-in fade-in slide-in-from-top-2 duration-200">
             
             {/* Focus Sub-Controls */}
             <div className="flex items-center justify-between bg-slate-950 p-2 rounded-lg border border-slate-800/80 text-[11px] text-slate-400">
-              <span className="font-semibold text-slate-300">Editor Layout:</span>
+              <span className="font-semibold text-slate-300">Layout Focus:</span>
               <div className="flex space-x-2">
                 <button 
                   onClick={() => setShowMeta(!showMeta)} 
                   className={`px-2 py-0.5 rounded text-[10px] ${!showMeta ? 'bg-indigo-500/20 text-indigo-400 border border-indigo-500/30' : 'hover:bg-slate-800'}`}
                 >
-                  {showMeta ? 'Hide Title' : 'Show Title'}
+                  {showMeta ? 'Hide Header' : 'Show Header'}
                 </button>
                 <button 
                   onClick={() => setShowHtmlEditor(!showHtmlEditor)} 
@@ -253,7 +254,7 @@ export default function ButtonEditorCard({ btn, openSandbox }) {
 
             {/* Bottom Action Row */}
             <div className="flex justify-between items-center pt-2 border-t border-slate-800/60">
-              <span className="text-[10px] text-slate-500 italic">Changes reflect live in preview above</span>
+              <span className="text-[10px] text-slate-500 italic">Syncs 0ms live in preview above</span>
               <button 
                 onClick={handleCopy}
                 className="flex items-center space-x-1.5 px-3 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg text-xs font-semibold transition-colors shadow-lg"
