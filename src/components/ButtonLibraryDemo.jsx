@@ -1,9 +1,14 @@
 import React, { useState } from 'react';
 import { buttonLibraryData } from '../data/buttonLibraryData';
-import { Check, Copy } from 'lucide-react';
+import { Check, Copy, Code2, ChevronDown, ChevronUp } from 'lucide-react';
 
 export default function ButtonLibraryDemo() {
   const [copiedIndex, setCopiedIndex] = useState(null);
+  const [expandedCode, setExpandedCode] = useState({});
+
+  const toggleCode = (id) => {
+    setExpandedCode(prev => ({ ...prev, [id]: !prev[id] }));
+  };
 
   const handleCopy = (html, css, index) => {
     const fullCode = `<!-- HTML -->\n${html}\n\n/* CSS */\n${css}`;
@@ -34,45 +39,65 @@ export default function ButtonLibraryDemo() {
             <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-8">
               {category.buttons.map((btn, btnIdx) => {
                 const uniqueId = `${catIdx}-${btnIdx}`;
+                
+                // Safe CSS Scoping to avoid destroying values like .2s or double-prefixing
+                const scopedCss = btn.css
+                  .replace(/(^|\n|\})\s*button\s*\{/g, `$1 .btn-preview-${uniqueId} button {`)
+                  .replace(/(^|\n|\})\s*\.([a-zA-Z_-][a-zA-Z0-9_-]*)/g, `$1 .btn-preview-${uniqueId} .$2`);
+
                 return (
                   <div key={btnIdx} className="bg-[#161925] border border-slate-800 rounded-xl overflow-hidden flex flex-col shadow-xl">
                     
                     {/* Visual Preview Area */}
-                    <div className="p-8 bg-slate-900/50 flex flex-col items-center justify-center min-h-[140px] border-b border-slate-800 relative group">
-                       <style dangerouslySetInnerHTML={{__html: btn.css.replace(/button\s*\{/g, `.btn-preview-${uniqueId} button {`)
-                                                                        .replace(/\.([a-zA-Z0-9_-]+)/g, `.btn-preview-${uniqueId} .$1`)}} />
+                    <div className="p-8 bg-slate-900/50 flex flex-col items-center justify-center min-h-[160px] border-b border-slate-800 relative group">
+                       <style dangerouslySetInnerHTML={{__html: scopedCss}} />
                        <div className={`btn-preview-${uniqueId}`} dangerouslySetInnerHTML={{__html: btn.html}} />
                     </div>
 
                     {/* Meta & Code Area */}
                     <div className="p-5 flex-1 flex flex-col bg-[#12141c]">
-                      <div className="flex justify-between items-center mb-4">
+                      <div className="flex justify-between items-center">
                         <h3 className="font-bold text-lg text-indigo-300">{btn.name}</h3>
-                        <button 
-                          onClick={() => handleCopy(btn.html, btn.css, uniqueId)}
-                          className="flex items-center space-x-1.5 px-3 py-1.5 bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-400 rounded-lg text-xs font-semibold transition-colors border border-indigo-500/20"
-                        >
-                          {copiedIndex === uniqueId ? <Check className="w-4 h-4 text-green-400" /> : <Copy className="w-4 h-4" />}
-                          <span className={copiedIndex === uniqueId ? 'text-green-400' : ''}>
-                            {copiedIndex === uniqueId ? 'Copied!' : 'Copy Code'}
-                          </span>
-                        </button>
+                        
+                        <div className="flex space-x-2">
+                          <button 
+                            onClick={() => toggleCode(uniqueId)}
+                            className="flex items-center space-x-1.5 px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs font-semibold transition-colors border border-slate-700"
+                          >
+                            <Code2 className="w-4 h-4" />
+                            <span>{expandedCode[uniqueId] ? 'Hide Code' : 'View Code'}</span>
+                            {expandedCode[uniqueId] ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
+                          </button>
+
+                          <button 
+                            onClick={() => handleCopy(btn.html, btn.css, uniqueId)}
+                            className="flex items-center space-x-1.5 px-3 py-1.5 bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-400 rounded-lg text-xs font-semibold transition-colors border border-indigo-500/20"
+                          >
+                            {copiedIndex === uniqueId ? <Check className="w-4 h-4 text-green-400" /> : <Copy className="w-4 h-4" />}
+                            <span className={copiedIndex === uniqueId ? 'text-green-400' : ''}>
+                              {copiedIndex === uniqueId ? 'Copied!' : 'Copy'}
+                            </span>
+                          </button>
+                        </div>
                       </div>
 
-                      <div className="space-y-3">
-                        <div className="bg-[#0f111a] rounded-lg border border-slate-800/80 p-3 overflow-x-auto custom-scrollbar">
-                          <div className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-2">HTML</div>
-                          <pre className="text-xs text-orange-300 font-mono">
-                            <code>{btn.html}</code>
-                          </pre>
+                      {/* Expandable Code Section */}
+                      {expandedCode[uniqueId] && (
+                        <div className="mt-5 space-y-3 pt-4 border-t border-slate-800 animate-in fade-in slide-in-from-top-2 duration-200">
+                          <div className="bg-[#0f111a] rounded-lg border border-slate-800/80 p-3 overflow-x-auto custom-scrollbar">
+                            <div className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-2">HTML</div>
+                            <pre className="text-xs text-orange-300 font-mono">
+                              <code>{btn.html}</code>
+                            </pre>
+                          </div>
+                          <div className="bg-[#0f111a] rounded-lg border border-slate-800/80 p-3 overflow-x-auto custom-scrollbar max-h-48">
+                            <div className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-2">CSS</div>
+                            <pre className="text-xs text-blue-300 font-mono">
+                              <code>{btn.css}</code>
+                            </pre>
+                          </div>
                         </div>
-                        <div className="bg-[#0f111a] rounded-lg border border-slate-800/80 p-3 overflow-x-auto custom-scrollbar max-h-40">
-                          <div className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-2">CSS</div>
-                          <pre className="text-xs text-blue-300 font-mono">
-                            <code>{btn.css}</code>
-                          </pre>
-                        </div>
-                      </div>
+                      )}
                     </div>
 
                   </div>
