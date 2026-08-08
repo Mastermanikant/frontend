@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Layers as LayersIcon, BookOpen, ChevronDown, Palette, Layout, Undo2, Redo2, Sliders, Component, Layers, Smartphone, Tablet, Monitor, Download } from 'lucide-react';
+import { Layers as LayersIcon, BookOpen, ChevronDown, Palette, Layout, Undo2, Redo2, Sliders, Component, Layers, Smartphone, Tablet, Monitor, Download, Edit3, Eye } from 'lucide-react';
 import ComponentLibrary from './ComponentLibrary';
 import StyleControls from './StyleControls';
 import LiveCanvas from './LiveCanvas';
@@ -21,6 +21,8 @@ export default function CanvasStudio() {
     selectedElement,
     updateElement,
     addElement,
+    stageMode,
+    setStageMode,
     undo,
     redo,
     canUndo,
@@ -42,7 +44,7 @@ export default function CanvasStudio() {
     <div className={`bg-theme-${activeTheme} text-slate-100 h-screen max-h-screen flex flex-col font-sans selection:bg-cyan-500 selection:text-black relative overflow-hidden`}>
       <BackgroundCanvas theme={activeTheme} speed={0.6} density={40} glowIntensity={50} />
 
-      {/* ── TOP CLEAN HEADER (CANVA STYLE) ────────────────────────────────────────────────────── */}
+      {/* ── TOP CLEAN HEADER (CANVA DUAL MODE STYLE) ───────────────────────────────────────── */}
       <header className="sticky top-0 z-40 bg-slate-950/90 backdrop-blur-xl border-b border-slate-800 px-5 py-2 flex items-center justify-between shrink-0 h-[52px]">
         
         {/* Left Brand Identity */}
@@ -63,9 +65,39 @@ export default function CanvasStudio() {
           </div>
         </div>
 
-        {/* Center: Device Breakpoints & Undo/Redo */}
+        {/* Center: Stage Mode Switcher (Edit vs Live) & Responsive Breakpoints */}
         <div className="flex items-center gap-3">
           
+          {/* Dual Mode Switcher (Edit Mode vs Real Live Website Mode) */}
+          <div className="flex items-center bg-slate-900/90 p-1 rounded-xl border border-slate-800 text-[10px]">
+            <button
+              onClick={() => setStageMode('edit')}
+              className={`px-3 py-1 rounded-lg font-bold flex items-center gap-1.5 transition ${
+                stageMode === 'edit'
+                  ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-md'
+                  : 'text-slate-400 hover:text-white'
+              }`}
+              title="Edit Mode: Drag, Drop, Customize Elements"
+            >
+              <Edit3 className="w-3.5 h-3.5" />
+              <span>Edit Mode</span>
+            </button>
+            
+            <button
+              onClick={() => setStageMode('live')}
+              className={`px-3 py-1 rounded-lg font-bold flex items-center gap-1.5 transition ${
+                stageMode === 'live'
+                  ? 'bg-gradient-to-r from-emerald-500 to-teal-600 text-white shadow-md'
+                  : 'text-slate-400 hover:text-white'
+              }`}
+              title="Live Mode: Real Working Production Website (No Overlays)"
+            >
+              <Eye className="w-3.5 h-3.5" />
+              <span>Live Website</span>
+              {stageMode === 'live' && <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-ping inline-block" />}
+            </button>
+          </div>
+
           {/* Responsive Breakpoints Switcher */}
           <div className="flex items-center bg-slate-900/90 p-1 rounded-xl border border-slate-800 text-[10px]">
             <button
@@ -185,92 +217,94 @@ export default function CanvasStudio() {
       {/* ── CLEAN 2-COLUMN CANVA WORKSPACE ───────────────────────────────────────────── */}
       <div className="flex-1 flex overflow-hidden relative z-10 h-[calc(100vh-52px)]">
 
-        {/* COLUMN 1: LEFT SIDEBAR DOCK (340px) */}
-        <aside className="w-[340px] shrink-0 border-r border-slate-800 bg-slate-950/80 backdrop-blur-xl flex flex-col h-full overflow-hidden shadow-2xl z-20">
-          
-          {/* Dock Navigation Tabs */}
-          <div className="flex border-b border-slate-800 bg-slate-950/60 p-1.5 gap-1 shrink-0">
-            <button
-              onClick={() => setActiveTab('elements')}
-              className={`flex-1 py-2 text-xs font-bold rounded-xl transition flex items-center justify-center gap-1.5 ${
-                activeTab === 'elements'
-                  ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40'
-                  : 'text-slate-400 hover:text-white hover:bg-slate-900'
-              }`}
-            >
-              <Component className="w-3.5 h-3.5" />
-              <span>Elements</span>
-            </button>
+        {/* COLUMN 1: LEFT SIDEBAR DOCK (340px) - Hidden when in Live Website Mode */}
+        {stageMode === 'edit' && (
+          <aside className="w-[340px] shrink-0 border-r border-slate-800 bg-slate-950/80 backdrop-blur-xl flex flex-col h-full overflow-hidden shadow-2xl z-20">
+            
+            {/* Dock Navigation Tabs */}
+            <div className="flex border-b border-slate-800 bg-slate-950/60 p-1.5 gap-1 shrink-0">
+              <button
+                onClick={() => setActiveTab('elements')}
+                className={`flex-1 py-2 text-xs font-bold rounded-xl transition flex items-center justify-center gap-1.5 ${
+                  activeTab === 'elements'
+                    ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40'
+                    : 'text-slate-400 hover:text-white hover:bg-slate-900'
+                }`}
+              >
+                <Component className="w-3.5 h-3.5" />
+                <span>Elements</span>
+              </button>
 
-            <button
-              onClick={() => setActiveTab('style')}
-              className={`flex-1 py-2 text-xs font-bold rounded-xl transition flex items-center justify-center gap-1.5 ${
-                activeTab === 'style'
-                  ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40'
-                  : 'text-slate-400 hover:text-white hover:bg-slate-900'
-              }`}
-            >
-              <Sliders className="w-3.5 h-3.5" />
-              <span>Style</span>
-            </button>
+              <button
+                onClick={() => setActiveTab('style')}
+                className={`flex-1 py-2 text-xs font-bold rounded-xl transition flex items-center justify-center gap-1.5 ${
+                  activeTab === 'style'
+                    ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40'
+                    : 'text-slate-400 hover:text-white hover:bg-slate-900'
+                }`}
+              >
+                <Sliders className="w-3.5 h-3.5" />
+                <span>Style</span>
+              </button>
 
-            <button
-              onClick={() => setActiveTab('layers')}
-              className={`flex-1 py-2 text-xs font-bold rounded-xl transition flex items-center justify-center gap-1.5 ${
-                activeTab === 'layers'
-                  ? 'bg-purple-500/20 text-purple-300 border border-purple-500/40'
-                  : 'text-slate-400 hover:text-white hover:bg-slate-900'
-              }`}
-            >
-              <Layers className="w-3.5 h-3.5" />
-              <span>Layers</span>
-            </button>
-          </div>
+              <button
+                onClick={() => setActiveTab('layers')}
+                className={`flex-1 py-2 text-xs font-bold rounded-xl transition flex items-center justify-center gap-1.5 ${
+                  activeTab === 'layers'
+                    ? 'bg-purple-500/20 text-purple-300 border border-purple-500/40'
+                    : 'text-slate-400 hover:text-white hover:bg-slate-900'
+                }`}
+              >
+                <Layers className="w-3.5 h-3.5" />
+                <span>Layers</span>
+              </button>
+            </div>
 
-          {/* Active Tab Panel Content */}
-          <div className="flex-1 overflow-y-auto h-full">
-            {activeTab === 'elements' && (
-              <ComponentLibrary 
-                selectedId={selectedElement?.type === 'button' ? selectedElement.componentId : null} 
-                onSelect={(compId) => {
-                  const newEl = {
-                    id: `el-${Date.now()}`,
-                    type: 'button',
-                    componentId: compId,
-                    style: { ...DEFAULT_STYLE },
-                    text: 'Click Me →',
-                    x: Math.random() * 100 + 50,
-                    y: Math.random() * 100 + 50
-                  };
-                  addElement(newEl);
-                }} 
-              />
-            )}
-
-            {activeTab === 'style' && (
-              selectedElement ? (
-                <StyleControls 
-                  style={selectedElement.style} 
-                  onChange={(newStyle) => {
-                    updateElement({ ...selectedElement, style: newStyle });
+            {/* Active Tab Panel Content */}
+            <div className="flex-1 overflow-y-auto h-full">
+              {activeTab === 'elements' && (
+                <ComponentLibrary 
+                  selectedId={selectedElement?.type === 'button' ? selectedElement.componentId : null} 
+                  onSelect={(compId) => {
+                    const newEl = {
+                      id: `el-${Date.now()}`,
+                      type: 'button',
+                      componentId: compId,
+                      style: { ...DEFAULT_STYLE },
+                      text: 'Click Me →',
+                      x: Math.random() * 100 + 50,
+                      y: Math.random() * 100 + 50
+                    };
+                    addElement(newEl);
                   }} 
                 />
-              ) : (
-                <div className="p-8 text-center text-xs text-slate-500">
-                  <p className="text-3xl mb-2">🎨</p>
-                  <p className="font-bold text-slate-300 mb-1">No Element Selected</p>
-                  <p>Click any button or text box on the canvas to customize its colors, borders and animations.</p>
-                </div>
-              )
-            )}
+              )}
 
-            {activeTab === 'layers' && (
-              <LayersTreePanel />
-            )}
-          </div>
-        </aside>
+              {activeTab === 'style' && (
+                selectedElement ? (
+                  <StyleControls 
+                    style={selectedElement.style} 
+                    onChange={(newStyle) => {
+                      updateElement({ ...selectedElement, style: newStyle });
+                    }} 
+                  />
+                ) : (
+                  <div className="p-8 text-center text-xs text-slate-500">
+                    <p className="text-3xl mb-2">🎨</p>
+                    <p className="font-bold text-slate-300 mb-1">No Element Selected</p>
+                    <p>Click any button or text box on the canvas to customize its colors, borders and animations.</p>
+                  </div>
+                )
+              )}
 
-        {/* COLUMN 2: MAIN LIVE STAGE (Flex-1, Spacious Clean Preview) */}
+              {activeTab === 'layers' && (
+                <LayersTreePanel />
+              )}
+            </div>
+          </aside>
+        )}
+
+        {/* COLUMN 2: MAIN LIVE STAGE (Flex-1, Clean Real Website Preview) */}
         <main className="flex-1 overflow-hidden bg-slate-950/20 backdrop-blur-sm relative flex flex-col h-full items-center justify-center p-4">
           <div 
             style={{ width: viewportWidth }} 

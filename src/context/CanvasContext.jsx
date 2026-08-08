@@ -33,6 +33,7 @@ export function CanvasProvider({ children }) {
   const [elements, setElementsState] = useState(INITIAL_ELEMENTS);
   const [activeFullPageTemplate, setActiveFullPageTemplate] = useState(null);
   const [selectedElementId, setSelectedElementId] = useState('el-hero-btn');
+  const [stageMode, setStageMode] = useState('edit'); // 'edit' | 'live'
   const [history, setHistory] = useState([INITIAL_ELEMENTS]);
   const [historyIndex, setHistoryIndex] = useState(0);
 
@@ -125,6 +126,8 @@ export function CanvasProvider({ children }) {
         selectedElementId,
         setSelectedElementId,
         selectedElement,
+        stageMode,
+        setStageMode,
         addElement,
         updateElement,
         deleteElement,
