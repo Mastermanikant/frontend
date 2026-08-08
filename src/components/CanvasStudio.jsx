@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { RefreshCw, Layers as LayersIcon, BookOpen, ChevronDown, Palette, Maximize2, LayoutGrid, Undo2, Redo2, Layout } from 'lucide-react';
+import { Layers as LayersIcon, BookOpen, ChevronDown, Palette, Layout, Undo2, Redo2, Sliders, Component, Layers, Smartphone, Tablet, Monitor } from 'lucide-react';
 import ComponentLibrary from './ComponentLibrary';
 import StyleControls from './StyleControls';
 import LiveCanvas from './LiveCanvas';
@@ -15,7 +15,6 @@ import { useCanvas } from '../context/CanvasContext';
 export default function CanvasStudio() {
   const {
     elements,
-    setElements,
     selectedElementId,
     setSelectedElementId,
     selectedElement,
@@ -27,12 +26,13 @@ export default function CanvasStudio() {
     canRedo
   } = useCanvas();
 
-  const [activeTheme, setActiveTheme]             = useState('aurora');
-  const [animKey, setAnimKey]                     = useState(0);
-  const [isThemeOpen, setIsThemeOpen]             = useState(false);
+  const [activeTab, setActiveTab]               = useState('elements'); // 'elements' | 'style' | 'layers'
+  const [activeTheme, setActiveTheme]           = useState('aurora');
+  const [animKey, setAnimKey]                   = useState(0);
+  const [viewportWidth, setViewportWidth]       = useState('100%'); // '100%' | '768px' | '375px'
+  const [isThemeOpen, setIsThemeOpen]           = useState(false);
   const [isEncyclopediaOpen, setIsEncyclopediaOpen] = useState(false);
   const [isTemplateModalOpen, setIsTemplateModalOpen] = useState(false);
-  const [viewMode, setViewMode]                   = useState('full'); // 'full' | 'stage'
 
   const currentThemeObj = backgroundThemes.find(t => t.id === activeTheme) || backgroundThemes[0];
 
@@ -40,8 +40,10 @@ export default function CanvasStudio() {
     <div className={`bg-theme-${activeTheme} text-slate-100 h-screen max-h-screen flex flex-col font-sans selection:bg-cyan-500 selection:text-black relative overflow-hidden`}>
       <BackgroundCanvas theme={activeTheme} speed={0.6} density={40} glowIntensity={50} />
 
-      {/* ── TOP HEADER ────────────────────────────────────────────────────── */}
-      <header className="sticky top-0 z-40 bg-slate-950/85 backdrop-blur-xl border-b border-slate-800/80 px-5 py-2.5 flex items-center justify-between shrink-0 h-[49px]">
+      {/* ── TOP CLEAN HEADER (CANVA STYLE) ────────────────────────────────────────────────────── */}
+      <header className="sticky top-0 z-40 bg-slate-950/90 backdrop-blur-xl border-b border-slate-800 px-5 py-2 flex items-center justify-between shrink-0 h-[52px]">
+        
+        {/* Left Brand Identity */}
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-cyan-400 via-purple-500 to-pink-500 flex items-center justify-center shadow-lg shadow-cyan-500/20 shrink-0">
             <LayersIcon className="w-4 h-4 text-white" />
@@ -50,25 +52,53 @@ export default function CanvasStudio() {
             <h1 className="text-sm font-black gradient-text font-heading leading-tight flex items-center gap-2">
               Frontend Canvas Studio
               <span className="text-[9px] font-mono px-2 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">
-                $50K SaaS Edition
+                Canva SaaS Edition
               </span>
             </h1>
-            <p className="text-[10px] text-slate-500">
-              Pick Component / Template → Drag &amp; Customize → Export Live Code
+            <p className="text-[10px] text-slate-400">
+              Visual Component Studio ↔ Live React Code
             </p>
           </div>
         </div>
 
-        {/* Action Controls Header */}
-        <div className="flex items-center gap-2">
+        {/* Center: Device Breakpoints & Undo/Redo */}
+        <div className="flex items-center gap-3">
+          
+          {/* Responsive Breakpoints Switcher */}
+          <div className="flex items-center bg-slate-900/90 p-1 rounded-xl border border-slate-800 text-[10px]">
+            <button
+              onClick={() => setViewportWidth('100%')}
+              className={`px-2.5 py-1 rounded-lg font-bold flex items-center gap-1 transition ${viewportWidth === '100%' ? 'bg-cyan-500 text-black' : 'text-slate-400 hover:text-white'}`}
+              title="Desktop View (100%)"
+            >
+              <Monitor className="w-3.5 h-3.5" />
+              <span>Desktop</span>
+            </button>
+            <button
+              onClick={() => setViewportWidth('768px')}
+              className={`px-2.5 py-1 rounded-lg font-bold flex items-center gap-1 transition ${viewportWidth === '768px' ? 'bg-cyan-500 text-black' : 'text-slate-400 hover:text-white'}`}
+              title="Tablet View (768px)"
+            >
+              <Tablet className="w-3.5 h-3.5" />
+              <span>Tablet</span>
+            </button>
+            <button
+              onClick={() => setViewportWidth('375px')}
+              className={`px-2.5 py-1 rounded-lg font-bold flex items-center gap-1 transition ${viewportWidth === '375px' ? 'bg-cyan-500 text-black' : 'text-slate-400 hover:text-white'}`}
+              title="Mobile View (375px)"
+            >
+              <Smartphone className="w-3.5 h-3.5" />
+              <span>Mobile</span>
+            </button>
+          </div>
 
-          {/* Undo / Redo Buttons */}
+          {/* Undo / Redo */}
           <div className="flex items-center gap-1 bg-slate-900/90 p-1 rounded-xl border border-slate-800 text-[10px]">
             <button
               onClick={undo}
               disabled={!canUndo}
               title="Undo (Ctrl+Z)"
-              className="p-1 rounded-lg text-slate-400 hover:text-white disabled:opacity-30 disabled:hover:text-slate-400 transition"
+              className="p-1.5 rounded-lg text-slate-400 hover:text-white disabled:opacity-30 transition"
             >
               <Undo2 className="w-3.5 h-3.5" />
             </button>
@@ -76,40 +106,24 @@ export default function CanvasStudio() {
               onClick={redo}
               disabled={!canRedo}
               title="Redo (Ctrl+Y)"
-              className="p-1 rounded-lg text-slate-400 hover:text-white disabled:opacity-30 disabled:hover:text-slate-400 transition"
+              className="p-1.5 rounded-lg text-slate-400 hover:text-white disabled:opacity-30 transition"
             >
               <Redo2 className="w-3.5 h-3.5" />
             </button>
           </div>
+        </div>
 
-          {/* 30+ Website Templates Modal Button */}
+        {/* Right Controls Header */}
+        <div className="flex items-center gap-2">
+
+          {/* 30+ Templates Modal Button */}
           <button
             onClick={() => setIsTemplateModalOpen(true)}
             className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-cyan-500/10 text-cyan-300 border border-cyan-500/30 hover:bg-cyan-500/20 transition text-xs font-bold"
           >
-            <Layout className="w-3.5 h-3.5" />
+            <Layout className="w-3.5 h-3.5 text-cyan-400" />
             <span>30+ Templates</span>
           </button>
-
-          {/* View Mode Selector */}
-          <div className="flex items-center gap-1 bg-slate-900/90 p-1 rounded-xl border border-slate-800 text-[10px]">
-            <button
-              onClick={() => setViewMode('full')}
-              title="Standard Studio Mode"
-              className={`px-2 py-1 rounded-lg font-bold flex items-center gap-1 transition ${viewMode === 'full' ? 'bg-cyan-500 text-black' : 'text-slate-500 hover:text-white'}`}
-            >
-              <LayoutGrid className="w-3 h-3" />
-              <span>Full Studio</span>
-            </button>
-            <button
-              onClick={() => setViewMode('stage')}
-              title="Focus Stage Mode"
-              className={`px-2 py-1 rounded-lg font-bold flex items-center gap-1 transition ${viewMode === 'stage' ? 'bg-purple-500 text-white' : 'text-slate-500 hover:text-white'}`}
-            >
-              <Maximize2 className="w-3 h-3" />
-              <span>Focus Stage</span>
-            </button>
-          </div>
 
           {/* A-Z Guide */}
           <button
@@ -124,7 +138,7 @@ export default function CanvasStudio() {
           <div className="relative">
             <button
               onClick={() => setIsThemeOpen(!isThemeOpen)}
-              className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-900/90 border border-slate-800 text-xs font-bold text-slate-300 hover:text-white hover:border-slate-700 transition"
+              className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-900/90 border border-slate-800 text-xs font-bold text-slate-300 hover:text-white transition"
             >
               <Palette className="w-3.5 h-3.5 text-cyan-400" />
               <span>{currentThemeObj.name}</span>
@@ -157,13 +171,54 @@ export default function CanvasStudio() {
         </div>
       </header>
 
-      {/* ── 4-PANEL INDEPENDENT SCROLL LAYOUT ───────────────────────────────────────────── */}
-      <div className="flex-1 flex overflow-hidden relative z-10 h-[calc(100vh-49px)]">
+      {/* ── CLEAN 2-COLUMN CANVA WORKSPACE ───────────────────────────────────────────── */}
+      <div className="flex-1 flex overflow-hidden relative z-10 h-[calc(100vh-52px)]">
 
-        {/* PANEL 1 — Component Library & DOM Layers (Left, 250px, Independent Scroll) */}
-        {viewMode !== 'stage' && (
-          <aside className="w-[250px] shrink-0 border-r border-slate-800/80 bg-slate-950/75 backdrop-blur-xl flex flex-col h-full overflow-hidden">
-            <div className="flex-1 overflow-hidden flex flex-col h-1/2 border-b border-slate-900">
+        {/* COLUMN 1: LEFT SIDEBAR DOCK (340px) */}
+        <aside className="w-[340px] shrink-0 border-r border-slate-800 bg-slate-950/80 backdrop-blur-xl flex flex-col h-full overflow-hidden shadow-2xl z-20">
+          
+          {/* Dock Navigation Tabs */}
+          <div className="flex border-b border-slate-800 bg-slate-950/60 p-1.5 gap-1 shrink-0">
+            <button
+              onClick={() => setActiveTab('elements')}
+              className={`flex-1 py-2 text-xs font-bold rounded-xl transition flex items-center justify-center gap-1.5 ${
+                activeTab === 'elements'
+                  ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40'
+                  : 'text-slate-400 hover:text-white hover:bg-slate-900'
+              }`}
+            >
+              <Component className="w-3.5 h-3.5" />
+              <span>Elements</span>
+            </button>
+
+            <button
+              onClick={() => setActiveTab('style')}
+              className={`flex-1 py-2 text-xs font-bold rounded-xl transition flex items-center justify-center gap-1.5 ${
+                activeTab === 'style'
+                  ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40'
+                  : 'text-slate-400 hover:text-white hover:bg-slate-900'
+              }`}
+            >
+              <Sliders className="w-3.5 h-3.5" />
+              <span>Style</span>
+            </button>
+
+            <button
+              onClick={() => setActiveTab('layers')}
+              className={`flex-1 py-2 text-xs font-bold rounded-xl transition flex items-center justify-center gap-1.5 ${
+                activeTab === 'layers'
+                  ? 'bg-purple-500/20 text-purple-300 border border-purple-500/40'
+                  : 'text-slate-400 hover:text-white hover:bg-slate-900'
+              }`}
+            >
+              <Layers className="w-3.5 h-3.5" />
+              <span>Layers</span>
+            </button>
+          </div>
+
+          {/* Active Tab Panel Content */}
+          <div className="flex-1 overflow-y-auto h-full">
+            {activeTab === 'elements' && (
               <ComponentLibrary 
                 selectedId={selectedElement?.type === 'button' ? selectedElement.componentId : null} 
                 onSelect={(compId) => {
@@ -179,23 +234,10 @@ export default function CanvasStudio() {
                   addElement(newEl);
                 }} 
               />
-            </div>
-            <div className="flex-1 overflow-hidden h-1/2">
-              <LayersTreePanel />
-            </div>
-          </aside>
-        )}
+            )}
 
-        {/* PANEL 2 — Style Controls (Left-Center, 220px, Independent Scroll) */}
-        {viewMode !== 'stage' && (
-          <aside className="w-[220px] shrink-0 border-r border-slate-800/60 bg-slate-950/60 backdrop-blur-lg flex flex-col h-full overflow-hidden">
-            <div className="px-3 pt-2.5 pb-1 shrink-0 flex items-center justify-between border-b border-slate-900">
-              <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest">
-                Selected Element Style
-              </p>
-            </div>
-            <div className="flex-1 overflow-hidden h-full">
-              {selectedElement ? (
+            {activeTab === 'style' && (
+              selectedElement ? (
                 <StyleControls 
                   style={selectedElement.style} 
                   onChange={(newStyle) => {
@@ -203,43 +245,29 @@ export default function CanvasStudio() {
                   }} 
                 />
               ) : (
-                <div className="p-4 text-xs text-slate-500">Select an element on canvas to edit style</div>
-              )}
-            </div>
-          </aside>
-        )}
+                <div className="p-8 text-center text-xs text-slate-500">
+                  <p className="text-3xl mb-2">🎨</p>
+                  <p className="font-bold text-slate-300 mb-1">No Element Selected</p>
+                  <p>Click any button or text box on the canvas to customize its colors, borders and animations.</p>
+                </div>
+              )
+            )}
 
-        {/* PANEL 3 — Live Canvas (Center Stage, flex-1) */}
-        <main className="flex-1 overflow-hidden bg-slate-950/30 backdrop-blur-sm relative flex flex-col h-full">
-          <div className="px-4 pt-2.5 pb-1 border-b border-slate-800/40 shrink-0 flex items-center justify-between">
-            <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest">
-              Live Interactive Canvas Stage
-            </p>
-            <button
-              onClick={() => setAnimKey(k => k + 1)}
-              className="text-[10px] text-slate-500 hover:text-cyan-400 flex items-center gap-1 transition"
-            >
-              <RefreshCw className="w-3 h-3" /> Re-trigger Animations
-            </button>
+            {activeTab === 'layers' && (
+              <LayersTreePanel />
+            )}
           </div>
-          <div className="flex-1 overflow-hidden h-full">
+        </aside>
+
+        {/* COLUMN 2: MAIN LIVE STAGE (Flex-1, Spacious Clean Preview) */}
+        <main className="flex-1 overflow-hidden bg-slate-950/20 backdrop-blur-sm relative flex flex-col h-full items-center justify-center p-4">
+          <div 
+            style={{ width: viewportWidth }} 
+            className="h-full max-h-full transition-all duration-300 border border-slate-800/60 rounded-2xl overflow-hidden shadow-2xl bg-slate-950/40 relative flex flex-col"
+          >
             <LiveCanvas animKey={animKey} />
           </div>
         </main>
-
-        {/* PANEL 4 — Output & Deconstruct (Right, 250px) */}
-        {viewMode !== 'stage' && (
-          <aside className="w-[250px] shrink-0 border-l border-slate-800/80 bg-slate-950/75 backdrop-blur-xl flex flex-col h-full overflow-hidden">
-            <div className="px-3 pt-2.5 pb-1 shrink-0 flex items-center justify-between border-b border-slate-900">
-              <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest">
-                Dev Output &amp; Layers
-              </p>
-            </div>
-            <div className="flex-1 overflow-hidden h-full">
-              <OutputPanel elements={elements} selectedElementId={selectedElementId} />
-            </div>
-          </aside>
-        )}
 
       </div>
 
