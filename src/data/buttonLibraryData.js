@@ -1,426 +1,424 @@
-// Auto-generated from button_demo.html
-export const globalKeyframes = `@keyframes spin {
-  to{transform:rotate(360deg);
-}`;
+// Comprehensive Structured Button Library Database
 
-export const buttonLibraryData = [
+export const globalKeyframes = `
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes shimmerSweep {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+@keyframes pulseGlow {
+  0% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.7); }
+  70% { box-shadow: 0 0 0 15px rgba(99, 102, 241, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0); }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes neonBorder {
+  0%, 100% { border-color: #ec4899; box-shadow: 0 0 10px #ec4899; }
+  50% { border-color: #3b82f6; box-shadow: 0 0 10px #3b82f6; }
+}
+`;
+
+export const buttonCategories = [
   {
-    "name": "Basic Buttons",
-    "buttons": [
+    id: "basic",
+    name: "01. Essential & Structural Buttons",
+    subcategories: [
       {
-        "name": "Primary Button",
-        "html": "<button class=\"primary\">Primary</button>",
-        "css": "/* Base Button Style */\nbutton:hover {\n  transform:translateY(-1px);\n}\n\n/* Modifier */\n/* BASIC */\n\n.primary {\n  background:#2563eb;\n      color:white;\n}"
+        name: "Solid & Primary Variants",
+        buttons: [
+          {
+            id: "btn-primary-solid",
+            name: "Classic Solid Primary",
+            tags: ["Solid", "Primary", "Rounded"],
+            html: `<button class="btn-primary-solid">Get Started</button>`,
+            css: `.btn-primary-solid {
+  background: #4f46e5;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 600;
+  padding: 12px 28px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+}
+.btn-primary-solid:hover {
+  background: #4338ca;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(79, 70, 229, 0.4);
+}
+.btn-primary-solid:active {
+  transform: translateY(0);
+}`
+          },
+          {
+            id: "btn-pill-solid",
+            name: "Full Pill Rounded",
+            tags: ["Pill", "Rounded-Full", "Smooth"],
+            html: `<button class="btn-pill-solid">Explore Features</button>`,
+            css: `.btn-pill-solid {
+  background: #06b6d4;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 12px 32px;
+  border-radius: 9999px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 14px rgba(6, 182, 212, 0.35);
+}
+.btn-pill-solid:hover {
+  background: #0891b2;
+  transform: scale(1.04);
+  box-shadow: 0 6px 20px rgba(6, 182, 212, 0.5);
+}`
+          },
+          {
+            id: "btn-cut-corner",
+            name: "Architectural Cut Corner",
+            tags: ["Geometric", "Sharp", "Modern"],
+            html: `<button class="btn-cut-corner">DEPLOY SYSTEM</button>`,
+            css: `.btn-cut-corner {
+  background: #1e293b;
+  color: #38bdf8;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  padding: 14px 30px;
+  border: 1px solid #38bdf8;
+  clip-path: polygon(12px 0%, 100% 0%, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0% 100%, 0% 12px);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.btn-cut-corner:hover {
+  background: #38bdf8;
+  color: #0f172a;
+}`
+          }
+        ]
       },
       {
-        "name": "Secondary Button",
-        "html": "<button class=\"secondary\">Secondary</button>",
-        "css": "/* Base Button Style */\nbutton:hover {\n  transform:translateY(-1px);\n}\n\n/* Modifier */\n.secondary {\n  background:#e5e7eb;\n      color:#111827;\n}"
-      },
-      {
-        "name": "Tertiary Button",
-        "html": "<button class=\"tertiary\">Tertiary</button>",
-        "css": "/* Base Button Style */\nbutton:hover {\n  transform:translateY(-1px);\n}\n\n/* Modifier */\n.tertiary {\n  background:#f3f4f6;\n      color:#374151;\n}"
-      },
-      {
-        "name": "CTA Button",
-        "html": "<button class=\"cta\">Get Started</button>",
-        "css": "/* Base Button Style */\nbutton:hover {\n  transform:translateY(-1px);\n}\n\n/* Modifier */\n.cta {\n  background:#16a34a;\n      color:white;\n      padding:13px 25px;\n}"
-      },
-      {
-        "name": "Outline Button",
-        "html": "<button class=\"outline\">Outline</button>",
-        "css": "/* Base Button Style */\nbutton:hover {\n  transform:translateY(-1px);\n}\n\n/* Modifier */\n.outline {\n  background:white;\n      border:2px solid #2563eb;\n      color:#2563eb;\n}"
-      },
-      {
-        "name": "Ghost Button",
-        "html": "<button class=\"ghost\">Ghost</button>",
-        "css": "/* Base Button Style */\nbutton:hover {\n  transform:translateY(-1px);\n}\n\n/* Modifier */\n.ghost {\n  background:transparent;\n      color:#2563eb;\n}"
-      },
-      {
-        "name": "Text Button",
-        "html": "<button class=\"text\">Text Button</button>",
-        "css": "/* Base Button Style */\nbutton:hover {\n  transform:translateY(-1px);\n}\n\n/* Modifier */\n.text {\n  background:none;\n      color:#2563eb;\n      padding:8px;\n}"
-      },
-      {
-        "name": "Link Button",
-        "html": "<button class=\"link\">Learn More</button>",
-        "css": "/* Base Button Style */\nbutton:hover {\n  transform:translateY(-1px);\n}\n\n/* Modifier */\n.link {\n  background:none;\n      color:#2563eb;\n      text-decoration:underline;\n      padding:8px;\n}\n\n.linkedin {\n  background:#0a66c2;color:white;\n}"
+        name: "Outline & Ghost Variants",
+        buttons: [
+          {
+            id: "btn-outline-indigo",
+            name: "Clean Outline Indigo",
+            tags: ["Outline", "Minimal", "Border"],
+            html: `<button class="btn-outline-indigo">Learn More</button>`,
+            css: `.btn-outline-indigo {
+  background: transparent;
+  color: #818cf8;
+  font-size: 15px;
+  font-weight: 600;
+  padding: 12px 28px;
+  border-radius: 8px;
+  border: 2px solid #6366f1;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.btn-outline-indigo:hover {
+  background: #6366f1;
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(99, 102, 241, 0.4);
+}`
+          },
+          {
+            id: "btn-ghost-minimal",
+            name: "Subtle Ghost Button",
+            tags: ["Ghost", "Subtle", "Text"],
+            html: `<button class="btn-ghost-minimal">Cancel Action</button>`,
+            css: `.btn-ghost-minimal {
+  background: transparent;
+  color: #94a3b8;
+  font-size: 15px;
+  font-weight: 500;
+  padding: 12px 24px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.btn-ghost-minimal:hover {
+  background: rgba(148, 163, 184, 0.1);
+  color: #f8fafc;
+}`
+          }
+        ]
       }
     ]
   },
   {
-    "name": "Action Buttons",
-    "buttons": [
+    id: "design-systems",
+    name: "02. Design Systems & Visual Aesthetics",
+    subcategories: [
       {
-        "name": "Save Button",
-        "html": "<button class=\"save\">Save</button>",
-        "css": "/* Base Button Style */\nbutton:hover {\n  transform:translateY(-1px);\n}\n\n/* Modifier */\n.save {\n  background:#059669;\n      color:white;\n}"
+        name: "Glassmorphism & Neumorphism",
+        buttons: [
+          {
+            id: "btn-glassmorphism",
+            name: "Frosted Glassmorphism",
+            tags: ["Glassmorphism", "Blur", "Modern"],
+            html: `<button class="btn-glassmorphism">Glass Studio</button>`,
+            css: `.btn-glassmorphism {
+  background: rgba(255, 255, 255, 0.07);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 600;
+  padding: 14px 32px;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+}
+.btn-glassmorphism:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.35);
+  transform: translateY(-2px);
+}`
+          },
+          {
+            id: "btn-neumorphism-dark",
+            name: "Neumorphic Soft Dark",
+            tags: ["Neumorphism", "Soft UI", "Tactile"],
+            html: `<button class="btn-neumorphism-dark">Press Me</button>`,
+            css: `.btn-neumorphism-dark {
+  background: #1e2433;
+  color: #60a5fa;
+  font-size: 15px;
+  font-weight: 700;
+  padding: 14px 30px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 6px 6px 12px #151924, -6px -6px 12px #272f42;
+  transition: all 0.2s ease;
+}
+.btn-neumorphism-dark:active {
+  box-shadow: inset 4px 4px 8px #151924, inset -4px -4px 8px #272f42;
+}`
+          }
+        ]
       },
       {
-        "name": "Edit Button",
-        "html": "<button class=\"edit\">Edit</button>",
-        "css": "/* Base Button Style */\nbutton:hover {\n  transform:translateY(-1px);\n}\n\n/* Modifier */\n.edit {\n  background:#7c3aed;\n      color:white;\n}"
-      },
-      {
-        "name": "Delete Button",
-        "html": "<button class=\"danger\">Delete</button>",
-        "css": "/* Base Button Style */\nbutton:hover {\n  transform:translateY(-1px);\n}\n\n/* Modifier */\n/* ACTION */\n\n.danger {\n  background:#dc2626;\n      color:white;\n}"
-      },
-      {
-        "name": "Add Button",
-        "html": "<button class=\"add\">+ Add</button>",
-        "css": "/* Base Button Style */\nbutton:hover {\n  transform:translateY(-1px);\n}\n\n/* Modifier */\n.add {\n  background:#2563eb;\n      color:white;\n}"
-      },
-      {
-        "name": "Remove Button",
-        "html": "<button class=\"remove\">− Remove</button>",
-        "css": "/* Base Button Style */\nbutton:hover {\n  transform:translateY(-1px);\n}\n\n/* Modifier */\n.remove {\n  background:#ef4444;\n      color:white;\n}"
-      },
-      {
-        "name": "Success Button",
-        "html": "<button class=\"success\">Success</button>",
-        "css": "/* Base Button Style */\nbutton:hover {\n  transform:translateY(-1px);\n}\n\n/* Modifier */\n.success {\n  background:#16a34a;\n      color:white;\n}\n\n}\n\n.success-state {\n  background:#16a34a;\n      color:white;\n}"
-      },
-      {
-        "name": "Warning Button",
-        "html": "<button class=\"warning\">Warning</button>",
-        "css": "/* Base Button Style */\nbutton:hover {\n  transform:translateY(-1px);\n}\n\n/* Modifier */\n.warning {\n  background:#f59e0b;\n      color:white;\n}"
-      },
-      {
-        "name": "Danger Button",
-        "html": "<button class=\"danger\">Danger</button>",
-        "css": "/* Base Button Style */\nbutton:hover {\n  transform:translateY(-1px);\n}\n\n/* Modifier */\n/* ACTION */\n\n.danger {\n  background:#dc2626;\n      color:white;\n}"
+        name: "Cyberpunk & 3D Tactile",
+        buttons: [
+          {
+            id: "btn-cyberpunk-neon",
+            name: "Cyberpunk Neon Glow",
+            tags: ["Cyberpunk", "Neon", "Glow"],
+            html: `<button class="btn-cyberpunk-neon">CYBER_PUNK</button>`,
+            css: `.btn-cyberpunk-neon {
+  background: #090a0f;
+  color: #ff0055;
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  padding: 14px 32px;
+  border-radius: 4px;
+  border: 2px solid #ff0055;
+  box-shadow: 0 0 15px rgba(255, 0, 85, 0.5), inset 0 0 15px rgba(255, 0, 85, 0.2);
+  text-shadow: 0 0 8px rgba(255, 0, 85, 0.8);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.btn-cyberpunk-neon:hover {
+  background: #ff0055;
+  color: #000;
+  box-shadow: 0 0 25px rgba(255, 0, 85, 0.9);
+}`
+          },
+          {
+            id: "btn-3d-elevated",
+            name: "3D Elevated Press Down",
+            tags: ["3D", "Elevated", "Tactile"],
+            html: `<button class="btn-3d-elevated">Push Button</button>`,
+            css: `.btn-3d-elevated {
+  background: #10b981;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 700;
+  padding: 14px 30px;
+  border-radius: 12px;
+  border: none;
+  box-shadow: 0 6px 0 #047857, 0 10px 20px rgba(0,0,0,0.3);
+  cursor: pointer;
+  transition: all 0.1s ease;
+  position: relative;
+  top: 0;
+}
+.btn-3d-elevated:hover {
+  background: #34d399;
+}
+.btn-3d-elevated:active {
+  top: 4px;
+  box-shadow: 0 2px 0 #047857, 0 4px 10px rgba(0,0,0,0.3);
+}`
+          }
+        ]
       }
     ]
   },
   {
-    "name": "Icon & Content Buttons",
-    "buttons": [
+    id: "animations",
+    name: "03. Interactive Motion & Animations",
+    subcategories: [
       {
-        "name": "Icon Button",
-        "html": "<button class=\"icon\">♥</button>",
-        "css": "/* Base Button Style */\nbutton:hover {\n  transform:translateY(-1px);\n}\n\n/* Modifier */\n/* ICON */\n\n.icon {\n  width:44px;\n      height:44px;\n      padding:0;\n      border-radius:50%;\n      background:#2563eb;\n      color:white;\n      font-size:20px;\n}\n\n.icon-square {\n  width:44px;\n      height:44px;\n      padding:0;\n      border-radius:8px;\n      background:#111827;\n      color:white;\n      font-size:19px;\n}\n\n.icon-text {\n  display:flex;\n      align-items:center;\n      gap:8px;\n      background:#2563eb;\n      color:white;\n}"
-      },
-      {
-        "name": "Icon Square Button",
-        "html": "<button class=\"icon-square\">⚙</button>",
-        "css": "/* Base Button Style */\nbutton:hover {\n  transform:translateY(-1px);\n}\n\n/* Modifier */\n.icon-square {\n  width:44px;\n      height:44px;\n      padding:0;\n      border-radius:8px;\n      background:#111827;\n      color:white;\n      font-size:19px;\n}"
-      },
-      {
-        "name": "Icon + Text Button",
-        "html": "<button class=\"icon-text\">⬇ Download</button>",
-        "css": "/* Base Button Style */\nbutton:hover {\n  transform:translateY(-1px);\n}\n\n/* Modifier */\n.icon-text {\n  display:flex;\n      align-items:center;\n      gap:8px;\n      background:#2563eb;\n      color:white;\n}"
-      },
-      {
-        "name": "Avatar Button",
-        "html": "<button class=\"circle\">M</button>",
-        "css": "/* Base Button Style */\nbutton:hover {\n  transform:translateY(-1px);\n}\n\n/* Modifier */\n.circle {\n  width:50px;\n      height:50px;\n      padding:0;\n      border-radius:50%;\n      background:#ec4899;\n      color:white;\n}"
-      },
-      {
-        "name": "Badge Button",
-        "html": "<button class=\"badge\">Notifications <span>3</span></button>",
-        "css": "/* Base Button Style */\nbutton:hover {\n  transform:translateY(-1px);\n}\n\n/* Modifier */\n/* BADGE */\n\n.badge {\n  position:relative;\n      background:#111827;\n      color:white;\n}\n\n.badge span {\n  position:absolute;\n      top:-8px;\n      right:-8px;\n      background:#ef4444;\n      color:white;\n      width:20px;\n      height:20px;\n      border-radius:50%;\n      font-size:11px;\n      display:flex;\n      align-items:center;\n      justify-content:center;\n}"
-      },
-      {
-        "name": "Dropdown Button",
-        "html": "<button class=\"dropdown\">Options ▾</button>",
-        "css": "/* Base Button Style */\nbutton:hover {\n  transform:translateY(-1px);\n}\n\n/* Modifier */\n/* DROPDOWN */\n\n.dropdown {\n  background:#2563eb;\n      color:white;\n}"
+        name: "Gradients & Shimmers",
+        buttons: [
+          {
+            id: "btn-moving-gradient",
+            name: "Flowing Animated Gradient",
+            tags: ["Gradient", "Animated", "Flow"],
+            html: `<button class="btn-moving-gradient">Flowing Energy</button>`,
+            css: `.btn-moving-gradient {
+  background: linear-gradient(-45deg, #ec4899, #8b5cf6, #3b82f6, #10b981);
+  background-size: 300% 300%;
+  animation: gradientShift 6s ease infinite;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 700;
+  padding: 14px 32px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(139, 92, 246, 0.4);
+  transition: transform 0.2s ease;
+}
+.btn-moving-gradient:hover {
+  transform: scale(1.05);
+}`
+          },
+          {
+            id: "btn-shimmer-sweep",
+            name: "Shimmer Light Sweep",
+            tags: ["Shimmer", "Sweep", "Reflective"],
+            html: `<button class="btn-shimmer-sweep"><span>Shiny Upgrade</span></button>`,
+            css: `.btn-shimmer-sweep {
+  position: relative;
+  background: #3b82f6;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 600;
+  padding: 14px 32px;
+  border-radius: 10px;
+  border: none;
+  overflow: hidden;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+}
+.btn-shimmer-sweep::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+  animation: shimmerSweep 2.5s infinite;
+}`
+          },
+          {
+            id: "btn-pulse-aura",
+            name: "Pulsing Ring Aura",
+            tags: ["Pulse", "Aura", "Beacon"],
+            html: `<button class="btn-pulse-aura">Live Pulse</button>`,
+            css: `.btn-pulse-aura {
+  background: #6366f1;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 600;
+  padding: 14px 32px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  animation: pulseGlow 2s infinite;
+}`
+          }
+        ]
       }
     ]
   },
   {
-    "name": "Shape & Visual Style",
-    "buttons": [
+    id: "states",
+    name: "04. Feedback & Action States",
+    subcategories: [
       {
-        "name": "Pill Button",
-        "html": "<button class=\"pill\">Pill Button</button>",
-        "css": "/* Base Button Style */\nbutton:hover {\n  transform:translateY(-1px);\n}\n\n/* Modifier */\n/* SHAPES */\n\n.pill {\n  border-radius:999px;\n      background:#2563eb;\n      color:white;\n}"
-      },
-      {
-        "name": "Rounded Button",
-        "html": "<button class=\"rounded\">Rounded</button>",
-        "css": "/* Base Button Style */\nbutton:hover {\n  transform:translateY(-1px);\n}\n\n/* Modifier */\n.rounded {\n  border-radius:20px;\n      background:#7c3aed;\n      color:white;\n}"
-      },
-      {
-        "name": "Square Button",
-        "html": "<button class=\"square\">Square</button>",
-        "css": "/* Base Button Style */\nbutton:hover {\n  transform:translateY(-1px);\n}\n\n/* Modifier */\n.square {\n  border-radius:2px;\n      background:#111827;\n      color:white;\n}"
-      },
-      {
-        "name": "Circle Button",
-        "html": "<button class=\"circle\">+</button>",
-        "css": "/* Base Button Style */\nbutton:hover {\n  transform:translateY(-1px);\n}\n\n/* Modifier */\n.circle {\n  width:50px;\n      height:50px;\n      padding:0;\n      border-radius:50%;\n      background:#ec4899;\n      color:white;\n}"
-      },
-      {
-        "name": "Gradient Button",
-        "html": "<button class=\"gradient\">Gradient</button>",
-        "css": "/* Base Button Style */\nbutton:hover {\n  transform:translateY(-1px);\n}\n\n/* Modifier */\n/* SPECIAL VISUALS */\n\n.gradient {\n  background:linear-gradient(135deg,#6366f1,#ec4899);\n      color:white;\n}"
-      },
-      {
-        "name": "Glassmorphism Button",
-        "html": "<button class=\"glass\">Glass</button>",
-        "css": "/* Base Button Style */\nbutton:hover {\n  transform:translateY(-1px);\n}\n\n/* Modifier */\n.glass {\n  background:rgba(255,255,255,.55);\n      color:#111827;\n      border:1px solid rgba(255,255,255,.8);\n      box-shadow:0 8px 25px rgba(0,0,0,.12);\n      backdrop-filter:blur(10px);\n}"
-      },
-      {
-        "name": "3D Button",
-        "html": "<button class=\"threeD\">3D Button</button>",
-        "css": "/* Base Button Style */\nbutton:hover {\n  transform:translateY(-1px);\n}\n\n/* Modifier */\n.threeD {\n  background:#2563eb;\n      color:white;\n      box-shadow:0 5px 0 #1e40af;\n}"
-      },
-      {
-        "name": "Neumorphic Button",
-        "html": "<button class=\"neumorphic\">Neumorphic</button>",
-        "css": "/* Base Button Style */\nbutton:hover {\n  transform:translateY(-1px);\n}\n\n/* Modifier */\n.neumorphic {\n  background:#e5e7eb;\n      color:#374151;\n      box-shadow:8px 8px 15px #cbd5e1,\n                 -8px -8px 15px white;\n}"
-      },
-      {
-        "name": "Raised Button",
-        "html": "<button class=\"raised\">Raised</button>",
-        "css": "/* Base Button Style */\nbutton:hover {\n  transform:translateY(-1px);\n}\n\n/* Modifier */\n.raised {\n  background:white;\n      color:#111827;\n      box-shadow:0 5px 15px rgba(0,0,0,.18);\n}"
-      },
-      {
-        "name": "Transparent Button",
-        "html": "<button class=\"transparent\">Transparent</button>",
-        "css": "/* Base Button Style */\nbutton:hover {\n  transform:translateY(-1px);\n}\n\n/* Modifier */\n.transparent {\n  background:transparent;\n      border:1px solid #9ca3af;\n      color:#374151;\n}"
-      },
-      {
-        "name": "Floating Button",
-        "html": "<button class=\"floating\">+</button>",
-        "css": "/* Base Button Style */\nbutton:hover {\n  transform:translateY(-1px);\n}\n\n/* Modifier */\n.floating {\n  border-radius:50%;\n      width:56px;\n      height:56px;\n      padding:0;\n      background:#2563eb;\n      color:white;\n      box-shadow:0 8px 20px rgba(37,99,235,.35);\n}"
-      }
-    ]
-  },
-  {
-    "name": "Button States",
-    "buttons": [
-      {
-        "name": "Normal State",
-        "html": "<button class=\"primary\">Normal</button>",
-        "css": "/* Base Button Style */\nbutton:hover {\n  transform:translateY(-1px);\n}\n\n/* Modifier */\n/* BASIC */\n\n.primary {\n  background:#2563eb;\n      color:white;\n}"
-      },
-      {
-        "name": "Hover State",
-        "html": "<button class=\"primary\">Hover Me</button>",
-        "css": "/* Base Button Style */\nbutton:hover {\n  transform:translateY(-1px);\n}\n\n/* Modifier */\n/* BASIC */\n\n.primary {\n  background:#2563eb;\n      color:white;\n}"
-      },
-      {
-        "name": "Pressed State",
-        "html": "<button class=\"pressed\">Pressed</button>",
-        "css": "/* Base Button Style */\nbutton:hover {\n  transform:translateY(-1px);\n}\n\n/* Modifier */\n.pressed {\n  background:#1d4ed8;\n      color:white;\n      box-shadow:inset 0 3px 7px rgba(0,0,0,.3);\n}"
-      },
-      {
-        "name": "Disabled State",
-        "html": "<button class=\"disabled\" disabled=\"\">Disabled</button>",
-        "css": "/* Base Button Style */\nbutton:hover {\n  transform:translateY(-1px);\n}\n\n/* Modifier */\n/* STATES */\n\n.disabled {\n  background:#d1d5db;\n      color:#9ca3af;\n      cursor:not-allowed;\n}"
-      },
-      {
-        "name": "Loading Button",
-        "html": "<button class=\"loading\">Loading</button>",
-        "css": "/* Base Button Style */\nbutton:hover {\n  transform:translateY(-1px);\n}\n\n/* Modifier */\n.loading {\n  background:#2563eb;\n      color:white;\n}\n\n.loading::before {\n  content:\"\";\n      display:inline-block;\n      width:12px;\n      height:12px;\n      margin-right:7px;\n      border:2px solid rgba(255,255,255,.4);\n      border-top-color:white;\n      border-radius:50%;\n      animation:spin .7s linear infinite;\n      vertical-align:-2px;\n}\n\n@keyframes spin {\n  to { transform: rotate(360deg); }\n}"
-      },
-      {
-        "name": "Success State",
-        "html": "<button class=\"success-state\">✓ Completed</button>",
-        "css": "/* Base Button Style */\nbutton:hover {\n  transform:translateY(-1px);\n}\n\n/* Modifier */\n}\n\n.success-state {\n  background:#16a34a;\n      color:white;\n}"
-      },
-      {
-        "name": "Error State",
-        "html": "<button class=\"error-state\">✕ Error</button>",
-        "css": "/* Base Button Style */\nbutton:hover {\n  transform:translateY(-1px);\n}\n\n/* Modifier */\n.error-state {\n  background:#dc2626;\n      color:white;\n}"
-      },
-      {
-        "name": "Toggle Button",
-        "html": "<button class=\"toggle\" onclick=\"this.classList.toggle('pressed')\">Toggle</button>",
-        "css": "/* Base Button Style */\nbutton:hover {\n  transform:translateY(-1px);\n}\n\n/* Modifier */\n.toggle {\n  background:#2563eb;\n      color:white;\n      border-radius:999px;\n}"
-      }
-    ]
-  },
-  {
-    "name": "Button Groups & Advanced",
-    "buttons": [
-      {
-        "name": "Button Group",
-        "html": "<div class=\"group\"><button class=\"primary\">One</button><button class=\"primary\">Two</button><button class=\"primary\">Three</button></div>",
-        "css": "/* Base Button Style */\nbutton:hover {\n  transform:translateY(-1px);\n}\n\n/* Modifier */\n/* BASIC */\n\n.primary {\n  background:#2563eb;\n      color:white;\n}\n\n/* GROUPS */\n\n.group {\n  display:flex;\n      gap:0;\n}\n\n.group button {\n  border-radius:0;\n      border-right:1px solid rgba(255,255,255,.3);\n}\n\n.group button:first-child {\n  border-radius:8px 0 0 8px;\n}\n\n.group button:last-child {\n  border-radius:0 8px 8px 0;\n      border:0;\n}"
-      },
-      {
-        "name": "Segmented Button",
-        "html": "<div class=\"segment\"><button>Day</button><button class=\"active\">Week</button><button>Month</button></div>",
-        "css": "/* Base Button Style */\nbutton:hover {\n  transform:translateY(-1px);\n}\n\n/* Modifier */\n.segment {\n  display:flex;\n      background:#e5e7eb;\n      padding:4px;\n      border-radius:9px;\n}\n\n.segment button {\n  background:transparent;\n      color:#374151;\n      border-radius:6px;\n}\n\n.segment button.active {\n  background:white;\n      box-shadow:0 2px 5px rgba(0,0,0,.1);\n}\n\n.pagination button.active {\n  background:#2563eb;\n      color:white;\n}"
-      },
-      {
-        "name": "Split Button",
-        "html": "<div class=\"split\"><button class=\"primary\">Save</button><button class=\"primary\">▾</button></div>",
-        "css": "/* Base Button Style */\nbutton:hover {\n  transform:translateY(-1px);\n}\n\n/* Modifier */\n/* BASIC */\n\n.primary {\n  background:#2563eb;\n      color:white;\n}\n\n/* SPLIT */\n\n.split {\n  display:flex;\n}\n\n.split button {\n  border-radius:8px 0 0 8px;\n}\n\n.split button:last-child {\n  border-radius:0 8px 8px 0;\n      border-left:1px solid rgba(255,255,255,.4);\n}"
-      },
-      {
-        "name": "Floating Action Button",
-        "html": "<button class=\"fab\">+</button>",
-        "css": "/* Base Button Style */\nbutton:hover {\n  transform:translateY(-1px);\n}\n\n/* Modifier */\n/* FAB */\n\n.fab {\n  width:58px;\n      height:58px;\n      border-radius:50%;\n      padding:0;\n      background:#ec4899;\n      color:white;\n      font-size:24px;\n      box-shadow:0 8px 20px rgba(0,0,0,.2);\n}"
-      },
-      {
-        "name": "Tooltip Button",
-        "html": "<button class=\"tooltip\">Hover Me</button>",
-        "css": "/* Base Button Style */\nbutton:hover {\n  transform:translateY(-1px);\n}\n\n/* Modifier */\n/* TOOLTIP */\n\n.tooltip {\n  position:relative;\n      background:#111827;\n      color:white;\n}\n\n.tooltip:hover::after {\n  content:\"Tooltip text\";\n      position:absolute;\n      bottom:calc(100% + 8px);\n      left:50%;\n      transform:translateX(-50%);\n      background:#111827;\n      color:white;\n      padding:6px 9px;\n      border-radius:5px;\n      font-size:11px;\n      white-space:nowrap;\n}"
-      },
-      {
-        "name": "Filter Button",
-        "html": "<button class=\"outline\">☷ Filter</button>",
-        "css": "/* Base Button Style */\nbutton:hover {\n  transform:translateY(-1px);\n}\n\n/* Modifier */\n.outline {\n  background:white;\n      border:2px solid #2563eb;\n      color:#2563eb;\n}"
-      },
-      {
-        "name": "Sort Button",
-        "html": "<button class=\"outline\">↕ Sort</button>",
-        "css": "/* Base Button Style */\nbutton:hover {\n  transform:translateY(-1px);\n}\n\n/* Modifier */\n.outline {\n  background:white;\n      border:2px solid #2563eb;\n      color:#2563eb;\n}"
-      },
-      {
-        "name": "Refresh Button",
-        "html": "<button class=\"secondary\">↻ Refresh</button>",
-        "css": "/* Base Button Style */\nbutton:hover {\n  transform:translateY(-1px);\n}\n\n/* Modifier */\n.secondary {\n  background:#e5e7eb;\n      color:#111827;\n}"
-      }
-    ]
-  },
-  {
-    "name": "Navigation Buttons",
-    "buttons": [
-      {
-        "name": "Back Button",
-        "html": "<button class=\"secondary\">← Back</button>",
-        "css": "/* Base Button Style */\nbutton:hover {\n  transform:translateY(-1px);\n}\n\n/* Modifier */\n.secondary {\n  background:#e5e7eb;\n      color:#111827;\n}"
-      },
-      {
-        "name": "Next Button",
-        "html": "<button class=\"primary\">Next →</button>",
-        "css": "/* Base Button Style */\nbutton:hover {\n  transform:translateY(-1px);\n}\n\n/* Modifier */\n/* BASIC */\n\n.primary {\n  background:#2563eb;\n      color:white;\n}"
-      },
-      {
-        "name": "Previous Button",
-        "html": "<button class=\"secondary\">← Previous</button>",
-        "css": "/* Base Button Style */\nbutton:hover {\n  transform:translateY(-1px);\n}\n\n/* Modifier */\n.secondary {\n  background:#e5e7eb;\n      color:#111827;\n}"
-      },
-      {
-        "name": "Continue Button",
-        "html": "<button class=\"primary\">Continue →</button>",
-        "css": "/* Base Button Style */\nbutton:hover {\n  transform:translateY(-1px);\n}\n\n/* Modifier */\n/* BASIC */\n\n.primary {\n  background:#2563eb;\n      color:white;\n}"
-      },
-      {
-        "name": "Pagination Button",
-        "html": "<div class=\"pagination\"><button>1</button><button class=\"active\">2</button><button>3</button><button>4</button></div>",
-        "css": "/* Base Button Style */\nbutton:hover {\n  transform:translateY(-1px);\n}\n\n/* Modifier */\n.segment button.active {\n  background:white;\n      box-shadow:0 2px 5px rgba(0,0,0,.1);\n}\n\n/* PAGINATION */\n\n.pagination button {\n  width:38px;\n      height:38px;\n      padding:0;\n      background:white;\n      border:1px solid #d1d5db;\n      color:#374151;\n}\n\n.pagination button.active {\n  background:#2563eb;\n      color:white;\n}"
-      }
-    ]
-  },
-  {
-    "name": "Media Control Buttons",
-    "buttons": [
-      {
-        "name": "Play Button",
-        "html": "<button class=\"play\">▶</button>",
-        "css": "/* Base Button Style */\nbutton:hover {\n  transform:translateY(-1px);\n}\n\n/* Modifier */\n/* MEDIA */\n\n.play {\n  width:55px;\n      height:55px;\n      border-radius:50%;\n      background:#ef4444;\n      color:white;\n      font-size:22px;\n      padding-left:17px;\n}"
-      },
-      {
-        "name": "Pause Button",
-        "html": "<button class=\"media\">Ⅱ</button>",
-        "css": "/* Base Button Style */\nbutton:hover {\n  transform:translateY(-1px);\n}\n\n/* Modifier */\n.media {\n  background:#111827;\n      color:white;\n      width:45px;\n      height:45px;\n      padding:0;\n      border-radius:50%;\n}"
-      },
-      {
-        "name": "Stop Button",
-        "html": "<button class=\"media\">■</button>",
-        "css": "/* Base Button Style */\nbutton:hover {\n  transform:translateY(-1px);\n}\n\n/* Modifier */\n.media {\n  background:#111827;\n      color:white;\n      width:45px;\n      height:45px;\n      padding:0;\n      border-radius:50%;\n}"
-      },
-      {
-        "name": "Mute Button",
-        "html": "<button class=\"media\">🔇</button>",
-        "css": "/* Base Button Style */\nbutton:hover {\n  transform:translateY(-1px);\n}\n\n/* Modifier */\n.media {\n  background:#111827;\n      color:white;\n      width:45px;\n      height:45px;\n      padding:0;\n      border-radius:50%;\n}"
-      },
-      {
-        "name": "Fullscreen Button",
-        "html": "<button class=\"media\">⛶</button>",
-        "css": "/* Base Button Style */\nbutton:hover {\n  transform:translateY(-1px);\n}\n\n/* Modifier */\n.media {\n  background:#111827;\n      color:white;\n      width:45px;\n      height:45px;\n      padding:0;\n      border-radius:50%;\n}"
-      }
-    ]
-  },
-  {
-    "name": "Social & Login Buttons",
-    "buttons": [
-      {
-        "name": "Facebook Button",
-        "html": "<button class=\"facebook\">f Facebook</button>",
-        "css": "/* Base Button Style */\nbutton:hover {\n  transform:translateY(-1px);\n}\n\n/* Modifier */\n/* SOCIAL */\n\n.facebook {\n  background:#1877f2;color:white;\n}"
-      },
-      {
-        "name": "X Button",
-        "html": "<button class=\"x\">𝕏 Follow</button>",
-        "css": "/* Base Button Style */\nbutton:hover {\n  transform:translateY(-1px);\n}\n\n/* Modifier */\n.x {\n  background:#000;color:white;\n}"
-      },
-      {
-        "name": "YouTube Button",
-        "html": "<button class=\"youtube\">▶ YouTube</button>",
-        "css": "/* Base Button Style */\nbutton:hover {\n  transform:translateY(-1px);\n}\n\n/* Modifier */\n.youtube {\n  background:#ff0000;color:white;\n}"
-      },
-      {
-        "name": "LinkedIn Button",
-        "html": "<button class=\"linkedin\">in LinkedIn</button>",
-        "css": "/* Base Button Style */\nbutton:hover {\n  transform:translateY(-1px);\n}\n\n/* Modifier */\n.linkedin {\n  background:#0a66c2;color:white;\n}"
-      },
-      {
-        "name": "GitHub Button",
-        "html": "<button class=\"github\">◉ GitHub</button>",
-        "css": "/* Base Button Style */\nbutton:hover {\n  transform:translateY(-1px);\n}\n\n/* Modifier */\n.github {\n  background:#24292f;color:white;\n}"
-      },
-      {
-        "name": "Google Login Button",
-        "html": "<button class=\"google\">G Continue with Google</button>",
-        "css": "/* Base Button Style */\nbutton:hover {\n  transform:translateY(-1px);\n}\n\n/* Modifier */\n/* LOGIN */\n\n.google {\n  background:white;\n      border:1px solid #d1d5db;\n      color:#374151;\n}"
-      },
-      {
-        "name": "Login Button",
-        "html": "<button class=\"login\">Login</button>",
-        "css": "/* Base Button Style */\nbutton:hover {\n  transform:translateY(-1px);\n}\n\n/* Modifier */\n.login {\n  background:#111827;\n      color:white;\n}"
-      }
-    ]
-  },
-  {
-    "name": "Utility Buttons",
-    "buttons": [
-      {
-        "name": "Search Button",
-        "html": "<div class=\"search\"><input placeholder=\"Search\"><button>🔍</button></div>",
-        "css": "/* Base Button Style */\nbutton:hover {\n  transform:translateY(-1px);\n}\n\n/* Modifier */\n/* SEARCH */\n\n.search {\n  display:flex;\n}\n\n.search input {\n  width:130px;\n      padding:10px;\n      border:1px solid #d1d5db;\n      border-radius:8px 0 0 8px;\n      outline:none;\n}\n\n.search button {\n  border-radius:0 8px 8px 0;\n      background:#2563eb;\n      color:white;\n}"
-      },
-      {
-        "name": "Upload Button",
-        "html": "<button class=\"primary\">↑ Upload</button>",
-        "css": "/* Base Button Style */\nbutton:hover {\n  transform:translateY(-1px);\n}\n\n/* Modifier */\n/* BASIC */\n\n.primary {\n  background:#2563eb;\n      color:white;\n}"
-      },
-      {
-        "name": "Download Button",
-        "html": "<button class=\"primary\">↓ Download</button>",
-        "css": "/* Base Button Style */\nbutton:hover {\n  transform:translateY(-1px);\n}\n\n/* Modifier */\n/* BASIC */\n\n.primary {\n  background:#2563eb;\n      color:white;\n}"
-      },
-      {
-        "name": "Share Button",
-        "html": "<button class=\"secondary\">↗ Share</button>",
-        "css": "/* Base Button Style */\nbutton:hover {\n  transform:translateY(-1px);\n}\n\n/* Modifier */\n.secondary {\n  background:#e5e7eb;\n      color:#111827;\n}"
-      },
-      {
-        "name": "Copy Button",
-        "html": "<button class=\"secondary\">▣ Copy</button>",
-        "css": "/* Base Button Style */\nbutton:hover {\n  transform:translateY(-1px);\n}\n\n/* Modifier */\n.secondary {\n  background:#e5e7eb;\n      color:#111827;\n}"
-      },
-      {
-        "name": "Print Button",
-        "html": "<button class=\"secondary\">🖨 Print</button>",
-        "css": "/* Base Button Style */\nbutton:hover {\n  transform:translateY(-1px);\n}\n\n/* Modifier */\n.secondary {\n  background:#e5e7eb;\n      color:#111827;\n}"
-      },
-      {
-        "name": "Close Button",
-        "html": "<button class=\"danger\">✕ Close</button>",
-        "css": "/* Base Button Style */\nbutton:hover {\n  transform:translateY(-1px);\n}\n\n/* Modifier */\n/* ACTION */\n\n.danger {\n  background:#dc2626;\n      color:white;\n}"
-      },
-      {
-        "name": "Clear Button",
-        "html": "<button class=\"secondary\">Clear</button>",
-        "css": "/* Base Button Style */\nbutton:hover {\n  transform:translateY(-1px);\n}\n\n/* Modifier */\n.secondary {\n  background:#e5e7eb;\n      color:#111827;\n}"
+        name: "Loading & Toggles",
+        buttons: [
+          {
+            id: "btn-loading-state",
+            name: "Spinner Loading State",
+            tags: ["Loading", "Spinner", "State"],
+            html: `<button class="btn-loading-state"><span class="spinner"></span> Processing...</button>`,
+            css: `.btn-loading-state {
+  background: #334155;
+  color: #94a3b8;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 12px 28px;
+  border-radius: 8px;
+  border: 1px solid #475569;
+  cursor: wait;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+.btn-loading-state .spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid #94a3b8;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}`
+          },
+          {
+            id: "btn-toggle-switch",
+            name: "Interactive Toggle Switch",
+            tags: ["Toggle", "Interactive", "Switch"],
+            html: `<button class="btn-toggle-switch" onclick="this.classList.toggle('active')"><span class="knob"></span></button>`,
+            css: `.btn-toggle-switch {
+  width: 60px;
+  height: 32px;
+  background: #334155;
+  border-radius: 9999px;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  transition: background 0.3s ease;
+  padding: 4px;
+}
+.btn-toggle-switch .knob {
+  width: 24px;
+  height: 24px;
+  background: #ffffff;
+  border-radius: 50%;
+  display: block;
+  transition: transform 0.3s ease;
+}
+.btn-toggle-switch.active {
+  background: #10b981;
+}
+.btn-toggle-switch.active .knob {
+  transform: translateX(28px);
+}`
+          }
+        ]
       }
     ]
   }
