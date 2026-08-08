@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Layers as LayersIcon, BookOpen, ChevronDown, Palette, Layout, Undo2, Redo2, Sliders, Component, Layers, Smartphone, Tablet, Monitor } from 'lucide-react';
+import { Layers as LayersIcon, BookOpen, ChevronDown, Palette, Layout, Undo2, Redo2, Sliders, Component, Layers, Smartphone, Tablet, Monitor, Download } from 'lucide-react';
 import ComponentLibrary from './ComponentLibrary';
 import StyleControls from './StyleControls';
 import LiveCanvas from './LiveCanvas';
@@ -7,6 +7,7 @@ import OutputPanel from './OutputPanel';
 import BackgroundCanvas from './BackgroundCanvas';
 import FrontendEncyclopediaModal from './FrontendEncyclopediaModal';
 import TemplatePreviewModal from './TemplatePreviewModal';
+import ExportModal from './ExportModal';
 import LayersTreePanel from './LayersTreePanel';
 import { DEFAULT_STYLE } from '../data/componentLibrary';
 import { backgroundThemes } from '../data/frontendKnowledge';
@@ -33,6 +34,7 @@ export default function CanvasStudio() {
   const [isThemeOpen, setIsThemeOpen]           = useState(false);
   const [isEncyclopediaOpen, setIsEncyclopediaOpen] = useState(false);
   const [isTemplateModalOpen, setIsTemplateModalOpen] = useState(false);
+  const [isExportModalOpen, setIsExportModalOpen] = useState(false);
 
   const currentThemeObj = backgroundThemes.find(t => t.id === activeTheme) || backgroundThemes[0];
 
@@ -115,6 +117,15 @@ export default function CanvasStudio() {
 
         {/* Right Controls Header */}
         <div className="flex items-center gap-2">
+
+          {/* Export Code Modal Button */}
+          <button
+            onClick={() => setIsExportModalOpen(true)}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gradient-to-r from-cyan-500 to-purple-600 text-white shadow-lg shadow-cyan-500/20 hover:opacity-90 transition text-xs font-bold"
+          >
+            <Download className="w-3.5 h-3.5" />
+            <span>Export Code &amp; AI</span>
+          </button>
 
           {/* 30+ Templates Modal Button */}
           <button
@@ -279,6 +290,10 @@ export default function CanvasStudio() {
       <TemplatePreviewModal
         isOpen={isTemplateModalOpen}
         onClose={() => setIsTemplateModalOpen(false)}
+      />
+      <ExportModal
+        isOpen={isExportModalOpen}
+        onClose={() => setIsExportModalOpen(false)}
       />
     </div>
   );
