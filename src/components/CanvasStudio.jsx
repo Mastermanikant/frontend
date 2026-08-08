@@ -13,7 +13,7 @@ import { DEFAULT_STYLE } from '../data/componentLibrary';
 import { backgroundThemes } from '../data/frontendKnowledge';
 import { useCanvas } from '../context/CanvasContext';
 
-export default function CanvasStudio() {
+export default function CanvasStudio({ onViewHub }) {
   const {
     elements,
     selectedElementId,
@@ -49,11 +49,11 @@ export default function CanvasStudio() {
         
         {/* Left Brand Identity */}
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-cyan-400 via-purple-500 to-pink-500 flex items-center justify-center shadow-lg shadow-cyan-500/20 shrink-0">
+          <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-cyan-400 via-purple-500 to-pink-500 flex items-center justify-center shadow-lg shadow-cyan-500/20 shrink-0 cursor-pointer" onClick={onViewHub}>
             <LayersIcon className="w-4 h-4 text-white" />
           </div>
           <div>
-            <h1 className="text-sm font-black gradient-text font-heading leading-tight flex items-center gap-2">
+            <h1 className="text-sm font-black gradient-text font-heading leading-tight flex items-center gap-2 cursor-pointer" onClick={onViewHub}>
               Frontend Canvas Studio
               <span className="text-[9px] font-mono px-2 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">
                 Canva SaaS Edition
