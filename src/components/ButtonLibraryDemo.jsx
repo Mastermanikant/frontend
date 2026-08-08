@@ -42,7 +42,7 @@ export default function ButtonLibraryDemo() {
                 
                 // Safe CSS Scoping using a placeholder to avoid double-prefixing
                 const scopedCss = btn.css
-                  .replace(/(^|\n|\})\s*button\s*\{/g, `$1 %%SCOPE%% button {`)
+                  .replace(/(^|\n|\})\s*button([^{]*)\{/g, `$1 %%SCOPE%% button$2{`)
                   .replace(/(^|\n|\})\s*\.([a-zA-Z_-][a-zA-Z0-9_-]*)/g, `$1 %%SCOPE%% .$2`)
                   .replace(/%%SCOPE%%/g, `.btn-preview-${uniqueId}`);
 

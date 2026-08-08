@@ -4,28 +4,36 @@ import * as cheerio from 'cheerio';
 const htmlContent = fs.readFileSync('D:/Best_ui/button_demo.html', 'utf-8');
 const $ = cheerio.load(htmlContent);
 
-// Extract CSS
 const styleText = $('style').text();
-const cssRules = {};
-// A simple regex to find class rules in CSS (not perfect but works for this file)
-const cssRegex = /\.([a-zA-Z0-9_-]+)(?::[a-zA-Z-]+)?\s*\{([^}]+)\}/g;
+
+// Extract ALL css blocks: selectors { rules }
+// Also handle @keyframes
+const cssBlocks = [];
+const blockRegex = /([^{]+)\s*\{([^}]+)\}/g;
 let match;
-while ((match = cssRegex.exec(styleText)) !== null) {
-  const className = match[1];
+while ((match = blockRegex.exec(styleText)) !== null) {
+  let selector = match[1].trim();
   const rules = match[2].trim();
-  if (!cssRules[className]) {
-    cssRules[className] = rules;
-  } else {
-    cssRules[className] += '\n' + rules;
+  
+  // ignore global body/header container stuff
+  if (selector === '*' || selector === 'body' || selector.startsWith('header') || selector.startsWith('.container') || selector.startsWith('.category') || selector.startsWith('.grid') || selector.startsWith('.card') || selector.startsWith('.name') || selector.startsWith('.preview') || selector.startsWith('@media')) {
+    continue;
   }
+  
+  cssBlocks.push({ selector, rules, fullText: `${selector} {\n  ${rules.replace(/\n/g, '\n  ')}\n}` });
 }
 
-// Special case for global button styles
-let baseButtonStyle = '';
-const baseBtnMatch = /button\s*\{([^}]+)\}/.exec(styleText);
-if (baseBtnMatch) {
-  baseButtonStyle = baseBtnMatch[1].trim();
-}
+// Special case for global button styles (button, button:hover)
+const baseButtonCss = cssBlocks
+  .filter(b => b.selector === 'button' || b.selector === 'button:hover')
+  .map(b => b.fullText)
+  .join('\n\n');
+
+// Special case for keyframes (spin)
+const keyframes = cssBlocks
+  .filter(b => b.selector.includes('@keyframes'))
+  .map(b => b.fullText)
+  .join('\n\n');
 
 const categories = [];
 
@@ -37,21 +45,39 @@ $('.category').each((i, el) => {
     const name = $(card).find('.name').text();
     const previewHtml = $(card).find('.preview').html().trim();
     
-    // Extract class names from the preview HTML to find the relevant CSS
-    const classMatch = previewHtml.match(/class="([^"]+)"/);
-    let cssCode = '';
+    // Find all class names in this button's HTML to match CSS
+    const classMatches = previewHtml.match(/class="([^"]+)"/g) || [];
+    const classNames = new Set();
+    classMatches.forEach(c => {
+      c.replace('class="', '').replace('"', '').split(' ').forEach(cls => classNames.add(cls));
+    });
+
+    let specificCss = [];
     
-    if (classMatch) {
-      const classNames = classMatch[1].split(' ');
+    // Find all blocks that reference ANY of these class names
+    cssBlocks.forEach(block => {
+      // Don't duplicate base button
+      if (block.selector === 'button' || block.selector === 'button:hover') return;
+      
+      let matched = false;
       classNames.forEach(cls => {
-        if (cssRules[cls]) {
-          cssCode += `.${cls} {\n  ${cssRules[cls].replace(/\n/g, '\n  ')}\n}\n\n`;
+        // e.g. `.primary`, `.tooltip:hover::after`, `.group button:first-child`
+        if (block.selector.includes(`.${cls}`)) {
+          matched = true;
         }
       });
+      
+      if (matched) {
+        specificCss.push(block.fullText);
+      }
+    });
+
+    // Special logic for loading button which needs @keyframes
+    if (classNames.has('loading') && keyframes) {
+      specificCss.push(`@keyframes spin {\n  to { transform: rotate(360deg); }\n}`);
     }
-    
-    // Add base button CSS for context
-    const fullCss = `/* Base Button Style */\nbutton {\n  ${baseButtonStyle.replace(/\n/g, '\n  ')}\n}\n\n/* Modifier */\n${cssCode}`.trim();
+
+    const fullCss = `/* Base Button Style */\n${baseButtonCss}\n\n/* Modifier */\n${specificCss.join('\n\n')}`.trim();
     
     buttons.push({
       name,
@@ -66,9 +92,6 @@ $('.category').each((i, el) => {
   });
 });
 
-const output = `// Auto-generated from button_demo.html
-export const buttonLibraryData = ${JSON.stringify(categories, null, 2)};
-`;
-
+const output = `// Auto-generated from button_demo.html\nexport const buttonLibraryData = ${JSON.stringify(categories, null, 2)};\n`;
 fs.writeFileSync('src/data/buttonLibraryData.js', output);
 console.log('Successfully generated src/data/buttonLibraryData.js');
