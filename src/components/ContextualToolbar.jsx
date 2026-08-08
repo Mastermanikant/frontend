@@ -4,8 +4,15 @@ import { Type, Palette, Type as TypeIcon, Square, Trash2, Zap } from 'lucide-rea
 export default function ContextualToolbar({ element, onUpdate, onDelete, onOpenFontSelector }) {
   if (!element) return null;
 
+  // Calculate dynamic floating position directly above the selected element
+  const posX = Math.max(20, element.x || 40);
+  const posY = Math.max(10, (element.y || 40) - 50);
+
   return (
-    <div className="absolute top-4 left-1/2 -translate-x-1/2 bg-slate-900 border border-slate-700 rounded-2xl shadow-2xl z-40 px-4 py-2 flex items-center gap-3 animate-fadeIn">
+    <div 
+      style={{ left: `${posX}px`, top: `${posY}px` }}
+      className="absolute bg-slate-900 border border-slate-700 rounded-2xl shadow-2xl z-40 px-4 py-2 flex items-center gap-3 animate-fadeIn backdrop-blur-xl shrink-0"
+    >
       {element.type === 'text' && (
         <>
           <button
@@ -23,8 +30,8 @@ export default function ContextualToolbar({ element, onUpdate, onDelete, onOpenF
             <input
               type="number"
               value={parseInt(element.style?.fontSize) || 16}
-              onChange={(e) => onUpdate({ ...element.style, fontSize: `${e.target.value}px` })}
-              className="w-14 bg-slate-950 border border-slate-700 rounded-lg px-2 py-1 text-xs text-white focus:outline-none"
+              onChange={(e) => onUpdate({ ...element, style: { ...element.style, fontSize: `${e.target.value}px` } })}
+              className="w-14 bg-slate-950 border border-slate-700 rounded-lg px-2 py-1 text-xs text-white focus:outline-none font-mono"
             />
           </div>
 
@@ -33,7 +40,7 @@ export default function ContextualToolbar({ element, onUpdate, onDelete, onOpenF
             <input
               type="color"
               value={element.style?.color || '#ffffff'}
-              onChange={(e) => onUpdate({ ...element.style, color: e.target.value })}
+              onChange={(e) => onUpdate({ ...element, style: { ...element.style, color: e.target.value } })}
               className="w-6 h-6 rounded-lg cursor-pointer border-0 bg-transparent"
             />
           </div>
@@ -47,16 +54,16 @@ export default function ContextualToolbar({ element, onUpdate, onDelete, onOpenF
             <input
               type="color"
               value={element.style?.bgColor1 || '#06b6d4'}
-              onChange={(e) => onUpdate({ ...element.style, bgColor1: e.target.value })}
+              onChange={(e) => onUpdate({ ...element, style: { ...element.style, bgColor1: e.target.value } })}
               className="w-6 h-6 rounded-lg cursor-pointer border-0 bg-transparent"
-              title="Color 1"
+              title="Primary Color"
             />
             <input
               type="color"
               value={element.style?.bgColor2 || '#9333ea'}
-              onChange={(e) => onUpdate({ ...element.style, bgColor2: e.target.value })}
+              onChange={(e) => onUpdate({ ...element, style: { ...element.style, bgColor2: e.target.value } })}
               className="w-6 h-6 rounded-lg cursor-pointer border-0 bg-transparent"
-              title="Color 2"
+              title="Secondary Color"
             />
           </div>
 
@@ -67,9 +74,9 @@ export default function ContextualToolbar({ element, onUpdate, onDelete, onOpenF
             <input
               type="number"
               value={element.style?.borderRadius || 8}
-              onChange={(e) => onUpdate({ ...element.style, borderRadius: parseInt(e.target.value) })}
-              className="w-12 bg-slate-950 border border-slate-700 rounded-lg px-2 py-1 text-xs text-white focus:outline-none"
-              title="Border Radius"
+              onChange={(e) => onUpdate({ ...element, style: { ...element.style, borderRadius: parseInt(e.target.value) } })}
+              className="w-12 bg-slate-950 border border-slate-700 rounded-lg px-2 py-1 text-xs text-white focus:outline-none font-mono"
+              title="Border Radius (px)"
             />
           </div>
 
@@ -79,7 +86,7 @@ export default function ContextualToolbar({ element, onUpdate, onDelete, onOpenF
             <Zap className="w-3.5 h-3.5 text-purple-400" />
             <select
               value={element.style?.hoverEffect || 'none'}
-              onChange={(e) => onUpdate({ ...element.style, hoverEffect: e.target.value })}
+              onChange={(e) => onUpdate({ ...element, style: { ...element.style, hoverEffect: e.target.value } })}
               className="bg-slate-950 border border-slate-700 rounded-lg px-2 py-1 text-xs text-white focus:outline-none max-w-[100px]"
             >
               <option value="none">No Anim</option>
