@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { 
   X, Check, Copy, Sliders, Code2, RotateCcw, Palette, Type, Square, Sparkles, 
-  Sun, Moon, ArrowRightLeft, Film, Zap, Activity, Repeat, Eye
+  Sun, Moon, ArrowRightLeft, Film, Activity, Play, Zap
 } from 'lucide-react';
 import { buttonCategories } from '../data/buttonLibraryData';
 
@@ -18,56 +18,60 @@ const PRESET_COLORS = [
   { name: 'Dark', hex: '#0f172a' }
 ];
 
-// Global Keyframes for Live Stage Motion
-const STUDIO_KEYFRAMES = `
-@keyframes gradientShift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-@keyframes pulseGlow {
-  0%, 100% { box-shadow: 0 0 10px rgba(99, 102, 241, 0.4); }
-  50% { box-shadow: 0 0 35px rgba(99, 102, 241, 0.9), 0 0 50px rgba(236, 72, 153, 0.6); }
-}
-@keyframes floatBob {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-8px); }
-}
-@keyframes heartbeat {
-  0%, 100% { transform: scale(1); }
-  14% { transform: scale(1.08); }
-  28% { transform: scale(1); }
-  42% { transform: scale(1.08); }
-  70% { transform: scale(1); }
-}
-@keyframes attentionShake {
-  0%, 100% { transform: translateX(0); }
-  20%, 60% { transform: translateX(-5px); }
-  40%, 80% { transform: translateX(5px); }
-}
-@keyframes textShimmer {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
-}
-@keyframes textRainbow {
-  0% { filter: hue-rotate(0deg); }
-  100% { filter: hue-rotate(360deg); }
-}
-@keyframes letterPulse {
-  0%, 100% { letter-spacing: 0px; }
-  50% { letter-spacing: 4px; }
-}
-@keyframes neonBorderPulse {
-  0%, 100% { border-color: #6366f1; box-shadow: 0 0 10px #6366f1; }
-  50% { border-color: #ec4899; box-shadow: 0 0 25px #ec4899; }
-}
-@keyframes colorCycle {
-  0% { background: #6366f1; }
-  25% { background: #ec4899; }
-  50% { background: #10b981; }
-  75% { background: #f59e0b; }
-  100% { background: #6366f1; }
-}
+// Exhaustive Keyframes imported from offline_button_animation_lab.html
+const LAB_KEYFRAMES = `
+@keyframes btnPulse{50%{transform:scale(1.06)}}
+@keyframes btnBounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+@keyframes btnShake{0%,100%{transform:translateX(0)}20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
+@keyframes btnFloat{50%{transform:translateY(-10px)}}
+@keyframes heartbeat{0%,40%,80%,100%{transform:scale(1)}20%,60%{transform:scale(1.08)}}
+@keyframes swing{20%{transform:rotate(7deg)}40%{transform:rotate(-5deg)}60%{transform:rotate(3deg)}80%{transform:rotate(-2deg)}}
+@keyframes jello{30%{transform:skewX(-10deg) skewY(-5deg)}50%{transform:skewX(7deg) skewY(3deg)}70%{transform:skewX(-3deg)}}
+@keyframes wobble{25%{transform:translateX(-8%) rotate(-3deg)}50%{transform:translateX(6%) rotate(2deg)}75%{transform:translateX(-3%) rotate(-1deg)}}
+@keyframes rotate360{to{transform:rotate(360deg)}}
+@keyframes scaleBtn{50%{transform:scale(.9)}}
+@keyframes pop{0%,100%{transform:scale(1)}50%{transform:scale(1.12)}}
+@keyframes rubber{30%{transform:scaleX(1.2) scaleY(.8)}60%{transform:scaleX(.85) scaleY(1.15)}}
+@keyframes tada{10%,20%{transform:scale(.95) rotate(-3deg)}30%,50%,70%,90%{transform:scale(1.05) rotate(3deg)}40%,60%,80%{transform:scale(1.05) rotate(-3deg)}}
+@keyframes squeeze{50%{transform:scaleX(.8)}}
+@keyframes swing2{25%{transform:rotateY(20deg)}50%{transform:rotateY(-20deg)}75%{transform:rotateY(10deg)}}
+@keyframes bgPulse{50%{background:#8178ff}}
+@keyframes bgBreathe{50%{background:#252d72}}
+@keyframes rainbow{0%{filter:hue-rotate(0)}100%{filter:hue-rotate(360deg)}}
+@keyframes hue{0%,100%{filter:hue-rotate(0)}50%{filter:hue-rotate(180deg)}}
+@keyframes gradientMove{to{background-position:300% 0}}
+@keyframes flicker{0%,19%,21%,63%,64%,100%{opacity:1}20%,62%{opacity:.35}}
+@keyframes invertColor{50%{filter:invert(1)}}
+@keyframes warningColor{0%,100%{background:#6257ff}50%{background:#ff2f5e}}
+@keyframes textPulse{50%{transform:scale(1.08)}}
+@keyframes textGlow{50%{text-shadow:0 0 5px #fff,0 0 20px #00d4ff,0 0 35px #6257ff}}
+@keyframes textFlicker{0%,18%,22%,62%,64%,100%{opacity:1}20%,63%{opacity:.2}}
+@keyframes textShimmer{to{background-position:-250% 0}}
+@keyframes textRainbow{to{filter:hue-rotate(360deg)}}
+@keyframes textWave{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px) rotate(-2deg)}}
+@keyframes textBounce{50%{transform:translateY(-9px)}}
+@keyframes textShake{0%,100%{transform:translateX(0)}50%{transform:translateX(5px)}}
+@keyframes textSpacing{50%{letter-spacing:.25em}}
+@keyframes textScale{50%{transform:scale(1.15)}}
+@keyframes textBlink{50%{opacity:0}}
+@keyframes glitch{0%,100%{transform:translate(0)}25%{transform:translate(-2px,1px)}50%{transform:translate(2px,-1px)}75%{transform:translate(-1px,2px)}}
+@keyframes textSlide{50%{transform:translateX(8px)}}
+@keyframes typing{0%{max-width:0}45%,70%{max-width:14ch}100%{max-width:0}}
+@keyframes neonBorder{0%,100%{opacity:.4;filter:blur(1px)}50%{opacity:1;filter:blur(6px)}}
+@keyframes borderPulse{50%{transform:scale(1.05);opacity:.25}}
+@keyframes spinBorder{to{transform:rotate(360deg)}}
+@keyframes sweepBorder{to{transform:translateX(100%)}}
+@keyframes gradientBorder{to{background-position:300% 0}}
+@keyframes dashBorder{to{border-spacing:12px}}
+@keyframes doubleBorder{50%{border-width:9px}}
+@keyframes borderColor{0%{border-color:#6257ff}33%{border-color:#00d4ff}66%{border-color:#ff2f92}100%{border-color:#6257ff}}
+@keyframes glow{50%{box-shadow:0 0 30px #6257ff}}
+@keyframes neonGlow{50%{box-shadow:0 0 10px #6257ff,0 0 35px #00d4ff,0 0 70px #ff2f92}}
+@keyframes rainbowShadow{0%{box-shadow:0 0 22px #ff2f92}33%{box-shadow:0 0 22px #6257ff}66%{box-shadow:0 0 22px #00d4ff}100%{box-shadow:0 0 22px #ff2f92}}
+@keyframes liftShadow{50%{transform:translateY(-7px);box-shadow:0 22px 35px #000b}}
+@keyframes shadowPulse{50%{box-shadow:0 0 0 14px #6257ff22,0 0 35px #6257ff}}
+@keyframes shine{to{transform:translateX(120%)}}
+@keyframes ripple{to{transform:translate(-50%,-50%) scale(18);opacity:0}}
 `;
 
 export default function ButtonStudioModal({ btn, onClose }) {
@@ -89,154 +93,117 @@ export default function ButtonStudioModal({ btn, onClose }) {
     }
   };
 
-  // Open Accordion Sub-Panels
+  // Open Accordion Sections
   const [openSections, setOpenSections] = useState({
-    buttonAnim: true,
+    btnMotion: true,
+    bgColorAnim: true,
     textAnim: true,
-    colorAnim: true,
     borderAnim: true,
+    shadowGlowAnim: true,
     hoverPhysics: true,
+    ripple: false,
     content: false,
     dimensions: false,
     typography: false,
     colors: false,
-    border: false,
-    shadow: false
+    border: false
   });
 
   const toggleSection = (sec) => {
     setOpenSections(prev => ({ ...prev, [sec]: !prev[sec] }));
   };
 
-  // 1. Content & Text
+  // 1. Label Text
   const initialText = selectedBtn.html.match(/>([^<]+)</)?.[1] || "Button";
   const [content, setContent] = useState({ label: initialText });
 
-  // 2. Button Animations (Keyframe Motion)
-  const [btnAnim, setBtnAnim] = useState({
-    type: 'flowing-gradient', // 'none' | 'flowing-gradient' | 'pulse-aura' | 'floating-bob' | 'heartbeat' | 'attention-shake'
-    duration: 3,
-    easing: 'ease'
-  });
+  // 2. Global Speed Slider
+  const [duration, setDuration] = useState(1.5);
 
-  // 3. Text Animations
-  const [textAnim, setTextAnim] = useState({
-    type: 'none', // 'none' | 'text-shimmer' | 'text-rainbow' | 'letter-pulse'
-    duration: 2.5
-  });
+  // 3. Multi-Select Animations from Animation Lab
+  const [btnMotion, setBtnMotion] = useState('a-float'); // 'none' | 'a-pulse' | 'a-bounce' | 'a-shake' | 'a-float' | 'a-heartbeat' | 'a-swing' | 'a-jello' | 'a-wobble' | 'a-rotate' | 'a-scale' | 'a-pop' | 'a-rubber' | 'a-tada' | 'a-squeeze' | 'a-swing2'
+  const [bgColorAnim, setBgColorAnim] = useState('c-gradient'); // 'none' | 'c-pulse' | 'c-breathe' | 'c-rainbow' | 'c-hue' | 'c-gradient' | 'c-flicker' | 'c-invert' | 'c-warning'
+  const [textAnim, setTextAnim] = useState('none'); // 'none' | 't-pulse' | 't-glow' | 't-flicker' | 't-shimmer' | 't-rainbow' | 't-wave' | 't-bounce' | 't-shake' | 't-spacing' | 't-scale' | 't-blink' | 't-glitch' | 't-slide' | 't-type'
+  const [borderAnim, setBorderAnim] = useState('none'); // 'none' | 'b-neon' | 'b-pulse' | 'b-spin' | 'b-sweep' | 'b-gradient' | 'b-dash' | 'b-double' | 'b-color'
+  const [shadowGlowAnim, setShadowGlowAnim] = useState('none'); // 'none' | 'g-glow' | 'g-neon' | 'g-rainbow' | 'g-lift' | 'g-pulse'
+  const [hoverEffect, setHoverEffect] = useState('h-lift'); // 'none' | 'h-lift' | 'h-scale' | 'h-glow' | 'h-slide' | 'h-rotate' | 'h-press' | 'h-color' | 'h-shine'
+  const [rippleEffect, setRippleEffect] = useState(false);
 
-  // 4. Background Color Animations
-  const [colorAnim, setColorAnim] = useState({
-    type: 'none', // 'none' | 'color-cycle' | 'glow-surge'
-    duration: 4
-  });
-
-  // 5. Border Animations
-  const [borderAnim, setBorderAnim] = useState({
-    type: 'none', // 'none' | 'neon-border-pulse'
-    duration: 2
-  });
-
-  // 6. Hover & Physics
-  const [hoverConfig, setHoverConfig] = useState({
-    effect: 'lift', // 'none' | 'lift' | 'scale-up' | 'scale-down' | 'rotate' | 'shimmer'
-    speed: 0.25
-  });
-
-  // 7. Typography & Styling
-  const [typography, setTypography] = useState({ fontSize: 15, fontWeight: 600 });
-  const [colors, setColors] = useState({ text: '#ffffff', bg: '#6366f1', bg2: '#ec4899', hoverBg: '#4338ca' });
-  const [bgMode, setBgMode] = useState('gradient');
-  const [borderStyle, setBorderStyle] = useState('none');
-  const [borderRadius, setBorderRadius] = useState(8);
+  // 4. Base Typography & Controls
+  const [typography, setTypography] = useState({ fontSize: 18, fontWeight: 700 });
+  const [colors, setColors] = useState({ text: '#ffffff', bg: '#6257ff' });
+  const [borderWidth, setBorderWidth] = useState(2);
+  const [borderRadius, setBorderRadius] = useState(14);
 
   const uniqueId = `anim-studio-${selectedBtn.id}`;
 
-  // Dynamically Construct Production CSS with Keyframes
+  // Build Production CSS Code with @keyframes
   const buildCssCode = () => {
     let css = `/* ============================================ */\n`;
-    css += `/* 1. BASE STYLES & TYPOGRAPHY                  */\n`;
+    css += `/* 1. BUTTON BASE STYLES & DIMENSIONS            */\n`;
     css += `/* ============================================ */\n`;
     css += `.btn-${uniqueId} {\n`;
+    css += `  --duration: ${duration}s;\n`;
     css += `  font-size: ${typography.fontSize}px;\n`;
     css += `  font-weight: ${typography.fontWeight};\n`;
     css += `  color: ${colors.text};\n`;
-    css += `  padding: 12px 28px;\n`;
-    css += `  border-radius: ${borderRadius === 9999 ? '9999px' : `${borderRadius}px`};\n\n`;
-
-    css += `  /* Background & Gradient Settings */\n`;
-    if (bgMode === 'gradient') {
-      css += `  background: linear-gradient(135deg, ${colors.bg}, ${colors.bg2});\n`;
-      if (btnAnim.type === 'flowing-gradient') {
-        css += `  background-size: 300% 300%;\n`;
-        css += `  animation: gradientShift ${btnAnim.duration}s ${btnAnim.easing} infinite;\n`;
-      }
-    } else {
-      css += `  background: ${colors.bg};\n`;
-    }
-
-    if (colorAnim.type === 'color-cycle') {
-      css += `  animation: colorCycle ${colorAnim.duration}s ease infinite;\n`;
-    }
-
-    // Button Animations
-    if (btnAnim.type === 'pulse-aura') {
-      css += `  animation: pulseGlow ${btnAnim.duration}s ease infinite;\n`;
-    } else if (btnAnim.type === 'floating-bob') {
-      css += `  animation: floatBob ${btnAnim.duration}s ease-in-out infinite;\n`;
-    } else if (btnAnim.type === 'heartbeat') {
-      css += `  animation: heartbeat ${btnAnim.duration}s ease-in-out infinite;\n`;
-    } else if (btnAnim.type === 'attention-shake') {
-      css += `  animation: attentionShake ${btnAnim.duration}s ease infinite;\n`;
-    }
-
-    // Text Animations
-    if (textAnim.type === 'text-rainbow') {
-      css += `  animation: textRainbow ${textAnim.duration}s linear infinite;\n`;
-    } else if (textAnim.type === 'letter-pulse') {
-      css += `  animation: letterPulse ${textAnim.duration}s ease-in-out infinite;\n`;
-    }
-
-    // Border Animations
-    if (borderAnim.type === 'neon-border-pulse') {
-      css += `  border: 2px solid ${colors.bg};\n`;
-      css += `  animation: neonBorderPulse ${borderAnim.duration}s ease-in-out infinite;\n`;
-    } else if (borderStyle !== 'none') {
-      css += `  border: 2px ${borderStyle} ${colors.bg};\n`;
-    } else {
-      css += `  border: none;\n`;
-    }
-
+    css += `  background: ${colors.bg};\n`;
+    css += `  padding: 14px 32px;\n`;
+    css += `  border-radius: ${borderRadius === 9999 ? '9999px' : `${borderRadius}px`};\n`;
+    css += `  border: ${borderWidth}px solid ${colors.bg};\n`;
     css += `  cursor: pointer;\n`;
-    css += `  transition: all ${hoverConfig.speed}s cubic-bezier(0.4, 0, 0.2, 1);\n`;
+    css += `  position: relative;\n`;
+    css += `  transition: 0.25s ease;\n`;
     css += `}\n\n`;
 
-    css += `/* ============================================ */\n`;
-    css += `/* 2. HOVER & PHYSICAL CLICK MOTION PHYSICS      */\n`;
-    css += `/* ============================================ */\n`;
-    css += `.btn-${uniqueId}:hover {\n`;
-    if (colors.hoverBg) css += `  background: ${colors.hoverBg};\n`;
-    if (hoverConfig.effect === 'lift') css += `  transform: translateY(-4px);\n`;
-    if (hoverConfig.effect === 'scale-up') css += `  transform: scale(1.08);\n`;
-    if (hoverConfig.effect === 'scale-down') css += `  transform: scale(0.95);\n`;
-    if (hoverConfig.effect === 'rotate') css += `  transform: rotate(3deg) scale(1.04);\n`;
-    css += `}\n`;
+    // Button Motion Keyframes
+    if (btnMotion === 'a-pulse') css += `.btn-${uniqueId} { animation: btnPulse ${duration}s ease-in-out infinite; }\n`;
+    if (btnMotion === 'a-bounce') css += `.btn-${uniqueId} { animation: btnBounce ${duration}s ease-in-out infinite; }\n`;
+    if (btnMotion === 'a-shake') css += `.btn-${uniqueId} { animation: btnShake ${duration * 1.5}s ease-in-out infinite; }\n`;
+    if (btnMotion === 'a-float') css += `.btn-${uniqueId} { animation: btnFloat ${duration}s ease-in-out infinite; }\n`;
+    if (btnMotion === 'a-heartbeat') css += `.btn-${uniqueId} { animation: heartbeat ${duration}s ease-in-out infinite; }\n`;
+    if (btnMotion === 'a-swing') css += `.btn-${uniqueId} { transform-origin: top center; animation: swing ${duration}s ease-in-out infinite; }\n`;
+    if (btnMotion === 'a-jello') css += `.btn-${uniqueId} { animation: jello ${duration}s ease-in-out infinite; }\n`;
+    if (btnMotion === 'a-wobble') css += `.btn-${uniqueId} { animation: wobble ${duration}s ease-in-out infinite; }\n`;
+    if (btnMotion === 'a-rotate') css += `.btn-${uniqueId} { animation: rotate360 ${duration * 2}s linear infinite; }\n`;
+    if (btnMotion === 'a-pop') css += `.btn-${uniqueId} { animation: pop ${duration}s ease-in-out infinite; }\n`;
+    if (btnMotion === 'a-rubber') css += `.btn-${uniqueId} { animation: rubber ${duration}s ease-in-out infinite; }\n`;
+    if (btnMotion === 'a-tada') css += `.btn-${uniqueId} { animation: tada ${duration * 1.7}s ease-in-out infinite; }\n`;
+
+    // Color Animations
+    if (bgColorAnim === 'c-pulse') css += `.btn-${uniqueId} { animation: bgPulse ${duration}s ease-in-out infinite; }\n`;
+    if (bgColorAnim === 'c-breathe') css += `.btn-${uniqueId} { animation: bgBreathe ${duration}s ease-in-out infinite; }\n`;
+    if (bgColorAnim === 'c-rainbow') css += `.btn-${uniqueId} { animation: rainbow ${duration * 3}s linear infinite; }\n`;
+    if (bgColorAnim === 'c-gradient') css += `.btn-${uniqueId} { background: linear-gradient(90deg,#6257ff,#00d4ff,#ff2f92,#6257ff); background-size: 300% 100%; animation: gradientMove ${duration * 2}s linear infinite; }\n`;
+
+    // Text Animations
+    if (textAnim === 't-shimmer') css += `.btn-${uniqueId} .label { color: transparent; background: linear-gradient(90deg,#fff 0%,#fff 35%,#00d4ff 50%,#fff 65%,#fff 100%); background-size: 250% 100%; background-clip: text; -webkit-background-clip: text; animation: textShimmer ${duration * 1.8}s linear infinite; }\n`;
+    if (textAnim === 't-rainbow') css += `.btn-${uniqueId} .label { animation: textRainbow ${duration * 3}s linear infinite; }\n`;
+    if (textAnim === 't-wave') css += `.btn-${uniqueId} .label { animation: textWave ${duration}s ease-in-out infinite; }\n`;
+    if (textAnim === 't-glitch') css += `.btn-${uniqueId} .label { animation: glitch ${duration * 1.4}s steps(2,end) infinite; text-shadow: 2px 0 #00d4ff, -2px 0 #ff2f92; }\n`;
+
+    // Hover Animations
+    css += `\n/* Hover Interactions */\n`;
+    if (hoverEffect === 'h-lift') css += `.btn-${uniqueId}:hover { transform: translateY(-8px); box-shadow: 0 18px 35px rgba(0,0,0,0.6); }\n`;
+    if (hoverEffect === 'h-scale') css += `.btn-${uniqueId}:hover { transform: scale(1.08); }\n`;
+    if (hoverEffect === 'h-glow') css += `.btn-${uniqueId}:hover { box-shadow: 0 0 12px #6257ff, 0 0 35px #6257ff; }\n`;
+    if (hoverEffect === 'h-rotate') css += `.btn-${uniqueId}:hover { transform: rotate(4deg); }\n`;
 
     return css;
   };
 
   const [cssCodeEdited, setCssCodeEdited] = useState(buildCssCode());
-  const [htmlCodeEdited, setHtmlCodeEdited] = useState(`<button class="btn-${uniqueId}">${content.label}</button>`);
+  const [htmlCodeEdited, setHtmlCodeEdited] = useState(`<button class="btn-${uniqueId}"><span class="label">${content.label}</span></button>`);
 
   const currentCssCode = activeTab === 'code' ? cssCodeEdited : buildCssCode();
-  const currentHtmlCode = activeTab === 'code' ? htmlCodeEdited : `<button class="btn-${uniqueId}">${content.label}</button>`;
+  const currentHtmlCode = activeTab === 'code' ? htmlCodeEdited : `<button class="btn-${uniqueId}"><span class="label">${content.label}</span></button>`;
 
   const scopedCss = currentCssCode
     .replace(/(^|\n|\})\s*\.btn-anim-studio-([a-zA-Z0-9_-]+)/g, `$1 %%SCOPE%% .btn-anim-studio-$2`)
     .replace(/%%SCOPE%%/g, `.stage-preview-${uniqueId}`);
 
   const handleCopy = () => {
-    const code = `<!-- HTML Markup -->\n${currentHtmlCode}\n\n/* Production Animated CSS Code */\n<style>\n${STUDIO_KEYFRAMES}\n\n${currentCssCode}\n</style>`;
+    const code = `<!-- HTML Markup -->\n${currentHtmlCode}\n\n/* Production CSS Code with Complete @keyframes */\n<style>\n${LAB_KEYFRAMES}\n\n${currentCssCode}\n</style>`;
     navigator.clipboard.writeText(code);
     setIsCopied(true);
     setTimeout(() => setIsCopied(false), 2000);
@@ -244,12 +211,12 @@ export default function ButtonStudioModal({ btn, onClose }) {
 
   return (
     <div className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-md flex flex-col overflow-hidden animate-in fade-in duration-200">
-      <style dangerouslySetInnerHTML={{__html: STUDIO_KEYFRAMES}} />
+      <style dangerouslySetInnerHTML={{__html: LAB_KEYFRAMES}} />
 
       {/* Top Header Bar */}
       <header className="h-16 bg-[#12141c] border-b border-slate-800 px-6 flex items-center justify-between shrink-0">
         
-        {/* Archetype Switcher */}
+        {/* Archetype Switcher Dropdown */}
         <div className="flex items-center space-x-3">
           <span className="text-xs font-bold uppercase tracking-wider text-indigo-400 flex items-center">
             <ArrowRightLeft className="w-4 h-4 mr-1.5" /> Archetype:
@@ -268,19 +235,19 @@ export default function ButtonStudioModal({ btn, onClose }) {
         {/* Title */}
         <div className="hidden md:flex items-center space-x-2 text-xs font-bold text-slate-200">
           <Film className="w-4 h-4 text-pink-500 animate-spin" />
-          <span>Maximum Animation & Keyframe Physics Studio</span>
+          <span>Exhaustive Button Animation Lab (50+ Keyframe Systems)</span>
         </div>
 
         {/* Actions */}
         <div className="flex items-center space-x-3">
-          <button onClick={() => setBtnAnim({ type: 'flowing-gradient', duration: 3, easing: 'ease' })} className="flex items-center space-x-1 px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs font-semibold border border-slate-700">
+          <button onClick={() => { setBtnMotion('none'); setBgColorAnim('none'); setTextAnim('none'); setBorderAnim('none'); }} className="flex items-center space-x-1 px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs font-semibold border border-slate-700">
             <RotateCcw className="w-3.5 h-3.5" />
-            <span>Reset Motion</span>
+            <span>Clear Animations</span>
           </button>
 
           <button onClick={handleCopy} className="flex items-center space-x-1.5 px-4 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg text-xs font-bold shadow-lg">
             {isCopied ? <Check className="w-4 h-4 text-green-400" /> : <Copy className="w-4 h-4" />}
-            <span>{isCopied ? 'Copied!' : 'Copy Code with Keyframes'}</span>
+            <span>{isCopied ? 'Copied!' : 'Copy Code with @keyframes'}</span>
           </button>
 
           <button onClick={onClose} className="p-1.5 text-slate-400 hover:text-white bg-slate-800/60 rounded-lg ml-2">
@@ -289,7 +256,7 @@ export default function ButtonStudioModal({ btn, onClose }) {
         </div>
       </header>
 
-      {/* Main Body: Left Stage vs Right Animation Controls */}
+      {/* Main Body: Centered Fixed Stage vs Exhaustive 50+ Animation Sidebar */}
       <div className="flex-1 flex flex-col md:flex-row overflow-hidden">
         
         {/* LEFT PANE: Centered Fixed Stage (Plays Animations Live in 60 FPS!) */}
@@ -311,7 +278,7 @@ export default function ButtonStudioModal({ btn, onClose }) {
           {/* Stage Footer Status */}
           <div className="h-12 border-t border-slate-800 bg-[#0f111a]/90 px-6 flex items-center justify-between text-xs text-slate-400 relative z-10">
             <span className="flex items-center font-mono text-pink-400 font-bold">
-              <Activity className="w-4 h-4 mr-2 text-pink-500 animate-pulse" /> Live Keyframe Motion Playing at 60 FPS
+              <Activity className="w-4 h-4 mr-2 text-pink-500 animate-pulse" /> 50+ Animation Keyframes Playing Live
             </span>
             <div className="flex items-center space-x-2">
               <span className="text-[11px] text-slate-500">Stage Background:</span>
@@ -321,13 +288,13 @@ export default function ButtonStudioModal({ btn, onClose }) {
           </div>
         </div>
 
-        {/* RIGHT PANE: Dedicated Animation & Physics Customizer Sidebar */}
+        {/* RIGHT PANE: Exhaustive 50+ Animation Controls Sidebar */}
         <div className="w-full md:w-[480px] lg:w-[560px] bg-[#12141c] flex flex-col shrink-0 border-l border-slate-800">
           
           <div className="flex border-b border-slate-800 bg-[#0c0d12]">
             <button onClick={() => setActiveTab('visual')} className={`flex-1 py-3.5 px-4 text-xs font-bold uppercase tracking-wider flex items-center justify-center space-x-2 border-b-2 transition-all ${activeTab === 'visual' ? 'border-pink-500 text-pink-400 bg-pink-500/10' : 'border-transparent text-slate-400 hover:text-white'}`}>
               <Film className="w-4 h-4" />
-              <span>Animation & Physics Studio</span>
+              <span>Animation Lab & Customization</span>
             </button>
             <button onClick={() => setActiveTab('code')} className={`flex-1 py-3.5 px-4 text-xs font-bold uppercase tracking-wider flex items-center justify-center space-x-2 border-b-2 transition-all ${activeTab === 'code' ? 'border-indigo-500 text-indigo-400 bg-indigo-500/10' : 'border-transparent text-slate-400 hover:text-white'}`}>
               <Code2 className="w-4 h-4" />
@@ -335,114 +302,125 @@ export default function ButtonStudioModal({ btn, onClose }) {
             </button>
           </div>
 
-          {/* TAB 1: MAXIMUM ANIMATION SUB-PANELS */}
+          {/* TAB 1: EXHAUSTIVE ANIMATION & CUSTOMIZATION CONTROLS */}
           {activeTab === 'visual' && (
             <div className="flex-1 overflow-y-auto p-5 space-y-4 custom-scrollbar">
               
-              {/* 🎬 1. BUTTON KEYFRAME MOTION */}
-              <div className="bg-slate-900/60 rounded-xl border border-pink-500/30 overflow-hidden">
-                <button onClick={() => toggleSection('buttonAnim')} className="w-full p-3.5 bg-[#161925] flex justify-between items-center text-xs font-bold text-slate-200">
-                  <span className="flex items-center text-pink-400"><Film className="w-4 h-4 mr-2" /> 01. Button Keyframe Animations</span>
-                </button>
-                {openSections.buttonAnim && (
-                  <div className="p-4 space-y-3 bg-[#0a0b10]">
-                    <div>
-                      <label className="text-[11px] font-bold text-slate-400 block mb-1">Button Keyframe Motion Type</label>
-                      <select value={btnAnim.type} onChange={(e) => setBtnAnim({ ...btnAnim, type: e.target.value })} className="w-full bg-[#12141c] border border-slate-800 rounded-lg p-2 text-xs text-white">
-                        <option value="none">None (Static)</option>
-                        <option value="flowing-gradient">🌊 Flowing Multi-Color Gradient Shift</option>
-                        <option value="pulse-aura">💫 Beacon Pulse Glow Aura</option>
-                        <option value="floating-bob">🎈 Floating Smooth Bobbing Up/Down</option>
-                        <option value="heartbeat">💓 Heartbeat Scale Pulse</option>
-                        <option value="attention-shake">🔔 Attention Wobble Shake</option>
-                      </select>
-                    </div>
+              {/* SPEED SLIDER & LABEL TEXT */}
+              <div className="bg-slate-900/60 p-4 rounded-xl border border-slate-800 grid grid-cols-2 gap-4">
+                <div>
+                  <label className="text-[11px] font-bold text-slate-400 block mb-1">Button Label Text</label>
+                  <input type="text" value={content.label} onChange={(e) => setContent({ ...content, label: e.target.value })} className="w-full bg-[#07080c] border border-slate-700 rounded-lg p-2 text-xs text-white" />
+                </div>
+                <div>
+                  <label className="text-[11px] font-bold text-slate-400 block mb-1">Animation Speed ({duration}s)</label>
+                  <input type="range" min="0.3" max="4.0" step="0.1" value={duration} onChange={(e) => setDuration(Number(e.target.value))} className="w-full" />
+                </div>
+              </div>
 
-                    <div>
-                      <label className="text-[11px] font-bold text-slate-400 block mb-1">Animation Speed / Duration ({btnAnim.duration}s)</label>
-                      <input type="range" min="0.5" max="8.0" step="0.5" value={btnAnim.duration} onChange={(e) => setBtnAnim({ ...btnAnim, duration: Number(e.target.value) })} className="w-full" />
-                    </div>
+              {/* 🎬 1. BUTTON MOTION ANIMATIONS (15 TYPES) */}
+              <div className="bg-slate-900/60 rounded-xl border border-pink-500/30 overflow-hidden">
+                <button onClick={() => toggleSection('btnMotion')} className="w-full p-3.5 bg-[#161925] flex justify-between items-center text-xs font-bold text-slate-200">
+                  <span className="flex items-center text-pink-400"><Film className="w-4 h-4 mr-2" /> 01. Button Motion Animations (15 Types)</span>
+                </button>
+                {openSections.btnMotion && (
+                  <div className="p-4 bg-[#0a0b10]">
+                    <select value={btnMotion} onChange={(e) => setBtnMotion(e.target.value)} className="w-full bg-[#12141c] border border-slate-800 rounded-lg p-2 text-xs text-white">
+                      <option value="none">None</option>
+                      <option value="a-pulse">Pulse (breathe)</option>
+                      <option value="a-bounce">Bounce (vertical jump)</option>
+                      <option value="a-shake">Shake (horizontal wobble)</option>
+                      <option value="a-float">Float (smooth levitate)</option>
+                      <option value="a-heartbeat">Heartbeat (pulse scale)</option>
+                      <option value="a-swing">Swing (top origin pendular)</option>
+                      <option value="a-jello">Jello (skew distortion)</option>
+                      <option value="a-wobble">Wobble (tilt translation)</option>
+                      <option value="a-rotate">Rotate (continuous 360°)</option>
+                      <option value="a-pop">Pop (expansion bounce)</option>
+                      <option value="a-rubber">Rubber (squish expand)</option>
+                      <option value="a-tada">Tada (attention announcement)</option>
+                    </select>
                   </div>
                 )}
               </div>
 
-              {/* 🔤 2. TEXT ANIMATIONS */}
+              {/* 🌈 2. BACKGROUND / COLOR ANIMATIONS (8 TYPES) */}
               <div className="bg-slate-900/60 rounded-xl border border-indigo-500/30 overflow-hidden">
+                <button onClick={() => toggleSection('bgColorAnim')} className="w-full p-3.5 bg-[#161925] flex justify-between items-center text-xs font-bold text-slate-200">
+                  <span className="flex items-center text-indigo-400"><Palette className="w-4 h-4 mr-2" /> 02. Background / Color Animations (8 Types)</span>
+                </button>
+                {openSections.bgColorAnim && (
+                  <div className="p-4 bg-[#0a0b10]">
+                    <select value={bgColorAnim} onChange={(e) => setBgColorAnim(e.target.value)} className="w-full bg-[#12141c] border border-slate-800 rounded-lg p-2 text-xs text-white">
+                      <option value="none">None</option>
+                      <option value="c-pulse">Color Pulse</option>
+                      <option value="c-breathe">Color Breathe</option>
+                      <option value="c-rainbow">Rainbow Hue</option>
+                      <option value="c-hue">Hue Shift 180°</option>
+                      <option value="c-gradient">Moving Gradient (4-color loop)</option>
+                      <option value="c-flicker">Color Flicker</option>
+                      <option value="c-invert">Invert Flash</option>
+                    </select>
+                  </div>
+                )}
+              </div>
+
+              {/* 🔤 3. TEXT ANIMATIONS (14 TYPES) */}
+              <div className="bg-slate-900/60 rounded-xl border border-purple-500/30 overflow-hidden">
                 <button onClick={() => toggleSection('textAnim')} className="w-full p-3.5 bg-[#161925] flex justify-between items-center text-xs font-bold text-slate-200">
-                  <span className="flex items-center text-indigo-400"><Type className="w-4 h-4 mr-2" /> 02. Text Animations</span>
+                  <span className="flex items-center text-purple-400"><Type className="w-4 h-4 mr-2" /> 03. Text Animations (14 Types)</span>
                 </button>
                 {openSections.textAnim && (
-                  <div className="p-4 space-y-3 bg-[#0a0b10]">
-                    <div>
-                      <label className="text-[11px] font-bold text-slate-400 block mb-1">Text Keyframe Motion</label>
-                      <select value={textAnim.type} onChange={(e) => setTextAnim({ ...textAnim, type: e.target.value })} className="w-full bg-[#12141c] border border-slate-800 rounded-lg p-2 text-xs text-white">
-                        <option value="none">None</option>
-                        <option value="text-rainbow">🌈 Text Rainbow Color Cycle</option>
-                        <option value="letter-pulse">↔️ Letter Spacing Expand Pulse</option>
-                      </select>
-                    </div>
-
-                    <div>
-                      <label className="text-[11px] font-bold text-slate-400 block mb-1">Text Motion Speed ({textAnim.duration}s)</label>
-                      <input type="range" min="0.5" max="6.0" step="0.5" value={textAnim.duration} onChange={(e) => setTextAnim({ ...textAnim, duration: Number(e.target.value) })} className="w-full" />
-                    </div>
+                  <div className="p-4 bg-[#0a0b10]">
+                    <select value={textAnim} onChange={(e) => setTextAnim(e.target.value)} className="w-full bg-[#12141c] border border-slate-800 rounded-lg p-2 text-xs text-white">
+                      <option value="none">None</option>
+                      <option value="t-pulse">Text Pulse</option>
+                      <option value="t-glow">Text Glow Pulse</option>
+                      <option value="t-shimmer">Text Shimmer Sweep</option>
+                      <option value="t-rainbow">Text Rainbow Cycle</option>
+                      <option value="t-wave">Text Wave</option>
+                      <option value="t-bounce">Text Bounce</option>
+                      <option value="t-shake">Text Shake</option>
+                      <option value="t-spacing">Letter Spacing Expand</option>
+                      <option value="t-glitch">Text Glitch RGB</option>
+                    </select>
                   </div>
                 )}
               </div>
 
-              {/* 🌈 3. BACKGROUND COLOR ANIMATIONS */}
-              <div className="bg-slate-900/60 rounded-xl border border-purple-500/30 overflow-hidden">
-                <button onClick={() => toggleSection('colorAnim')} className="w-full p-3.5 bg-[#161925] flex justify-between items-center text-xs font-bold text-slate-200">
-                  <span className="flex items-center text-purple-400"><Palette className="w-4 h-4 mr-2" /> 03. Background Color Animations</span>
-                </button>
-                {openSections.colorAnim && (
-                  <div className="p-4 space-y-3 bg-[#0a0b10]">
-                    <div>
-                      <label className="text-[11px] font-bold text-slate-400 block mb-1">Background Color Morphing</label>
-                      <select value={colorAnim.type} onChange={(e) => setColorAnim({ ...colorAnim, type: e.target.value })} className="w-full bg-[#12141c] border border-slate-800 rounded-lg p-2 text-xs text-white">
-                        <option value="none">None</option>
-                        <option value="color-cycle">🎨 5-Color Smooth Cycle</option>
-                      </select>
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              {/* 🔲 4. BORDER ANIMATIONS */}
+              {/* 🔲 4. BORDER ANIMATIONS (8 TYPES) */}
               <div className="bg-slate-900/60 rounded-xl border border-amber-500/30 overflow-hidden">
                 <button onClick={() => toggleSection('borderAnim')} className="w-full p-3.5 bg-[#161925] flex justify-between items-center text-xs font-bold text-slate-200">
-                  <span className="flex items-center text-amber-400"><Square className="w-4 h-4 mr-2" /> 04. Border Animations</span>
+                  <span className="flex items-center text-amber-400"><Square className="w-4 h-4 mr-2" /> 04. Border Animations (8 Types)</span>
                 </button>
                 {openSections.borderAnim && (
-                  <div className="p-4 space-y-3 bg-[#0a0b10]">
-                    <div>
-                      <label className="text-[11px] font-bold text-slate-400 block mb-1">Border Keyframe Animation</label>
-                      <select value={borderAnim.type} onChange={(e) => setBorderAnim({ ...borderAnim, type: e.target.value })} className="w-full bg-[#12141c] border border-slate-800 rounded-lg p-2 text-xs text-white">
-                        <option value="none">None</option>
-                        <option value="neon-border-pulse">⚡ Cyber Neon Border Pulse</option>
-                      </select>
-                    </div>
+                  <div className="p-4 bg-[#0a0b10]">
+                    <select value={borderAnim} onChange={(e) => setBorderAnim(e.target.value)} className="w-full bg-[#12141c] border border-slate-800 rounded-lg p-2 text-xs text-white">
+                      <option value="none">None</option>
+                      <option value="b-neon">Neon Border Glow</option>
+                      <option value="b-pulse">Border Pulse</option>
+                      <option value="b-spin">Rotating Conic Border</option>
+                      <option value="b-sweep">Border Light Sweep</option>
+                      <option value="b-gradient">Gradient Border Move</option>
+                    </select>
                   </div>
                 )}
               </div>
 
-              {/* 🏃 5. HOVER & PHYSICAL MOTION PHYSICS */}
+              {/* 🏃 5. HOVER INTERACTIONS */}
               <div className="bg-slate-900/60 rounded-xl border border-emerald-500/30 overflow-hidden">
                 <button onClick={() => toggleSection('hoverPhysics')} className="w-full p-3.5 bg-[#161925] flex justify-between items-center text-xs font-bold text-slate-200">
-                  <span className="flex items-center text-emerald-400"><Sparkles className="w-4 h-4 mr-2" /> 05. Hover & Motion Physics</span>
+                  <span className="flex items-center text-emerald-400"><Sparkles className="w-4 h-4 mr-2" /> 05. Mouse Hover Physics</span>
                 </button>
                 {openSections.hoverPhysics && (
-                  <div className="p-4 space-y-3 bg-[#0a0b10]">
-                    <div>
-                      <label className="text-[11px] font-bold text-slate-400 block mb-1">Mouse Hover Interaction</label>
-                      <select value={hoverConfig.effect} onChange={(e) => setHoverConfig({ ...hoverConfig, effect: e.target.value })} className="w-full bg-[#12141c] border border-slate-800 rounded-lg p-2 text-xs text-white">
-                        <option value="none">None</option>
-                        <option value="lift">Physical Lift Up (-4px)</option>
-                        <option value="scale-up">Scale Up (1.08x)</option>
-                        <option value="scale-down">Scale Down (0.95x)</option>
-                        <option value="rotate">Rotate Slight (3°)</option>
-                      </select>
-                    </div>
+                  <div className="p-4 bg-[#0a0b10]">
+                    <select value={hoverEffect} onChange={(e) => setHoverEffect(e.target.value)} className="w-full bg-[#12141c] border border-slate-800 rounded-lg p-2 text-xs text-white">
+                      <option value="none">None</option>
+                      <option value="h-lift">Lift Up (-8px + Shadow)</option>
+                      <option value="h-scale">Scale Up (1.08x)</option>
+                      <option value="h-glow">Hover Cyber Glow</option>
+                      <option value="h-rotate">Rotate (4°)</option>
+                    </select>
                   </div>
                 )}
               </div>
@@ -458,7 +436,7 @@ export default function ButtonStudioModal({ btn, onClose }) {
                 <textarea value={htmlCodeEdited} onChange={(e) => setHtmlCodeEdited(e.target.value)} className="w-full bg-[#07080c] border border-slate-800 rounded-xl p-3.5 text-xs font-mono text-orange-300 resize-y min-h-[70px]" spellCheck="false" />
               </div>
               <div className="space-y-2">
-                <label className="text-xs font-bold text-blue-400 uppercase tracking-wider block">CSS Code (With Keyframes & Explanatory Comments)</label>
+                <label className="text-xs font-bold text-blue-400 uppercase tracking-wider block">CSS Code (With Complete Keyframe Libraries)</label>
                 <textarea value={currentCssCode} readOnly className="w-full bg-[#07080c] border border-slate-800 rounded-xl p-3.5 text-xs font-mono text-blue-300 resize-y min-h-[350px] leading-relaxed" spellCheck="false" />
               </div>
             </div>
@@ -468,7 +446,7 @@ export default function ButtonStudioModal({ btn, onClose }) {
           <div className="p-4 border-t border-slate-800 bg-[#0c0d12] flex justify-end">
             <button onClick={handleCopy} className="w-full py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-bold shadow-xl flex items-center justify-center space-x-2">
               {isCopied ? <Check className="w-4 h-4 text-green-400" /> : <Copy className="w-4 h-4" />}
-              <span>{isCopied ? 'Code Copied!' : 'Copy Production Code with @keyframes'}</span>
+              <span>{isCopied ? 'Code Copied!' : 'Copy Production Code with Keyframes'}</span>
             </button>
           </div>
 

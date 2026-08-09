@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Offline Button Animation Lab</title>
+<style>
+:root{
+  --bg:#090b12;
+  --panel:#111522;
+  --panel2:#171b2a;
+  --text:#f7f8ff;
+  --muted:#9aa3bd;
+  --accent:#6257ff;
+  --accent2:#00d4ff;
+  --border:#2b3348;
+  --duration:1.5s;
+  --intensity:1;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  min-height:100vh;
+  font-family:Inter,Segoe UI,Arial,sans-serif;
+  background:
+    radial-gradient(circle at 20% 0%,#1b2040 0,transparent 35%),
+    radial-gradient(circle at 100% 20%,#17263b 0,transparent 30%),
+    var(--bg);
+  color:var(--text);
+  padding:28px;
+}
+.app{max-width:1150px;margin:auto}
+h1{margin:0 0 6px;font-size:30px}
+.sub{color:var(--muted);margin-bottom:24px}
+.stage{
+  min-height:330px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border:1px solid var(--border);
+  border-radius:22px;
+  background:
+    radial-gradient(circle,#ffffff08 1px,transparent 1px);
+  background-size:22px 22px;
+  margin-bottom:20px;
+  overflow:hidden;
+  position:relative;
+}
+.stage-label{
+  position:absolute;top:16px;left:18px;
+  color:#78829e;font-size:12px;letter-spacing:.12em;
+  text-transform:uppercase;
+}
+.demo-wrap{position:relative}
+.demo-button{
+  --btn:#6257ff;
+  --txt:#fff;
+  --shadow:#6257ff;
+  position:relative;
+  border:2px solid var(--btn);
+  background:var(--btn);
+  color:var(--txt);
+  min-width:210px;
+  min-height:64px;
+  padding:0 30px;
+  border-radius:14px;
+  font-size:20px;
+  font-weight:750;
+  letter-spacing:.01em;
+  cursor:pointer;
+  outline:none;
+  box-shadow:0 10px 28px #0007;
+  isolation:isolate;
+  overflow:visible;
+  transition:.25s ease;
+}
+.demo-button .label{position:relative;z-index:4;display:inline-block}
+.demo-button::before,
+.demo-button::after{
+  content:"";
+  position:absolute;
+  inset:-2px;
+  border-radius:inherit;
+  pointer-events:none;
+  z-index:-1;
+}
+.demo-button::after{z-index:2}
+
+/* ---------- BUTTON ANIMATIONS ---------- */
+.a-pulse{animation:btnPulse var(--duration) ease-in-out infinite}
+.a-bounce{animation:btnBounce var(--duration) ease-in-out infinite}
+.a-shake{animation:btnShake calc(var(--duration)*1.5) ease-in-out infinite}
+.a-float{animation:btnFloat var(--duration) ease-in-out infinite}
+.a-heartbeat{animation:heartbeat var(--duration) ease-in-out infinite}
+.a-swing{transform-origin:top center;animation:swing var(--duration) ease-in-out infinite}
+.a-jello{animation:jello var(--duration) ease-in-out infinite}
+.a-wobble{animation:wobble var(--duration) ease-in-out infinite}
+.a-rotate{animation:rotate360 calc(var(--duration)*2) linear infinite}
+.a-scale{animation:scaleBtn var(--duration) ease-in-out infinite}
+.a-pop{animation:pop var(--duration) ease-in-out infinite}
+.a-rubber{animation:rubber var(--duration) ease-in-out infinite}
+.a-tada{animation:tada calc(var(--duration)*1.7) ease-in-out infinite}
+.a-squeeze{animation:squeeze var(--duration) ease-in-out infinite}
+.a-swing2{animation:swing2 var(--duration) ease-in-out infinite}
+
+/* ---------- BACKGROUND / COLOR ---------- */
+.c-pulse{animation:bgPulse var(--duration) ease-in-out infinite}
+.c-breathe{animation:bgBreathe var(--duration) ease-in-out infinite}
+.c-rainbow{animation:rainbow calc(var(--duration)*3) linear infinite}
+.c-hue{animation:hue calc(var(--duration)*3) linear infinite}
+.c-gradient{background:linear-gradient(90deg,#6257ff,#00d4ff,#ff2f92,#6257ff);background-size:300% 100%;animation:gradientMove calc(var(--duration)*2) linear infinite}
+.c-flicker{animation:flicker calc(var(--duration)*1.5) steps(4,end) infinite}
+.c-invert{animation:invertColor calc(var(--duration)*2) ease-in-out infinite}
+.c-warning{animation:warningColor var(--duration) ease-in-out infinite}
+
+/* ---------- TEXT ANIMATIONS ---------- */
+.t-pulse .label{animation:textPulse var(--duration) ease-in-out infinite}
+.t-glow .label{animation:textGlow var(--duration) ease-in-out infinite}
+.t-flicker .label{animation:textFlicker calc(var(--duration)*1.5) steps(3,end) infinite}
+.t-shimmer .label{
+  color:transparent;
+  background:linear-gradient(90deg,#fff 0%,#fff 35%,#00d4ff 50%,#fff 65%,#fff 100%);
+  background-size:250% 100%;
+  background-clip:text;-webkit-background-clip:text;
+  animation:textShimmer calc(var(--duration)*1.8) linear infinite;
+}
+.t-rainbow .label{animation:textRainbow calc(var(--duration)*3) linear infinite}
+.t-wave .label{animation:textWave var(--duration) ease-in-out infinite}
+.t-bounce .label{animation:textBounce var(--duration) ease-in-out infinite}
+.t-shake .label{animation:textShake calc(var(--duration)*1.5) ease-in-out infinite}
+.t-spacing .label{animation:textSpacing var(--duration) ease-in-out infinite}
+.t-scale .label{animation:textScale var(--duration) ease-in-out infinite}
+.t-blink .label{animation:textBlink calc(var(--duration)*1.5) steps(2,end) infinite}
+.t-glitch .label{animation:glitch calc(var(--duration)*1.4) steps(2,end) infinite;text-shadow:2px 0 #00d4ff,-2px 0 #ff2f92}
+.t-slide .label{animation:textSlide var(--duration) ease-in-out infinite}
+.t-type .label{display:inline-block;overflow:hidden;white-space:nowrap;border-right:2px solid currentColor;max-width:0;animation:typing calc(var(--duration)*2) steps(12,end) infinite}
+
+/* ---------- BORDER ANIMATIONS ---------- */
+.b-neon::before{
+  border:2px solid #00d4ff;
+  filter:blur(2px);
+  animation:neonBorder var(--duration) ease-in-out infinite;
+}
+.b-pulse::before{border:3px solid #7b6cff;animation:borderPulse var(--duration) ease-in-out infinite}
+.b-spin::before{
+  padding:3px;
+  background:conic-gradient(from 0deg,transparent 0 65%,#00d4ff 75%,#ff2f92 88%,transparent 96%);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;mask-composite:exclude;
+  animation:spinBorder calc(var(--duration)*1.5) linear infinite;
+}
+.b-sweep::before{
+  border:2px solid transparent;
+  background:linear-gradient(90deg,transparent,#00d4ff,transparent) border-box;
+  -webkit-mask:linear-gradient(#000 0 0) padding-box,linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;mask-composite:exclude;
+  animation:sweepBorder calc(var(--duration)*1.4) linear infinite;
+}
+.b-gradient::before{
+  background:linear-gradient(90deg,#ff2f92,#6257ff,#00d4ff,#ff2f92);
+  background-size:300% 100%;
+  padding:2px;
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;mask-composite:exclude;
+  animation:gradientBorder calc(var(--duration)*2) linear infinite;
+}
+.b-dash{border-style:dashed;animation:dashBorder var(--duration) linear infinite}
+.b-double{border-style:double;border-width:5px;animation:doubleBorder var(--duration) ease-in-out infinite}
+.b-color{animation:borderColor calc(var(--duration)*2) linear infinite}
+
+/* ---------- SHADOW / GLOW ---------- */
+.g-glow{animation:glow var(--duration) ease-in-out infinite}
+.g-neon{box-shadow:0 0 8px #6257ff,0 0 25px #6257ff,0 0 60px #6257ff;animation:neonGlow var(--duration) ease-in-out infinite}
+.g-rainbow{animation:rainbowShadow calc(var(--duration)*3) linear infinite}
+.g-lift{animation:liftShadow var(--duration) ease-in-out infinite}
+.g-pulse{animation:shadowPulse var(--duration) ease-in-out infinite}
+
+/* ---------- HOVER ---------- */
+.h-lift:hover{transform:translateY(-8px);box-shadow:0 18px 35px #0009}
+.h-scale:hover{transform:scale(1.08)}
+.h-glow:hover{box-shadow:0 0 12px #6257ff,0 0 35px #6257ff}
+.h-slide:hover{transform:translateX(12px)}
+.h-rotate:hover{transform:rotate(4deg)}
+.h-press:active{transform:translateY(6px);box-shadow:0 3px 10px #0008}
+.h-color:hover{background:#00d4ff;border-color:#00d4ff}
+.h-shine:hover::after{
+  content:"";position:absolute;inset:0;border-radius:inherit;
+  background:linear-gradient(110deg,transparent 25%,#fff7 48%,transparent 70%);
+  transform:translateX(-120%);animation:shine .6s ease forwards;z-index:3;
+}
+
+/* ---------- RIPPLE ---------- */
+.r-ripple{overflow:hidden}
+.r-ripple::after{
+  content:"";position:absolute;width:20px;height:20px;border-radius:50%;
+  background:#fff8;left:50%;top:50%;transform:translate(-50%,-50%) scale(0);
+  animation:ripple calc(var(--duration)*1.4) ease-out infinite;z-index:3;
+}
+
+/* ---------- KEYFRAMES ---------- */
+@keyframes btnPulse{50%{transform:scale(1.06)}}
+@keyframes btnBounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+@keyframes btnShake{0%,100%{transform:translateX(0)}20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
+@keyframes btnFloat{50%{transform:translateY(-10px)}}
+@keyframes heartbeat{0%,40%,80%,100%{transform:scale(1)}20%,60%{transform:scale(1.08)}}
+@keyframes swing{20%{transform:rotate(7deg)}40%{transform:rotate(-5deg)}60%{transform:rotate(3deg)}80%{transform:rotate(-2deg)}}
+@keyframes jello{30%{transform:skewX(-10deg) skewY(-5deg)}50%{transform:skewX(7deg) skewY(3deg)}70%{transform:skewX(-3deg)}}
+@keyframes wobble{25%{transform:translateX(-8%) rotate(-3deg)}50%{transform:translateX(6%) rotate(2deg)}75%{transform:translateX(-3%) rotate(-1deg)}}
+@keyframes rotate360{to{transform:rotate(360deg)}}
+@keyframes scaleBtn{50%{transform:scale(.9)}}
+@keyframes pop{0%,100%{transform:scale(1)}50%{transform:scale(1.12)}}
+@keyframes rubber{30%{transform:scaleX(1.2) scaleY(.8)}60%{transform:scaleX(.85) scaleY(1.15)}}
+@keyframes tada{10%,20%{transform:scale(.95) rotate(-3deg)}30%,50%,70%,90%{transform:scale(1.05) rotate(3deg)}40%,60%,80%{transform:scale(1.05) rotate(-3deg)}}
+@keyframes squeeze{50%{transform:scaleX(.8)}}
+@keyframes swing2{25%{transform:rotateY(20deg)}50%{transform:rotateY(-20deg)}75%{transform:rotateY(10deg)}}
+@keyframes bgPulse{50%{background:#8178ff}}
+@keyframes bgBreathe{50%{background:#252d72}}
+@keyframes rainbow{0%{filter:hue-rotate(0)}100%{filter:hue-rotate(360deg)}}
+@keyframes hue{0%,100%{filter:hue-rotate(0)}50%{filter:hue-rotate(180deg)}}
+@keyframes gradientMove{to{background-position:300% 0}}
+@keyframes flicker{0%,19%,21%,63%,64%,100%{opacity:1}20%,62%{opacity:.35}}
+@keyframes invertColor{50%{filter:invert(1)}}
+@keyframes warningColor{0%,100%{background:#6257ff}50%{background:#ff2f5e}}
+@keyframes textPulse{50%{transform:scale(1.08)}}
+@keyframes textGlow{50%{text-shadow:0 0 5px #fff,0 0 20px #00d4ff,0 0 35px #6257ff}}
+@keyframes textFlicker{0%,18%,22%,62%,64%,100%{opacity:1}20%,63%{opacity:.2}}
+@keyframes textShimmer{to{background-position:-250% 0}}
+@keyframes textRainbow{to{filter:hue-rotate(360deg)}}
+@keyframes textWave{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px) rotate(-2deg)}}
+@keyframes textBounce{50%{transform:translateY(-9px)}}
+@keyframes textShake{0%,100%{transform:translateX(0)}50%{transform:translateX(5px)}}
+@keyframes textSpacing{50%{letter-spacing:.25em}}
+@keyframes textScale{50%{transform:scale(1.15)}}
+@keyframes textBlink{50%{opacity:0}}
+@keyframes glitch{0%,100%{transform:translate(0)}25%{transform:translate(-2px,1px)}50%{transform:translate(2px,-1px)}75%{transform:translate(-1px,2px)}}
+@keyframes textSlide{50%{transform:translateX(8px)}}
+@keyframes typing{0%{max-width:0}45%,70%{max-width:14ch}100%{max-width:0}}
+@keyframes neonBorder{0%,100%{opacity:.4;filter:blur(1px)}50%{opacity:1;filter:blur(6px)}}
+@keyframes borderPulse{50%{transform:scale(1.05);opacity:.25}}
+@keyframes spinBorder{to{transform:rotate(360deg)}}
+@keyframes sweepBorder{to{transform:translateX(100%)}}
+@keyframes gradientBorder{to{background-position:300% 0}}
+@keyframes dashBorder{to{border-spacing:12px}}
+@keyframes doubleBorder{50%{border-width:9px}}
+@keyframes borderColor{0%{border-color:#6257ff}33%{border-color:#00d4ff}66%{border-color:#ff2f92}100%{border-color:#6257ff}}
+@keyframes glow{50%{box-shadow:0 0 30px #6257ff}}
+@keyframes neonGlow{50%{box-shadow:0 0 10px #6257ff,0 0 35px #00d4ff,0 0 70px #ff2f92}}
+@keyframes rainbowShadow{0%{box-shadow:0 0 22px #ff2f92}33%{box-shadow:0 0 22px #6257ff}66%{box-shadow:0 0 22px #00d4ff}100%{box-shadow:0 0 22px #ff2f92}}
+@keyframes liftShadow{50%{transform:translateY(-7px);box-shadow:0 22px 35px #000b}}
+@keyframes shadowPulse{50%{box-shadow:0 0 0 14px #6257ff22,0 0 35px #6257ff}}
+@keyframes shine{to{transform:translateX(120%)}}
+@keyframes ripple{to{transform:translate(-50%,-50%) scale(18);opacity:0}}
+</style>
+</head>
+<body>
+<h1>Offline Button Animation Lab Local Copy</h1>
+</body>
+</html>
