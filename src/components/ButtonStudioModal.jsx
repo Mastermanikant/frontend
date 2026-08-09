@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { 
   X, Check, Copy, Sliders, Code2, RotateCcw, Palette, Type, Square, Sparkles, 
-  Sun, Moon, ArrowRightLeft, Film, Activity, Play, Zap
+  Sun, Moon, ArrowRightLeft, Film, Activity, Shuffle, ChevronDown, ChevronUp, Zap
 } from 'lucide-react';
 import { buttonCategories } from '../data/buttonLibraryData';
 
@@ -75,7 +75,7 @@ const LAB_KEYFRAMES = `
 `;
 
 export default function ButtonStudioModal({ btn, onClose }) {
-  const [activeTab, setActiveTab] = useState('visual'); // 'visual' | 'code'
+  const [activeTab, setActiveTab] = useState('visual');
   const [isCopied, setIsCopied] = useState(false);
   const [stageBg, setStageBg] = useState('dark');
 
@@ -93,7 +93,7 @@ export default function ButtonStudioModal({ btn, onClose }) {
     }
   };
 
-  // Open Accordion Sections
+  // Accordion Sections State
   const [openSections, setOpenSections] = useState({
     btnMotion: true,
     bgColorAnim: true,
@@ -101,19 +101,17 @@ export default function ButtonStudioModal({ btn, onClose }) {
     borderAnim: true,
     shadowGlowAnim: true,
     hoverPhysics: true,
-    ripple: false,
-    content: false,
-    dimensions: false,
+    multiGradient: false,
+    borderStudio: false,
     typography: false,
-    colors: false,
-    border: false
+    contentLabel: false
   });
 
   const toggleSection = (sec) => {
     setOpenSections(prev => ({ ...prev, [sec]: !prev[sec] }));
   };
 
-  // 1. Label Text
+  // 1. Content & Label
   const initialText = selectedBtn.html.match(/>([^<]+)</)?.[1] || "Button";
   const [content, setContent] = useState({ label: initialText });
 
@@ -121,21 +119,55 @@ export default function ButtonStudioModal({ btn, onClose }) {
   const [duration, setDuration] = useState(1.5);
 
   // 3. Multi-Select Animations from Animation Lab
-  const [btnMotion, setBtnMotion] = useState('a-float'); // 'none' | 'a-pulse' | 'a-bounce' | 'a-shake' | 'a-float' | 'a-heartbeat' | 'a-swing' | 'a-jello' | 'a-wobble' | 'a-rotate' | 'a-scale' | 'a-pop' | 'a-rubber' | 'a-tada' | 'a-squeeze' | 'a-swing2'
-  const [bgColorAnim, setBgColorAnim] = useState('c-gradient'); // 'none' | 'c-pulse' | 'c-breathe' | 'c-rainbow' | 'c-hue' | 'c-gradient' | 'c-flicker' | 'c-invert' | 'c-warning'
-  const [textAnim, setTextAnim] = useState('none'); // 'none' | 't-pulse' | 't-glow' | 't-flicker' | 't-shimmer' | 't-rainbow' | 't-wave' | 't-bounce' | 't-shake' | 't-spacing' | 't-scale' | 't-blink' | 't-glitch' | 't-slide' | 't-type'
-  const [borderAnim, setBorderAnim] = useState('none'); // 'none' | 'b-neon' | 'b-pulse' | 'b-spin' | 'b-sweep' | 'b-gradient' | 'b-dash' | 'b-double' | 'b-color'
-  const [shadowGlowAnim, setShadowGlowAnim] = useState('none'); // 'none' | 'g-glow' | 'g-neon' | 'g-rainbow' | 'g-lift' | 'g-pulse'
-  const [hoverEffect, setHoverEffect] = useState('h-lift'); // 'none' | 'h-lift' | 'h-scale' | 'h-glow' | 'h-slide' | 'h-rotate' | 'h-press' | 'h-color' | 'h-shine'
-  const [rippleEffect, setRippleEffect] = useState(false);
+  const [btnMotion, setBtnMotion] = useState('a-float');
+  const [bgColorAnim, setBgColorAnim] = useState('c-gradient');
+  const [textAnim, setTextAnim] = useState('none');
+  const [borderAnim, setBorderAnim] = useState('none');
+  const [shadowGlowAnim, setShadowGlowAnim] = useState('none');
+  const [hoverEffect, setHoverEffect] = useState('h-lift');
 
-  // 4. Base Typography & Controls
-  const [typography, setTypography] = useState({ fontSize: 18, fontWeight: 700 });
+  // 4. Multi-Color Gradient Engine State
+  const [gradientConfig, setGradientConfig] = useState({
+    enabled: true,
+    color1: '#6257ff',
+    color2: '#00d4ff',
+    color3: '#ff2f92',
+    direction: '90deg'
+  });
+
+  // 5. Exhaustive Border & Radius Studio
+  const [borderConfig, setBorderConfig] = useState({
+    style: 'solid',
+    width: 2,
+    color: '#6257ff',
+    radius: 14,
+    cutCorner: false
+  });
+
+  // 6. Base Typography & Colors
+  const [typography, setTypography] = useState({ fontSize: 18, fontWeight: 700, textTransform: 'none' });
   const [colors, setColors] = useState({ text: '#ffffff', bg: '#6257ff' });
-  const [borderWidth, setBorderWidth] = useState(2);
-  const [borderRadius, setBorderRadius] = useState(14);
 
   const uniqueId = `anim-studio-${selectedBtn.id}`;
+
+  // Random Combination Generator (1-Click Randomizer!)
+  const handleRandomize = () => {
+    const motions = ['a-pulse', 'a-bounce', 'a-shake', 'a-float', 'a-heartbeat', 'a-swing', 'a-jello', 'a-wobble', 'a-rotate', 'a-pop', 'a-rubber', 'a-tada'];
+    const bgAnims = ['c-pulse', 'c-breathe', 'c-rainbow', 'c-hue', 'c-gradient', 'c-flicker', 'c-invert'];
+    const txtAnims = ['none', 't-pulse', 't-glow', 't-shimmer', 't-rainbow', 't-wave', 't-bounce', 't-shake', 't-glitch'];
+    const borderAnims = ['none', 'b-neon', 'b-pulse', 'b-spin', 'b-sweep', 'b-gradient'];
+    const hovers = ['h-lift', 'h-scale', 'h-glow', 'h-rotate'];
+
+    setBtnMotion(motions[Math.floor(Math.random() * motions.length)]);
+    setBgColorAnim(bgAnims[Math.floor(Math.random() * bgAnims.length)]);
+    setTextAnim(txtAnims[Math.floor(Math.random() * txtAnims.length)]);
+    setBorderAnim(borderAnims[Math.floor(Math.random() * borderAnims.length)]);
+    setHoverEffect(hovers[Math.floor(Math.random() * hovers.length)]);
+    
+    // Pick random preset color
+    const randColor = PRESET_COLORS[Math.floor(Math.random() * PRESET_COLORS.length)].hex;
+    setColors(c => ({ ...c, bg: randColor }));
+  };
 
   // Build Production CSS Code with @keyframes
   const buildCssCode = () => {
@@ -146,17 +178,30 @@ export default function ButtonStudioModal({ btn, onClose }) {
     css += `  --duration: ${duration}s;\n`;
     css += `  font-size: ${typography.fontSize}px;\n`;
     css += `  font-weight: ${typography.fontWeight};\n`;
+    css += `  text-transform: ${typography.textTransform};\n`;
     css += `  color: ${colors.text};\n`;
-    css += `  background: ${colors.bg};\n`;
     css += `  padding: 14px 32px;\n`;
-    css += `  border-radius: ${borderRadius === 9999 ? '9999px' : `${borderRadius}px`};\n`;
-    css += `  border: ${borderWidth}px solid ${colors.bg};\n`;
+    css += `  border-radius: ${borderConfig.radius === 9999 ? '9999px' : `${borderConfig.radius}px`};\n`;
+
+    if (gradientConfig.enabled) {
+      css += `  background: linear-gradient(${gradientConfig.direction}, ${gradientConfig.color1}, ${gradientConfig.color2}, ${gradientConfig.color3});\n`;
+      css += `  background-size: 300% 100%;\n`;
+    } else {
+      css += `  background: ${colors.bg};\n`;
+    }
+
+    if (borderConfig.style !== 'none') {
+      css += `  border: ${borderConfig.width}px ${borderConfig.style} ${borderConfig.color};\n`;
+    } else {
+      css += `  border: none;\n`;
+    }
+
     css += `  cursor: pointer;\n`;
     css += `  position: relative;\n`;
     css += `  transition: 0.25s ease;\n`;
     css += `}\n\n`;
 
-    // Button Motion Keyframes
+    // Button Motion Keyframe Applications
     if (btnMotion === 'a-pulse') css += `.btn-${uniqueId} { animation: btnPulse ${duration}s ease-in-out infinite; }\n`;
     if (btnMotion === 'a-bounce') css += `.btn-${uniqueId} { animation: btnBounce ${duration}s ease-in-out infinite; }\n`;
     if (btnMotion === 'a-shake') css += `.btn-${uniqueId} { animation: btnShake ${duration * 1.5}s ease-in-out infinite; }\n`;
@@ -174,7 +219,7 @@ export default function ButtonStudioModal({ btn, onClose }) {
     if (bgColorAnim === 'c-pulse') css += `.btn-${uniqueId} { animation: bgPulse ${duration}s ease-in-out infinite; }\n`;
     if (bgColorAnim === 'c-breathe') css += `.btn-${uniqueId} { animation: bgBreathe ${duration}s ease-in-out infinite; }\n`;
     if (bgColorAnim === 'c-rainbow') css += `.btn-${uniqueId} { animation: rainbow ${duration * 3}s linear infinite; }\n`;
-    if (bgColorAnim === 'c-gradient') css += `.btn-${uniqueId} { background: linear-gradient(90deg,#6257ff,#00d4ff,#ff2f92,#6257ff); background-size: 300% 100%; animation: gradientMove ${duration * 2}s linear infinite; }\n`;
+    if (bgColorAnim === 'c-gradient') css += `.btn-${uniqueId} { animation: gradientMove ${duration * 2}s linear infinite; }\n`;
 
     // Text Animations
     if (textAnim === 't-shimmer') css += `.btn-${uniqueId} .label { color: transparent; background: linear-gradient(90deg,#fff 0%,#fff 35%,#00d4ff 50%,#fff 65%,#fff 100%); background-size: 250% 100%; background-clip: text; -webkit-background-clip: text; animation: textShimmer ${duration * 1.8}s linear infinite; }\n`;
@@ -232,11 +277,15 @@ export default function ButtonStudioModal({ btn, onClose }) {
           </select>
         </div>
 
-        {/* Title */}
-        <div className="hidden md:flex items-center space-x-2 text-xs font-bold text-slate-200">
-          <Film className="w-4 h-4 text-pink-500 animate-spin" />
-          <span>Exhaustive Button Animation Lab (50+ Keyframe Systems)</span>
-        </div>
+        {/* 🎲 Random Combination Button */}
+        <button 
+          onClick={handleRandomize}
+          className="flex items-center space-x-1.5 px-3.5 py-1.5 bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-500 hover:to-purple-500 text-white rounded-lg text-xs font-bold shadow-lg transition-all transform hover:scale-105"
+          title="Pick a random combination of animations and colors"
+        >
+          <Shuffle className="w-3.5 h-3.5" />
+          <span>🎲 Random Combination</span>
+        </button>
 
         {/* Actions */}
         <div className="flex items-center space-x-3">
@@ -247,7 +296,7 @@ export default function ButtonStudioModal({ btn, onClose }) {
 
           <button onClick={handleCopy} className="flex items-center space-x-1.5 px-4 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg text-xs font-bold shadow-lg">
             {isCopied ? <Check className="w-4 h-4 text-green-400" /> : <Copy className="w-4 h-4" />}
-            <span>{isCopied ? 'Copied!' : 'Copy Code with @keyframes'}</span>
+            <span>{isCopied ? 'Copied!' : 'Copy Code'}</span>
           </button>
 
           <button onClick={onClose} className="p-1.5 text-slate-400 hover:text-white bg-slate-800/60 rounded-lg ml-2">
@@ -256,10 +305,10 @@ export default function ButtonStudioModal({ btn, onClose }) {
         </div>
       </header>
 
-      {/* Main Body: Centered Fixed Stage vs Exhaustive 50+ Animation Sidebar */}
+      {/* Main Body: Centered Fixed Stage vs Exhaustive Customization Sidebar */}
       <div className="flex-1 flex flex-col md:flex-row overflow-hidden">
         
-        {/* LEFT PANE: Centered Fixed Stage (Plays Animations Live in 60 FPS!) */}
+        {/* LEFT PANE: Centered Fixed Stage */}
         <div className="flex-1 flex flex-col bg-[#07080c] relative overflow-hidden border-r border-slate-800">
           <div className={`absolute inset-0 transition-opacity ${stageBg === 'dark' ? 'bg-[#07080c]' : stageBg === 'light' ? 'bg-slate-200' : 'bg-slate-900'}`}>
             <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMiIgY3k9IjIiIHI9IjIiIGZpbGw9IiMzMzQxNTUiIGZpbGwtb3BhY2l0eT0iMC4yNSIvPjwvc3ZnPg==')]" />
@@ -288,13 +337,13 @@ export default function ButtonStudioModal({ btn, onClose }) {
           </div>
         </div>
 
-        {/* RIGHT PANE: Exhaustive 50+ Animation Controls Sidebar */}
+        {/* RIGHT PANE: Exhaustive Customization Sidebar */}
         <div className="w-full md:w-[480px] lg:w-[560px] bg-[#12141c] flex flex-col shrink-0 border-l border-slate-800">
           
           <div className="flex border-b border-slate-800 bg-[#0c0d12]">
             <button onClick={() => setActiveTab('visual')} className={`flex-1 py-3.5 px-4 text-xs font-bold uppercase tracking-wider flex items-center justify-center space-x-2 border-b-2 transition-all ${activeTab === 'visual' ? 'border-pink-500 text-pink-400 bg-pink-500/10' : 'border-transparent text-slate-400 hover:text-white'}`}>
               <Film className="w-4 h-4" />
-              <span>Animation Lab & Customization</span>
+              <span>Animation & Component Studio</span>
             </button>
             <button onClick={() => setActiveTab('code')} className={`flex-1 py-3.5 px-4 text-xs font-bold uppercase tracking-wider flex items-center justify-center space-x-2 border-b-2 transition-all ${activeTab === 'code' ? 'border-indigo-500 text-indigo-400 bg-indigo-500/10' : 'border-transparent text-slate-400 hover:text-white'}`}>
               <Code2 className="w-4 h-4" />
@@ -333,8 +382,8 @@ export default function ButtonStudioModal({ btn, onClose }) {
                       <option value="a-float">Float (smooth levitate)</option>
                       <option value="a-heartbeat">Heartbeat (pulse scale)</option>
                       <option value="a-swing">Swing (top origin pendular)</option>
-                      <option value="a-jello">Jello (skew distortion)</option>
-                      <option value="a-wobble">Wobble (tilt translation)</option>
+                      <option value="a-jello">Jello (skew)</option>
+                      <option value="a-wobble">Wobble</option>
                       <option value="a-rotate">Rotate (continuous 360°)</option>
                       <option value="a-pop">Pop (expansion bounce)</option>
                       <option value="a-rubber">Rubber (squish expand)</option>
@@ -388,39 +437,56 @@ export default function ButtonStudioModal({ btn, onClose }) {
                 )}
               </div>
 
-              {/* 🔲 4. BORDER ANIMATIONS (8 TYPES) */}
-              <div className="bg-slate-900/60 rounded-xl border border-amber-500/30 overflow-hidden">
-                <button onClick={() => toggleSection('borderAnim')} className="w-full p-3.5 bg-[#161925] flex justify-between items-center text-xs font-bold text-slate-200">
-                  <span className="flex items-center text-amber-400"><Square className="w-4 h-4 mr-2" /> 04. Border Animations (8 Types)</span>
+              {/* 🔲 4. MULTI-COLOR GRADIENT ENGINE */}
+              <div className="bg-slate-900/60 rounded-xl border border-purple-500/30 overflow-hidden">
+                <button onClick={() => toggleSection('multiGradient')} className="w-full p-3.5 bg-[#161925] flex justify-between items-center text-xs font-bold text-slate-200">
+                  <span className="flex items-center text-purple-400"><Palette className="w-4 h-4 mr-2" /> 04. Multi-Color Gradient Engine</span>
                 </button>
-                {openSections.borderAnim && (
-                  <div className="p-4 bg-[#0a0b10]">
-                    <select value={borderAnim} onChange={(e) => setBorderAnim(e.target.value)} className="w-full bg-[#12141c] border border-slate-800 rounded-lg p-2 text-xs text-white">
-                      <option value="none">None</option>
-                      <option value="b-neon">Neon Border Glow</option>
-                      <option value="b-pulse">Border Pulse</option>
-                      <option value="b-spin">Rotating Conic Border</option>
-                      <option value="b-sweep">Border Light Sweep</option>
-                      <option value="b-gradient">Gradient Border Move</option>
-                    </select>
+                {openSections.multiGradient && (
+                  <div className="p-4 space-y-3 bg-[#0a0b10]">
+                    <div className="grid grid-cols-3 gap-2">
+                      <div>
+                        <label className="text-[10px] text-slate-400 block mb-1">Color 1</label>
+                        <input type="color" value={gradientConfig.color1} onChange={(e) => setGradientConfig({ ...gradientConfig, color1: e.target.value })} className="w-full h-7 rounded border-0 bg-transparent" />
+                      </div>
+                      <div>
+                        <label className="text-[10px] text-slate-400 block mb-1">Color 2</label>
+                        <input type="color" value={gradientConfig.color2} onChange={(e) => setGradientConfig({ ...gradientConfig, color2: e.target.value })} className="w-full h-7 rounded border-0 bg-transparent" />
+                      </div>
+                      <div>
+                        <label className="text-[10px] text-slate-400 block mb-1">Color 3</label>
+                        <input type="color" value={gradientConfig.color3} onChange={(e) => setGradientConfig({ ...gradientConfig, color3: e.target.value })} className="w-full h-7 rounded border-0 bg-transparent" />
+                      </div>
+                    </div>
                   </div>
                 )}
               </div>
 
-              {/* 🏃 5. HOVER INTERACTIONS */}
-              <div className="bg-slate-900/60 rounded-xl border border-emerald-500/30 overflow-hidden">
-                <button onClick={() => toggleSection('hoverPhysics')} className="w-full p-3.5 bg-[#161925] flex justify-between items-center text-xs font-bold text-slate-200">
-                  <span className="flex items-center text-emerald-400"><Sparkles className="w-4 h-4 mr-2" /> 05. Mouse Hover Physics</span>
+              {/* 🔲 5. BORDER & RADIUS STUDIO */}
+              <div className="bg-slate-900/60 rounded-xl border border-amber-500/30 overflow-hidden">
+                <button onClick={() => toggleSection('borderStudio')} className="w-full p-3.5 bg-[#161925] flex justify-between items-center text-xs font-bold text-slate-200">
+                  <span className="flex items-center text-amber-400"><Square className="w-4 h-4 mr-2" /> 05. Border & Radius Studio</span>
                 </button>
-                {openSections.hoverPhysics && (
-                  <div className="p-4 bg-[#0a0b10]">
-                    <select value={hoverEffect} onChange={(e) => setHoverEffect(e.target.value)} className="w-full bg-[#12141c] border border-slate-800 rounded-lg p-2 text-xs text-white">
-                      <option value="none">None</option>
-                      <option value="h-lift">Lift Up (-8px + Shadow)</option>
-                      <option value="h-scale">Scale Up (1.08x)</option>
-                      <option value="h-glow">Hover Cyber Glow</option>
-                      <option value="h-rotate">Rotate (4°)</option>
-                    </select>
+                {openSections.borderStudio && (
+                  <div className="p-4 space-y-3 bg-[#0a0b10] grid grid-cols-2 gap-3">
+                    <div>
+                      <label className="text-[11px] font-bold text-slate-400 block mb-1">Border Style</label>
+                      <select value={borderConfig.style} onChange={(e) => setBorderConfig({ ...borderConfig, style: e.target.value })} className="w-full bg-[#12141c] border border-slate-800 rounded-lg p-1.5 text-xs text-white">
+                        <option value="none">None</option>
+                        <option value="solid">Solid</option>
+                        <option value="dashed">Dashed</option>
+                        <option value="dotted">Dotted</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label className="text-[11px] font-bold text-slate-400 block mb-1">Corner Radius</label>
+                      <select value={borderConfig.radius} onChange={(e) => setBorderConfig({ ...borderConfig, radius: Number(e.target.value) })} className="w-full bg-[#12141c] border border-slate-800 rounded-lg p-1.5 text-xs text-white">
+                        <option value="0">Sharp 0px</option>
+                        <option value="8">Rounded 8px</option>
+                        <option value="14">Medium 14px</option>
+                        <option value="9999">Full Pill 9999px</option>
+                      </select>
+                    </div>
                   </div>
                 )}
               </div>
@@ -446,7 +512,7 @@ export default function ButtonStudioModal({ btn, onClose }) {
           <div className="p-4 border-t border-slate-800 bg-[#0c0d12] flex justify-end">
             <button onClick={handleCopy} className="w-full py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-bold shadow-xl flex items-center justify-center space-x-2">
               {isCopied ? <Check className="w-4 h-4 text-green-400" /> : <Copy className="w-4 h-4" />}
-              <span>{isCopied ? 'Code Copied!' : 'Copy Production Code with Keyframes'}</span>
+              <span>{isCopied ? 'Code Copied!' : 'Copy Production Code with @keyframes'}</span>
             </button>
           </div>
 
